@@ -11,23 +11,27 @@
 </head>
 <body>
 
-  <!-- Navbar -->
+<!-- Navbar -->
 <header>
   <nav class="navbar" id="navbar">
-    <a href="#" class="logo">
+    <a href="#inicio" class="logo">
         <img src="img/logo-nome.png" alt="EcoManager Logo">
     </a>
 
     <ul class="nav-links" id="navLinks">
       <li><a class="nav-link" href="#inicio">Início</a></li>
-      <li><a class="nav-link" href="#funcionalidades">Funcionalidades</a></li>
-      <li><a class="nav-link" href="#indicadores">Indicadores</a></li>
-      <li><a class="nav-link" href="#impacto">Impacto</a></li>
+      <li><a class="nav-link" href="#funcionalidades">Calculadoras</a></li>
+      <li><a class="nav-link" href="#indicadores">Dashboards</a></li>
+      <li><a class="nav-link" href="#impacto">Relatórios</a></li>
+      <li><a class="nav-link" href="#esg">ESG & Metas</a></li>
+      <li><a class="nav-link" href="#sobre">Sobre</a></li>
       <li><a class="nav-link" href="#contato">Contato</a></li>
     </ul>
+    
     <a href="#funcionalidades" class="btn-navbar">Calcular Agora</a>
   </nav>
 </header>
+
 
 
   <!-- Hero -->
@@ -56,33 +60,69 @@
     </div>
   </section>
 
-  <!-- Indicadores -->
-  <section class="indicators" id="indicadores">
+
+<!-- Indicadores -->
+<section class="indicators" id="indicadores">
+  <div class="indicators-container">
     <h2>Indicadores em Tempo Real</h2>
-    <p>Acompanhe os principais KPIs de sustentabilidade da sua empresa.</p>
+    <p class="subtitle">Acompanhe os principais KPIs de sustentabilidade da sua empresa e tome decisões baseadas em dados.</p>
+    
     <div class="cards">
+      <!-- Card 1: Consumo Energético -->
       <div class="card">
+        <div class="indicator-icon-wrapper">
+          <i class="fas fa-bolt"></i>
+        </div>
         <h3>Consumo Energético</h3>
-        <p><strong>1,248</strong> kWh</p>
-        <span class="positive">+5.2%</span>
+        <p class="indicator-value"><strong>1,248</strong> kWh</p>
+        <div class="indicator-change">
+          <span class="positive"><i class="fas fa-arrow-up"></i> +5.2%</span>
+          <span class="period">vs. mês anterior</span>
+        </div>
       </div>
+      
+      <!-- Card 2: Uso de Água -->
       <div class="card">
+        <div class="indicator-icon-wrapper">
+          <i class="fas fa-tint"></i>
+        </div>
         <h3>Uso de Água</h3>
-        <p><strong>3,542</strong> m³</p>
-        <span class="negative">-8.1%</span>
+        <p class="indicator-value"><strong>3,542</strong> m³</p>
+        <div class="indicator-change">
+          <span class="negative"><i class="fas fa-arrow-down"></i> -8.1%</span>
+          <span class="period">economia este mês</span>
+        </div>
       </div>
+      
+      <!-- Card 3: Material Reciclado -->
       <div class="card">
+        <div class="indicator-icon-wrapper">
+          <i class="fas fa-recycle"></i>
+        </div>
         <h3>Material Reciclado</h3>
-        <p><strong>847</strong> kg</p>
-        <span class="positive">+12.4%</span>
+        <p class="indicator-value"><strong>847</strong> kg</p>
+        <div class="indicator-change">
+          <span class="positive"><i class="fas fa-arrow-up"></i> +12.4%</span>
+          <span class="period">vs. trimestre anterior</span>
+        </div>
       </div>
+      
+      <!-- Card 4: TI Reaproveitada -->
       <div class="card">
+        <div class="indicator-icon-wrapper">
+          <i class="fas fa-desktop"></i>
+        </div>
         <h3>TI Reaproveitada</h3>
-        <p><strong>156</strong> equipamentos</p>
-        <span class="positive">+28.6%</span>
+        <p class="indicator-value"><strong>156</strong> equipamentos</p>
+        <div class="indicator-change">
+          <span class="positive"><i class="fas fa-arrow-up"></i> +28.6%</span>
+          <span class="period">novos equipamentos</span>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
 
 
@@ -139,7 +179,6 @@
 
 
 
-  <!-- Impacto -->
 <!-- Impacto -->
 <section class="impact" id="impacto">
   <div class="impact-container">
@@ -200,55 +239,64 @@
 
 
   <!-- CTA Final -->
-  <section class="cta">
-    <h2>Pronto para Transformar sua Gestão ESG?</h2>
-    <p>Comece hoje mesmo a monitorar e otimizar seus indicadores.</p>
-    <div class="cta-buttons">
-      <a href="#" class="btn-primary">Começar Agora</a>
-      <a href="#" class="btn-secondary">Falar com Especialista</a>
+  <section class="cta" id="cta">
+    <div class="cta-container">
+      <h2>Pronto para Transformar sua Gestão ESG?</h2>
+      <p>Comece hoje mesmo a monitorar e otimizar os indicadores de sustentabilidade da sua empresa.</p>
+      <div class="cta-buttons">
+        <a href="#" class="btn-cta-primary">Começar Agora</a>
+        <a href="#" class="btn-cta-secondary">Falar com Especialista</a>
+      </div>
     </div>
   </section>
 
   <!-- Footer -->
   <footer id="contato">
     <div class="footer-container">
-      <div class="footer-col">
-        <h3>SustainDash</h3>
-        <p>Plataforma para monitoramento e gestão de indicadores ESG.</p>
-        <p> contato@gmail.com</p>
-        <p> +55 (11) xxxxx-xxxx</p>
-        <p> São Paulo, Brasil</p>
+      <div class="footer-col about">
+        <img src="img/logo-nome.png" alt="SustainDash Logo" class="footer-logo">
+        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro sustentável.</p>
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> contato@sustaindash.com</p>
+          <p><i class="fas fa-phone"></i> +55 (11) 99999-9999</p>
+          <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
+        </div>
       </div>
-      <div class="footer-col">
+      <div class="footer-col links">
         <h4>Plataforma</h4>
         <ul>
-          <li>Calculadoras</li>
-          <li>Dashboards</li>
-          <li>Relatórios</li>
-          <li>ESG & Metas</li>
+          <li><a href="#funcionalidades">Calculadoras</a></li>
+          <li><a href="#indicadores">Dashboards</a></li>
+          <li><a href="#impacto">Relatórios</a></li>
+          <li><a href="#esg">ESG & Metas</a></li>
         </ul>
       </div>
-      <div class="footer-col">
+      <div class="footer-col links">
         <h4>Empresa</h4>
         <ul>
-          <li>Sobre Nós</li>
-          <li>Compromisso ESG</li>
-          <li>Blog</li>
-          <li>Contato</li>
+          <li><a href="#sobre">Sobre Nós</a></li>
+          <li><a href="#">Compromisso ESG</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#contato">Contato</a></li>
         </ul>
       </div>
-      <div class="footer-col">
+      <div class="footer-col links">
         <h4>Legal</h4>
         <ul>
-          <li>Política de Privacidade</li>
-          <li>Termos de Uso</li>
-          <li>LGPD</li>
-          <li>Cookies</li>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+          <li><a href="#">LGPD</a></li>
+          <li><a href="#">Cookies</a></li>
         </ul>
       </div>
     </div>
-    <p class="footer-bottom">© 2025 EcoManenger. Todos os direitos reservados.</p>
+    <div class="footer-bottom">
+      <p>© 2025 EcoManager. Todos os direitos reservados.</p>
+      <div class="certifications">
+      </div>
+    </div>
   </footer>
+
   
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="js/script.js"></script>

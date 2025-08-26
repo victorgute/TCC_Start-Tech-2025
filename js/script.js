@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavbar();
   initSwiper();
   initStatCounters();
-  initFeaturesAnimation(); // <-- Adicionada a nova função de animação
+  initFeaturesAnimation();
+  initIndicatorsAnimation(); // <-- Adicionada a nova função de animação
 
   console.log("EcoManager scripts carregados e inicializados!");
 });
@@ -85,11 +86,30 @@ function initStatCounters() {
 }
 
 /**
- * NOVO: Anima os cards da seção "Como Funciona" quando eles entram na tela.
+ * Anima os cards da seção "Como Funciona".
  */
 function initFeaturesAnimation() {
   const featureCards = document.querySelectorAll(".features .card");
   if (featureCards.length === 0) return;
+
+  const observer = new IntersectionObserver((entries, observerInstance) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        observerInstance.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  featureCards.forEach(card => observer.observe(card));
+}
+
+/**
+ * NOVO: Anima os cards da seção "Indicadores" quando eles entram na tela.
+ */
+function initIndicatorsAnimation() {
+  const indicatorCards = document.querySelectorAll(".indicators .card");
+  if (indicatorCards.length === 0) return;
 
   const observer = new IntersectionObserver((entries, observerInstance) => {
     entries.forEach(entry => {
@@ -104,7 +124,7 @@ function initFeaturesAnimation() {
     threshold: 0.2 // Dispara quando 20% do card estiver visível
   });
 
-  featureCards.forEach(card => {
+  indicatorCards.forEach(card => {
     observer.observe(card);
   });
 }
