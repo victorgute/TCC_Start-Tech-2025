@@ -351,6 +351,7 @@ body {
   padding: 4rem 2rem;
   text-align: center;
   background: #ffffff;
+  
 }
 
 .stats {
@@ -381,7 +382,7 @@ body {
 .stat strong {
   display: block;
   font-size: 2rem;
-  color: #2c7be5;
+  color: #009933;
   margin-bottom: .35rem;
 }
 
