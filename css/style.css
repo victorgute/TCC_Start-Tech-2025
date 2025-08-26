@@ -345,46 +345,118 @@ body {
 
 
 /* ------------------------------
-   IMPACTO REAL
+   IMPACTO REAL (NOVO ESTILO DO PROTÓTIPO)
 --------------------------------*/
 .impact {
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
+  background: #f9fafb; /* Fundo levemente cinza como no protótipo */
   text-align: center;
-  background: #ffffff;
-  
 }
 
-.stats {
+.impact-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.impact h2 {
+  font-size: 2.25rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.impact p {
+  font-size: 1.125rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto 3.5rem auto;
+}
+
+.stats-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-  max-width: 900px;
-  margin: 2rem auto 0;
 }
 
-.stat {
-  opacity: 0;                     /* começa invisível */
-  transform: translateY(24px);    /* deslocado */
-  transition: opacity .6s ease, transform .6s ease;
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  font-size: 1rem;
-  color: #444;
+.stat-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  text-align: center;
 }
 
-.stat.is-visible {
+/* Adiciona a classe via JS para animar a entrada */
+.stat-item.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.stat strong {
-  display: block;
-  font-size: 2rem;
-  color: #009933;
-  margin-bottom: .35rem;
+/* Atraso na animação para cada item */
+.stat-item:nth-child(1) { transition-delay: 0.1s; }
+.stat-item:nth-child(2) { transition-delay: 0.2s; }
+.stat-item:nth-child(3) { transition-delay: 0.3s; }
+.stat-item:nth-child(4) { transition-delay: 0.4s; }
+
+
+.stat-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem auto;
+  background-color: #10b981; /* Verde principal */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px rgba(16, 185, 129, 0.2);
 }
+
+.stat-icon-wrapper i {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+.stat-content strong {
+  display: block;
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.stat-content span {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.stat-content span strong {
+  font-size: 1rem; /* Ajusta o tamanho da fonte para o subtítulo */
+  color: #374151;
+  display: inline; /* Faz com que não quebre a linha */
+}
+
+/* Responsividade para a seção de impacto */
+@media (max-width: 900px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .impact h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Remove a estilização antiga para evitar conflitos */
+.stats, .stat {
+  display: none;
+}
+
 
 /* Acessibilidade: reduz movimento */
 @media (prefers-reduced-motion: reduce) {
