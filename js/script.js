@@ -1,33 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Função da navbar que roda em TODAS as páginas
   initNavbar();
-  initSwiper();
-  initStatCounters();
-  initFeaturesAnimation();
-  initIndicatorsAnimation(); // <-- Adicionada a nova função de animação
+  
+  // Funções de animação que só rodam na HOME PAGE
+  // O 'if' verifica se o elemento existe antes de chamar a função
+  if (document.querySelector(".mySwiper")) {
+    initSwiper();
+  }
+  if (document.querySelector(".stat-item")) {
+    initStatCounters();
+  }
+  if (document.querySelector(".features .card")) {
+    initFeaturesAnimation();
+  }
+  if (document.querySelector(".indicators .card")) {
+    initIndicatorsAnimation();
+  }
 
   console.log("EcoManager scripts carregados e inicializados!");
 });
 
 /**
- * Cuida de toda a lógica da barra de navegação (navbar).
+ * Cuida da lógica da navbar para MÚLTIPLAS PÁGINAS.
  */
 function initNavbar() {
   const nav = document.getElementById("navbar");
-  const links = document.querySelectorAll(".nav-link");
   if (!nav) return;
 
+  // Lógica de scroll para adicionar sombra
   const handleScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 10);
-  const setActiveByHash = () => {
-    const currentHash = window.location.hash || "#inicio";
-    links.forEach(link => {
-      link.classList.toggle("is-active", link.getAttribute("href") === currentHash);
-    });
-  };
-
   window.addEventListener("scroll", handleScroll, { passive: true });
-  window.addEventListener("hashchange", setActiveByHash);
-  handleScroll();
-  setActiveByHash();
+  handleScroll(); // Executa uma vez para verificar a posição inicial
+
+  // Lógica para marcar link ativo com base no arquivo da página atual
+  const links = document.querySelectorAll(".nav-link");
+  const currentPage = window.location.pathname.split('/').pop(); // Pega o nome do arquivo (ex: "sobre.html")
+
+  links.forEach(link => {
+    const linkPage = link.getAttribute('href').split('/').pop().split('#')[0];
+    
+    // Marca como ativo se o nome do arquivo for o mesmo.
+    // A condição extra (currentPage === '' && linkPage === 'index.html') serve para a raiz do site.
+    if (linkPage === currentPage || (currentPage === '' && linkPage === 'index.html')) {
+      link.classList.add('is-active');
+    } else {
+      link.classList.remove('is-active');
+    }
+  });
 }
 
 /**
@@ -105,7 +124,7 @@ function initFeaturesAnimation() {
 }
 
 /**
- * NOVO: Anima os cards da seção "Indicadores" quando eles entram na tela.
+ * Anima os cards da seção "Indicadores" quando eles entram na tela.
  */
 function initIndicatorsAnimation() {
   const indicatorCards = document.querySelectorAll(".indicators .card");
@@ -114,14 +133,12 @@ function initIndicatorsAnimation() {
   const observer = new IntersectionObserver((entries, observerInstance) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Adiciona a classe que dispara a transição do CSS
         entry.target.classList.add("is-visible");
-        // Para de observar o card para não animar de novo
         observerInstance.unobserve(entry.target);
       }
     });
   }, { 
-    threshold: 0.2 // Dispara quando 20% do card estiver visível
+    threshold: 0.2
   });
 
   indicatorCards.forEach(card => {
