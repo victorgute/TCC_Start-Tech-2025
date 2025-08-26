@@ -1,131 +1,121 @@
+/**
+ * Adiciona um listener que executa o código principal quando o DOM (a estrutura da página)
+ * estiver completamente carregado.
+ */
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Site carregado!");
+  initNavbar();
+  initSwiper();
+  initStatCounters();
+
+  console.log("EcoManager scripts carregados e inicializados!");
 });
-document.addEventListener("DOMContentLoaded", () => {
+
+/**
+ * Cuida de toda a lógica da barra de navegação (navbar).
+ */
+function initNavbar() {
   const nav = document.getElementById("navbar");
   const links = document.querySelectorAll(".nav-link");
 
-  // ativa o link conforme hash
-  function setActiveByHash() {
-    const current = window.location.hash || "#inicio";
-    links.forEach(a => {
-      a.classList.toggle("is-active", a.getAttribute("href") === current);
-    });
-  }
+  if (!nav) return;
 
-  // clique nos links
-  links.forEach(a => {
-    a.addEventListener("click", () => {
-      // aguarda mudança do hash para sincronizar
-      setTimeout(setActiveByHash, 0);
-    });
-  });
+  const handleScroll = () => {
+    nav.classList.toggle("is-scrolled", window.scrollY > 10);
+  };
 
-  // ao carregar e ao mudar o hash
-  setActiveByHash();
+  const setActiveByHash = () => {
+    const currentHash = window.location.hash || "#inicio";
+    links.forEach(link => {
+      const isActive = link.getAttribute("href") === currentHash;
+      link.classList.toggle("is-active", isActive);
+    });
+  };
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
   window.addEventListener("hashchange", setActiveByHash);
+  
+  handleScroll();
+  setActiveByHash();
+}
 
-  // sombra mais forte ao rolar
-  function onScroll() {
-    if (window.scrollY > 8) nav.classList.add("is-scrolled");
-    else nav.classList.remove("is-scrolled");
+/**
+ * Inicializa o carrossel de imagens (Swiper).
+ */
+function initSwiper() {
+  if (typeof Swiper !== 'undefined') {
+    new Swiper(".mySwiper", {
+      loop: true,
+      autoplay: {
+        delay: 4000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+  } else {
+    console.error("Biblioteca Swiper não encontrada.");
   }
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
-});
+}
 
-  const swiper = new Swiper(".mySwiper", {
-    loop: true,                // loop infinito
-    autoplay: {
-      delay: 4000,             // troca a cada 4s
-      disableOnInteraction: false,
-    },
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-  });
+/**
+ * CORRIGIDO: Inicializa os contadores de estatísticas para a nova estrutura.
+ */
+function initStatCounters() {
+  // *** MUDANÇA AQUI: Seleciona a nova classe .stat-item ***
+  const stats = document.querySelectorAll(".stat-item"); 
+  if (stats.length === 0) return;
 
+  // Função que anima a contagem do número
+  const animateCount = (element) => {
+    const target = +element.dataset.target;
+    const suffix = element.dataset.suffix || "";
+    const duration = 2000;
+    let startTime = null;
 
-  document.addEventListener("DOMContentLoaded", () => {
-  const stats = document.querySelectorAll(".stat");
+    const step = (timestamp) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const currentValue = Math.floor(progress * target);
+      element.textContent = currentValue + suffix;
 
-  const observer = new IntersectionObserver((entries) => {
+      if (progress < 1) {
+        requestAnimationFrame(step);
+      } else {
+        element.textContent = target + suffix;
+      }
+    };
+    requestAnimationFrame(step);
+  };
+
+  // Observer que dispara a animação
+  const observer = new IntersectionObserver((entries, observerInstance) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add("show");
-        observer.unobserve(entry.target); // só anima uma vez
-      }
-    });
-  }, { threshold: 0.3 });
+        // Adiciona a classe para o efeito de fade-in do CSS
+        entry.target.classList.add("is-visible");
 
-  stats.forEach(stat => observer.observe(stat));
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const stats = document.querySelectorAll(".stat");
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const reveal = (el) => {
-    el.classList.add("is-visible");
-    const strong = el.querySelector("strong[data-target]");
-    if (strong && !strong.dataset.counted) {
-      strong.dataset.counted = "1";
-      animateCount(strong);
-    }
-  };
-
-  const animateCount = (el) => {
-    const target = Number(el.getAttribute("data-target"));
-    const duration = 900; // ms
-    const startTime = performance.now();
-
-    const tick = (now) => {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const value = Math.floor(progress * target);
-      el.textContent = String(value);
-      if (progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  };
-
-  // Se o usuário prefere menos movimento, mostra tudo de cara
-  if (prefersReduced) {
-    stats.forEach(reveal);
-    return;
-  }
-
-  // Observer mais tolerante (dispara quando ~15% entra na viewport)
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          reveal(entry.target);
-          io.unobserve(entry.target);
+        const strongElement = entry.target.querySelector("strong[data-target]");
+        
+        if (strongElement && !strongElement.dataset.counted) {
+          strongElement.dataset.counted = "true";
+          animateCount(strongElement);
         }
-      });
-    },
-    {
-      root: null,
-      threshold: 0.15,
-      rootMargin: "0px 0px -10% 0px", // dispara um pouco antes do centro
-    }
-  );
-
-  stats.forEach((s) => io.observe(s));
-
-  // Fallback defensivo: força checagem após o primeiro paint
-  setTimeout(() => {
-    stats.forEach((s) => {
-      const r = s.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.9 && r.bottom > 0) {
-        reveal(s);
-        io.unobserve(s);
+        
+        observerInstance.unobserve(entry.target);
       }
     });
-  }, 120);
-});
+  }, {
+    threshold: 0.3
+  });
+
+  // Inicia a observação para cada card de estatística
+  stats.forEach(stat => {
+    observer.observe(stat);
+  });
+}
