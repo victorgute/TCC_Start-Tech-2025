@@ -1,0 +1,450 @@
+/* ------------------------------
+   RESET BÁSICO
+--------------------------------*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #fff;
+}
+
+/* ------------------------------
+   NAVBAR
+--------------------------------*/
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+}
+
+.logo img {
+  height: 60px; /* ajuste conforme o tamanho da logo */
+}
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+}
+.navbar.is-scrolled {
+  box-shadow: 0 6px 20px rgba(0,0,0,.10);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+
+  height: 2px;
+  width: 100%;
+  background: #10b981;     /* verde */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .22s ease;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  color: #0f9f59;
+  transform: translateY(-1px);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.nav-link.is-active {
+  color: #0f9f59;
+}
+.nav-link.is-active::after {
+  transform: scaleX(1);
+}
+
+.btn-navbar {
+  background: #10b981;
+  color: #ffffff;
+  padding: .6rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+
+  box-shadow: 0 4px 14px rgba(16,185,129,.22);
+  transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease;
+}
+
+.btn-navbar:hover,
+.btn-navbar:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(16,185,129,.28);
+  background: #0f9f59;
+}
+
+/* Acessibilidade: foco visível */
+.nav-link:focus-visible,
+.btn-navbar:focus-visible {
+  outline: 3px solid rgba(16,185,129,.35);
+  outline-offset: 2px;
+}
+
+/* Animação de entrada suave para os itens da nav */
+@keyframes navFadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.nav-links li {
+  animation: navFadeUp .35s ease-out both;
+}
+.nav-links li:nth-child(1) { animation-delay: .02s; }
+.nav-links li:nth-child(2) { animation-delay: .06s; }
+.nav-links li:nth-child(3) { animation-delay: .10s; }
+.nav-links li:nth-child(4) { animation-delay: .14s; }
+.nav-links li:nth-child(5) { animation-delay: .18s; }
+.nav-links li:nth-child(6) { animation-delay: .22s; }
+.nav-links li:nth-child(7) { animation-delay: .26s; }
+
+/* Respeita usuários que preferem menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .nav-link,
+  .btn-navbar,
+  .navbar { transition: none; }
+  .nav-links li { animation: none; }
+}
+
+/* ------------------------------
+   HERO
+--------------------------------*/
+.hero {
+  background: url('../assets/img/hero.jpg') center/cover no-repeat;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+}
+
+.hero p {
+  margin: 1rem 0;
+}
+
+.hero .btn-primary {
+  background: #00c853;
+  color: #fff;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  margin-right: 0.5rem;
+  text-decoration: none;
+}
+
+.hero .btn-secondary {
+  background: #fff;
+  color: #333;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+/* Container do carrossel */
+.mySwiper {
+  width: 100%;
+  height: 70vh; /* ajuste conforme seu layout */
+  margin-top: 1rem;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Cada slide */
+.mySwiper .swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f4f4;
+}
+
+.mySwiper .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+/* ===== INDICADORES ===== */
+.indicators {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #f9fafb;
+}
+
+.indicators h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.indicators p {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #555;
+}
+
+.indicators .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.indicators .card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.indicators .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.indicators .card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.indicators .card p {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.indicators .card strong {
+  font-size: 1.5rem;
+  color: #111;
+}
+
+.indicators .card span {
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.indicators .positive {
+  background: rgba(34, 197, 94, 0.1); /* verde claro */
+  color: #16a34a; /* verde */
+}
+
+.indicators .negative {
+  background: rgba(239, 68, 68, 0.1); /* vermelho claro */
+  color: #dc2626; /* vermelho */
+}
+
+.features {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #f9f9f9;
+}
+
+.features h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.features p {
+  font-size: 1rem;
+  color: #555;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+.features .cards {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.features .card {
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 14px;
+  width: 240px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  text-align: left; /* 👈 textos alinhados à esquerda */
+}
+
+.features .card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+.features .card i {
+  font-size: 2.4rem;
+  color: #16a34a;
+  margin-bottom: 1rem;
+}
+
+.features .card h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.features .card p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.features .btn-explore {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #16a34a;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.features .btn-explore:hover {
+  background: #12833a;
+  transform: translateY(-2px);
+}
+
+
+
+/* ------------------------------
+   IMPACTO REAL
+--------------------------------*/
+.impact {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #ffffff;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 2rem auto 0;
+}
+
+.stat {
+  opacity: 0;                     /* começa invisível */
+  transform: translateY(24px);    /* deslocado */
+  transition: opacity .6s ease, transform .6s ease;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-size: 1rem;
+  color: #444;
+}
+
+.stat.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stat strong {
+  display: block;
+  font-size: 2rem;
+  color: #2c7be5;
+  margin-bottom: .35rem;
+}
+
+/* Acessibilidade: reduz movimento */
+@media (prefers-reduced-motion: reduce) {
+  .stat { transition: none; transform: none; opacity: 1; }
+}
+
+
+/* ------------------------------
+   CTA FINAL
+--------------------------------*/
+.cta {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: linear-gradient(90deg, #009933, #00c853);
+  color: #fff;
+}
+
+.cta .btn-primary,
+.cta .btn-secondary {
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+.cta .btn-primary {
+  background: #fff;
+  color: #009933;
+}
+
+.cta .btn-secondary {
+  border: 1px solid #fff;
+  color: #fff;
+}
+
+/* ------------------------------
+   FOOTER
+--------------------------------*/
+footer {
+  background: #111;
+  color: #ccc;
+  padding: 3rem 2rem;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-col {
+  width: 220px;
+  margin-bottom: 1rem;
+}
+
+.footer-col h4 {
+  margin-bottom: 1rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
