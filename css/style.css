@@ -263,84 +263,134 @@ body {
   color: #dc2626; /* vermelho */
 }
 
+
+
+
+/* ------------------------------
+   COMO FUNCIONA (NOVO ESTILO DO PROTÓTIPO)
+--------------------------------*/
 .features {
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
+  background-color: #ffffff;
   text-align: center;
-  background: #f9f9f9;
+}
+
+.features-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .features h2 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  color: #222;
+  font-size: 2.25rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
 }
 
-.features p {
-  font-size: 1rem;
-  color: #555;
+.features .subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
   max-width: 600px;
-  margin: 0 auto 2rem auto;
+  margin: 0 auto 3.5rem auto;
 }
 
 .features .cards {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-  flex-wrap: wrap;
-  margin-top: 2rem;
+  text-align: left;
 }
 
 .features .card {
   background: #fff;
-  padding: 2rem 1.5rem;
-  border-radius: 14px;
-  width: 240px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  cursor: pointer;
-  text-align: left; /* 👈 textos alinhados à esquerda */
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* Animação de entrada */
+  opacity: 0;
+  transform: translateY(30px);
 }
+
+.features .card.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Atraso na animação para cada card */
+.features .card:nth-child(1) { transition-delay: 0.1s; }
+.features .card:nth-child(2) { transition-delay: 0.2s; }
+.features .card:nth-child(3) { transition-delay: 0.3s; }
+.features .card:nth-child(4) { transition-delay: 0.4s; }
 
 .features .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-.features .card i {
-  font-size: 2.4rem;
-  color: #16a34a;
-  margin-bottom: 1rem;
+.feature-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1.5rem;
+  background-color: #eefcf6; /* Verde bem claro de fundo */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-icon-wrapper i {
+  color: #10b981; /* Verde principal */
+  font-size: 1.75rem;
 }
 
 .features .card h3 {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
 }
 
 .features .card p {
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.4;
-  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
-.features .btn-explore {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  background: #16a34a;
-  color: #fff;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
+.explore-link {
+  color: #10b981;
+  font-weight: 600;
   text-decoration: none;
-  transition: background 0.25s ease, transform 0.25s ease;
+  transition: color 0.2s ease;
 }
 
-.features .btn-explore:hover {
-  background: #12833a;
-  transform: translateY(-2px);
+.explore-link:hover {
+  color: #0f9f59;
 }
+
+.explore-link i {
+  margin-left: 0.25rem;
+  transition: transform 0.2s ease;
+}
+
+.explore-link:hover i {
+  transform: translateX(4px);
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .features .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .features .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 
 
