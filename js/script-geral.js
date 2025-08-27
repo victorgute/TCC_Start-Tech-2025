@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initWaterCalculator();
     initWasteCalculator();
     initTICalculator();
-    initSaveDashboardButton(); // <-- Adicionada a função do botão
+    initSaveDashboardButton();
   }
   if (document.getElementById("energyChart")) {
     initDashboards();
@@ -139,13 +139,23 @@ function initTICalculator() {
 }
 
 /**
- * Adiciona o evento de clique ao botão "Salvar Dashboard"
+ * Adiciona o evento de clique ao botão "Salvar Dashboard" com seletor de data
  */
 function initSaveDashboardButton() {
     const saveBtn = document.querySelector('.save-dashboard-btn');
-    if (!saveBtn) return;
+    const monthSelect = document.getElementById('month-select');
+    const yearInput = document.getElementById('year-input');
+    
+    if (!saveBtn || !monthSelect || !yearInput) return;
+
+    // Define o mês e ano atuais como padrão
+    const today = new Date();
+    monthSelect.value = today.getMonth();
+    yearInput.value = today.getFullYear();
 
     saveBtn.addEventListener('click', () => {
+        const monthIndex = parseInt(monthSelect.value);
+
         // 1. Ler os dados das calculadoras
         const energyConsumption = parseFloat(document.querySelector('#energia .results-box strong').textContent.replace(',', '.')) || 0;
         const waterConsumption = parseFloat(document.querySelector('#agua-consumo').value) || 0;
@@ -153,21 +163,19 @@ function initSaveDashboardButton() {
         const tiReused = parseInt(document.querySelector('#ti-reaproveitados').value) || 0;
         const tiDiscarded = parseInt(document.querySelector('#ti-descartados').value) || 0;
         
-        // 2. Atualizar os cartões de resumo
+        // 2. Atualizar os cartões de resumo com os dados do mês selecionado
         document.querySelector('.summary-cards .summary-card:nth-child(1) strong').textContent = `${energyConsumption.toFixed(0)} kWh`;
         document.querySelector('.summary-cards .summary-card:nth-child(2) strong').textContent = `${waterConsumption.toFixed(0)} m³`;
         document.querySelector('.summary-cards .summary-card:nth-child(3) strong').textContent = `${wasteRecyclingRate.toFixed(0)}%`;
         document.querySelector('.summary-cards .summary-card:nth-child(4) strong').textContent = tiReused;
 
-        // 3. Atualizar os gráficos
+        // 3. Atualizar os gráficos no índice do mês selecionado
         if (charts.energy) {
-            charts.energy.data.datasets[0].data.push(energyConsumption);
-            charts.energy.data.datasets[0].data.shift(); // Remove o dado mais antigo para manter 6 meses
+            charts.energy.data.datasets[0].data[monthIndex] = energyConsumption;
             charts.energy.update();
         }
         if (charts.water) {
-            charts.water.data.datasets[0].data.push(waterConsumption);
-            charts.water.data.datasets[0].data.shift();
+            charts.water.data.datasets[0].data[monthIndex] = waterConsumption;
             charts.water.update();
         }
         if (charts.waste) {
@@ -188,22 +196,22 @@ function initSaveDashboardButton() {
 }
 
 /**
- * Inicializa todos os gráficos do dashboard com valores zerados.
+ * Inicializa todos os gráficos do dashboard com 12 meses de valores zerados.
  */
 function initDashboards() {
-    const labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'];
+    const labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
     
     const energyCtx = document.getElementById('energyChart').getContext('2d');
     charts.energy = new Chart(energyCtx, {
         type: 'line',
-        data: { labels: labels, datasets: [{ label: 'Consumo (kWh)', data: [0, 0, 0, 0, 0, 0], borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.4 }] },
+        data: { labels: labels, datasets: [{ label: 'Consumo (kWh)', data: Array(12).fill(0), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.4 }] },
         options: { responsive: true, maintainAspectRatio: false }
     });
 
     const waterCtx = document.getElementById('waterChart').getContext('2d');
     charts.water = new Chart(waterCtx, {
         type: 'bar',
-        data: { labels: labels, datasets: [{ label: 'Uso (m³)', data: [0, 0, 0, 0, 0, 0], backgroundColor: '#3b82f6' }] },
+        data: { labels: labels, datasets: [{ label: 'Uso (m³)', data: Array(12).fill(0), backgroundColor: '#3b82f6' }] },
         options: { responsive: true, maintainAspectRatio: false }
     });
 

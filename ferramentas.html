@@ -22,7 +22,6 @@
       <ul class="nav-links" id="navLinks">
         <li><a class="nav-link" href="index.html">Início</a></li>
         <li><a class="nav-link is-active" href="ferramentas.html">Calculadoras</a></li>
-        <li><a class="nav-link" href="ferramentas.html#dashboards">Dashboards</a></li>
         <li><a class="nav-link" href="#">Relatórios</a></li>
         <li><a class="nav-link" href="#">ESG & Metas</a></li>
         <li><a class="nav-link" href="sobre.html">Sobre</a></li>
@@ -132,12 +131,33 @@
               </div>
             </div>
     
-            <div class="save-button-container">
-                <button class="save-dashboard-btn"><i class="fas fa-save"></i> Salvar Dashboard</button>
+
+            <!-- Controles para Salvar no Dashboard -->
+        <div class="save-dashboard-controls">
+            <div class="date-selector">
+                <select id="month-select">
+                    <option value="0">Janeiro</option>
+                    <option value="1">Fevereiro</option>
+                    <option value="2">Março</option>
+                    <option value="3">Abril</option>
+                    <option value="4">Maio</option>
+                    <option value="5">Junho</option>
+                    <option value="6">Julho</option>
+                    <option value="7">Agosto</option>
+                    <option value="8">Setembro</option>
+                    <option value="9">Outubro</option>
+                    <option value="10">Novembro</option>
+                    <option value="11">Dezembro</option>
+                </select>
+                <input type="number" id="year-input" value="2025">
             </div>
+            <button class="save-dashboard-btn"><i class="fas fa-save"></i> Salvar para o Mês</button>
+        </div>
     
           </div>
     </section>
+
+    
 
     <!-- Seção dos Dashboards ATUALIZADA -->
     <section class="dashboard-section" id="dashboards">
