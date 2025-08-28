@@ -1,0 +1,125 @@
+/* Estilos para a página Sobre Nós */
+
+/* Hero Section */
+.about-hero {
+  background: linear-gradient(rgba(17, 24, 39, 0.6), rgba(17, 24, 39, 0.6)), url('https://placehold.co/1920x600/1f2937/FFFFFF?text=Imagem+de+Fundo') center/cover no-repeat;
+  color: #ffffff;
+  padding: 8rem 2rem;
+  text-align: center;
+}
+
+.about-hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.about-hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.about-hero p {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Values Section */
+.values {
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.values h2 {
+  font-size: 2.25rem;
+  color: #1f2937;
+  margin-bottom: 3rem;
+}
+
+.values-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.value-card {
+  padding: 2rem;
+}
+
+.value-card i {
+  font-size: 2.5rem;
+  color: #10b981;
+  margin-bottom: 1.5rem;
+}
+
+.value-card h3 {
+  font-size: 1.5rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.value-card p {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+/* Team Section */
+.team {
+  padding: 5rem 2rem;
+  background-color: #f9fafb;
+  text-align: center;
+}
+
+.team h2 {
+  font-size: 2.25rem;
+  color: #1f2937;
+  margin-bottom: 3rem;
+}
+
+.team-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.team-member img {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.team-member h3 {
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.team-member p {
+  color: #6b7280;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .values-container {
+    grid-template-columns: 1fr;
+  }
+  .team-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .team-container {
+    grid-template-columns: 1fr;
+  }
+  .about-hero h1 {
+    font-size: 2.25rem;
+  }
+}

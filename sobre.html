@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Links para os arquivos de estilo -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/sobre-style.css">
+  <link rel="shortcut icon" href="img/ecomanager.png" type="image/x-icon">
+  <title>Sobre Nós - EcoManager</title>
+</head>
+<body>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
+      authDomain: "ecomanager-tcc.firebaseapp.com",
+      projectId: "ecomanager-tcc",
+      storageBucket: "ecomanager-tcc.appspot.com",
+      messagingSenderId: "807838989383",
+      appId: "1:807838989383:web:21327d954d978d3f498562",
+      measurementId: "G-6TTFT5PVCX"
+    };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
+  <!-- Navbar (a mesma da home) -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="logo">
+          <img src="img/logo-nome.png" alt="EcoManager Logo">
+      </a>
+  
+      <ul class="nav-links" id="navLinks">
+        <li><a class="nav-link" href="index.html">Início</a></li>
+        <li><a class="nav-link" href="ferramentas.html">Calculadoras</a></li>
+        <li><a class="nav-link" href="index.html#impacto">Relatórios</a></li>
+        <li><a class="nav-link" href="#">ESG & Metas</a></li>
+        <li><a class="nav-link is-active" href="sobre.html">Sobre</a></li>
+        <li><a class="nav-link" href="index.html#contato">Contato</a></li>
+      </ul>
+      
+      <a href="index.html#funcionalidades" class="btn-navbar">Calcular Agora</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Seção Hero da página Sobre -->
+    <section class="about-hero">
+      <div class="about-hero-content">
+        <h1>Nossa Missão é Impulsionar um Futuro Sustentável</h1>
+        <p>Acreditamos que a tecnologia é a principal aliada para que empresas possam crescer de forma consciente, transformando a sustentabilidade em um pilar estratégico de sucesso.</p>
+      </div>
+    </section>
+
+    <!-- Seção de Valores -->
+    <section class="values">
+      <h2>Nossos Valores</h2>
+      <div class="values-container">
+        <div class="value-card">
+          <i class="fas fa-leaf"></i>
+          <h3>Sustentabilidade</h3>
+          <p>Compromisso inabalável com a proteção do meio ambiente em cada linha de código que escrevemos.</p>
+        </div>
+        <div class="value-card">
+          <i class="fas fa-lightbulb"></i>
+          <h3>Inovação</h3>
+          <p>Buscamos constantemente novas tecnologias para oferecer as soluções mais eficientes e intuitivas do mercado.</p>
+        </div>
+        <div class="value-card">
+          <i class="fas fa-handshake"></i>
+          <h3>Parceria</h3>
+          <p>Trabalhamos lado a lado com nossos clientes para entender seus desafios e celebrar suas conquistas.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção da Equipe -->
+    <section class="team">
+      <h2>Conheça Nossa Equipe</h2>
+      <div class="team-container">
+        <div class="team-member">
+          <img src="https://placehold.co/300x300/10b981/FFFFFF?text=Foto" alt="Foto do Membro da Equipe 1">
+          <h3>Victor Hugo</h3>
+          <p>Full Stack & DevOps Engineer / Tech Lead</p>
+        </div>
+        <div class="team-member">
+          <img src="https://placehold.co/300x300/1f2937/FFFFFF?text=Foto" alt="Foto do Membro da Equipe 2">
+          <h3>Diego Fagundes</h3>
+          <p>Front-end</p>
+        </div>
+        <div class="team-member">
+          <img src="https://placehold.co/300x300/6b7280/FFFFFF?text=Foto" alt="Foto do Membro da Equipe 3">
+          <h3>Nadyla Mousinho</h3>
+          <p>Front-end</p>
+        </div>
+        <div class="team-member">
+          <img src="https://placehold.co/300x300/9ca3af/FFFFFF?text=Foto" alt="Foto do Membro da Equipe 4">
+          <h3>Guilherme Felippe</h3>
+          <p>Back-end</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Rodapé (o mesmo da home) -->
+<footer id="contato">
+    <div class="footer-container">
+      <div class="footer-col about">
+        <img src="img/logo-nome.png" alt="SustainDash Logo" class="footer-logo">
+        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro sustentável.</p>
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> contato@sustaindash.com</p>
+          <p><i class="fas fa-phone"></i> +55 (11) 99999-9999</p>
+          <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
+        </div>
+      </div>
+      <div class="footer-col links">
+        <h4>Plataforma</h4>
+        <ul>
+          <li><a href="#funcionalidades">Calculadoras</a></li>
+          <li><a href="#indicadores">Dashboards</a></li>
+          <li><a href="#impacto">Relatórios</a></li>
+          <li><a href="#esg">ESG & Metas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col links">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="#sobre">Sobre Nós</a></li>
+          <li><a href="#">Compromisso ESG</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer-col links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+          <li><a href="#">LGPD</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 EcoManager. Todos os direitos reservados.</p>
+      <div class="certifications">
+        <span>Certificado ISO 14001</span>
+        <span>•</span>
+        <span>B Corp Certified</span>
+        <span>•</span>
+        <span>Carbon Neutral</span>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="js/script-geral.js"></script>
+</body>
+</html>
