@@ -1,5 +1,3 @@
-import { Chart, registerables } from 'chart.js';
-
 export let charts = {};
 
 export function initDashboards() {

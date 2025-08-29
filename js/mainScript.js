@@ -1,4 +1,3 @@
-import Chart from 'chart.js/auto';
 import { initEnergyCalculator } from './scriptCalculadoras/calcEnergia.js';
 import { initWaterCalculator } from './scriptCalculadoras/calcAgua.js';
 import { initWasteCalculator } from './scriptCalculadoras/calcResiduo.js';
@@ -6,8 +5,6 @@ import { initTICalculator } from './scriptCalculadoras/calcTI.js';
 import { initCalculatorTabs } from './scriptCalculadoras/tabs.js';
 import { initDashboards } from './scriptDashboard/initDashboards.js';
 import { initSaveDashboardButton } from './scriptDashboard/saveDashboard.js';
-
-Chart.register(...registerables);
 
 document.addEventListener("DOMContentLoaded", () => {
   initNavbar();
@@ -35,9 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
     initSaveDashboardButton();
   }
 
-  if (document.getElementById("energyChart")) {
-    initDashboards();
-  }
+  // if (document.getElementById("energyChart")) {
+  //   initDashboards();
+  // }
 
   console.log("EcoManager scripts carregados e inicializados!");
 });
