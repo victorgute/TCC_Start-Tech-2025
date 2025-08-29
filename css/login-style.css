@@ -178,4 +178,14 @@ body {
     font-size: 1.5rem;
 }
 
-/* ... (resto dos estilos) ... */
+.success-message {
+    color: #0f9f59; /* Verde */
+    background-color: #eefcf6;
+    border: 1px solid #a7f3d0;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem; /* Espaçamento extra */
+    font-size: 0.9rem;
+    text-align: center;
+}
+
