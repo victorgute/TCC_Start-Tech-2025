@@ -1,10 +1,10 @@
-/* Estilos para a página Sobre Nós */
-
-/* Hero Section */
+/* ------------------------------
+   PÁGINA SOBRE NÓS - HERO
+--------------------------------*/
 .about-hero {
-  background: linear-gradient(rgba(17, 24, 39, 0.6), rgba(17, 24, 39, 0.6)), url('https://placehold.co/1920x600/1f2937/FFFFFF?text=Imagem+de+Fundo') center/cover no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://placehold.co/1920x600/2d3748/ffffff?text=Nossa+Equipe) center/cover no-repeat;
   color: #ffffff;
-  padding: 8rem 2rem;
+  padding: 6rem 2rem;
   text-align: center;
 }
 
@@ -14,19 +14,23 @@
 }
 
 .about-hero h1 {
-  font-size: 3rem;
+  font-size: 2.75rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .about-hero p {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Values Section */
+
+/* ------------------------------
+   SEÇÃO DE VALORES
+--------------------------------*/
 .values {
   padding: 5rem 2rem;
+  background-color: #f9fafb;
   text-align: center;
 }
 
@@ -37,15 +41,18 @@
 }
 
 .values-container {
+  max-width: 1100px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
 }
 
 .value-card {
-  padding: 2rem;
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
 }
 
 .value-card i {
@@ -55,21 +62,22 @@
 }
 
 .value-card h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #1f2937;
   margin-bottom: 1rem;
 }
 
 .value-card p {
-  font-size: 1rem;
   color: #6b7280;
-  line-height: 1.6;
+  font-size: 1rem;
 }
 
-/* Team Section */
+
+/* ------------------------------
+   SEÇÃO DA EQUIPE
+--------------------------------*/
 .team {
   padding: 5rem 2rem;
-  background-color: #f9fafb;
   text-align: center;
 }
 
@@ -80,23 +88,28 @@
 }
 
 .team-container {
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+}
+
+.team-member {
+  text-align: center;
 }
 
 .team-member img {
   width: 100%;
-  max-width: 250px;
+  max-width: 200px;
+  height: auto;
   border-radius: 50%;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .team-member h3 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: #1f2937;
   margin-bottom: 0.25rem;
 }
@@ -105,21 +118,21 @@
   color: #6b7280;
 }
 
-/* Responsividade */
+
+
+/* ------------------------------
+   RESPONSIVIDADE (SOBRE)
+--------------------------------*/
 @media (max-width: 900px) {
-  .values-container {
-    grid-template-columns: 1fr;
-  }
+  .values-container,
   .team-container {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 600px) {
+  .values-container,
   .team-container {
     grid-template-columns: 1fr;
-  }
-  .about-hero h1 {
-    font-size: 2.25rem;
   }
 }
