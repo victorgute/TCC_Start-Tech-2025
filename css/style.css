@@ -128,6 +128,17 @@ height: 100%;
 object-fit: cover;
 }
 
+.swiper-button-next{
+color: #0f9f59;
+}
+
+.swiper-button-prev{
+color: #0f9f59;
+}
+
+.swiper-pagination-bullet{
+    background-color: #0f9f59;
+}
 /* ------------------------------
 HERO COM OVERLAY (CORRIGIDO)
 --------------------------------*/
@@ -200,6 +211,8 @@ border-color: #ffffff;
 background: rgba(255, 255, 255, 0.1);
 transform: translateY(-2px);
 }
+
+
 
 /* ------------------------------
 INDICADORES
