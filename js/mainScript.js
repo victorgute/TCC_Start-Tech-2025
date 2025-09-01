@@ -31,11 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initDashboards();
     initSaveDashboardButton();
   }
-
-  // if (document.getElementById("energyChart")) {
-  //   initDashboards();
-  // }
-
+  
   console.log("EcoManager scripts carregados e inicializados!");
 });
 

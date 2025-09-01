@@ -6,12 +6,12 @@ export function initDashboards() {
   const energyCtx = document.getElementById('energyChart')?.getContext('2d');
   if (energyCtx) {
     charts.energy = new Chart(energyCtx, {
-      type: 'line',
+      type: 'polarArea',
       data: {
-        labels: labels,
+        labels: [],
         datasets: [{
           label: 'Consumo (kWh)',
-          data: Array(12).fill(0),
+          data: [],
           borderColor: '#10b981',
           backgroundColor: 'rgba(16, 185, 129, 0.1)',
           fill: true,
@@ -20,7 +20,23 @@ export function initDashboards() {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'hidden'
+          },
+        },
+        scales: {
+          r: {
+            pointLabels: {
+              display: true,
+              centerPointLabels: true,
+              font: {
+                size: 14
+              }
+            }
+          }
+        },
       }
     });
   }
@@ -33,22 +49,44 @@ export function initDashboards() {
         labels: labels,
         datasets: [
           {
-            label: 'Projeção de Economia',
-            data: [Array(12).fill(0)],
-            backgroundColor: '#2ecc71',
-            stack: 'stack1'
+            label: 'Consumo real de água',
+            data: Array(12).fill(0),
+            backgroundColor: '#2980b9',
           },
           {
-            label: 'Gasto Líquido Estimado',
-            data: [Array(12).fill(0)],
-            backgroundColor: '#cc2e2e',
-            stack: 'stack1'
+            label: 'Consumo total de água',
+            data: Array(12).fill(0),
+            backgroundColor: '#3498db',
+          },
+          {
+            label: 'Custo total estimado',
+            data: Array(12).fill(0),
+            backgroundColor: '#e67e22',
+            borderColor: '#e67e22',
+            type: 'line',
+            order: -1,
+            tension: 0.4,
+            hidden: true,
+          },
+          {
+            label: 'Valor economizado',
+            data: Array(12).fill(0),
+            backgroundColor: '#2ecc71',
+            borderColor: '#2ecc71',
+            type: 'line',
+            order: -1,
+            tension: 0.4,
+            hidden: true,
           }
         ]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        interaction: {
+          intersect: false,
+          mode: 'index',
+        },
       }
     });
   }

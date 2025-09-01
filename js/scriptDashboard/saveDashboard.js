@@ -19,6 +19,7 @@ export function initSaveDashboardButton() {
         const energyConsumption = parseFloat(document.querySelector('#energia .results-box strong')?.textContent.replace(',', '.')) || 0;
         const waterConsumption = parseFloat(document.querySelector('#agua-consumo')?.value) || 0;
         const waterEconomy = parseFloat(document.querySelector('#agua-reutilizada')?.value) || 0;
+        const tarifaAgua = parseFloat(document.querySelector('#agua-tarifa')?.value.replace(',', '.')) || 0;
         const wasteRecyclingRate = parseFloat(document.querySelector('#residuos .results-box strong:last-of-type')?.textContent.replace(',', '.')) || 0;
         const tiReused = parseInt(document.querySelector('#ti-reaproveitados')?.value) || 0;
         const tiDiscarded = parseInt(document.querySelector('#ti-descartados')?.value) || 0;
@@ -41,6 +42,8 @@ export function initSaveDashboardButton() {
         if (charts.water) {
             charts.water.data.datasets[0].data[monthIndex] = waterEconomy;
             charts.water.data.datasets[1].data[monthIndex] = waterConsumption;
+            charts.water.data.datasets[2].data[monthIndex] = waterConsumption * tarifaAgua;
+            charts.water.data.datasets[3].data[monthIndex] = waterEconomy * tarifaAgua;
             charts.water.update();
         }
 
