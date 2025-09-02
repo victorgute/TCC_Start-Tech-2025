@@ -2,7 +2,7 @@
    PÁGINA SOBRE NÓS - HERO
 --------------------------------*/
 .about-hero {
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(https://placehold.co/1920x600/2d3748/ffffff?text=Nossa+Equipe) center/cover no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/foto-time.jpg) center/cover no-repeat;
   color: #ffffff;
   padding: 6rem 2rem;
   text-align: center;
