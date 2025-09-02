@@ -1,5 +1,5 @@
 // Home Page
-import { initSwiper } from './scriptHome/swiperInit.js';
+import { initSwiper } from './scriptHome/swiper.js';
 import { initStatCounters } from './scriptHome/statCounters.js';
 import { initFeaturesAnimation } from './scriptHome/featuresAnimation.js';
 import { initIndicatorsAnimation } from './scriptHome/indicatorsAnimation.js';
