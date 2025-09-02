@@ -12,8 +12,18 @@ export function initDashboards() {
         datasets: [{
           label: 'Consumo (kWh)',
           data: [],
-          borderColor: '#10b981',
-          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          backgroundColor: [
+            'rgba(16, 185, 129, 0.5)',
+            'rgba(59, 130, 246, 0.5)',
+            'rgba(234, 179, 8, 0.5)',
+            'rgba(239, 68, 68, 0.5)',
+            'rgba(168, 85, 247, 0.5)',
+            'rgba(251, 191, 36, 0.5)',
+            'rgba(13, 148, 136, 0.5)',
+            'rgba(99, 102, 241, 0.5)',
+            'rgba(245, 158, 11, 0.5)',
+            'rgba(107, 114, 128, 0.5)',
+          ],
           fill: true,
           tension: 0.4
         }]
@@ -23,8 +33,12 @@ export function initDashboards() {
         maintainAspectRatio: false,
         plugins: {
           legend: {
-            position: 'hidden'
+            display: false
           },
+          title: {
+            display: true,
+            text: '',
+          }
         },
         scales: {
           r: {

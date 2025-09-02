@@ -48,16 +48,16 @@
 
       <ul class="nav-links" id="navLinks">
 
-        <li><a class="nav-link" href="index.html">Início</a></li>
-        <li><a class="nav-link is-active" href="../html/ferramentas.html">Calculadoras</a></li>
+        <li><a class="nav-link" href="../index.html">Início</a></li>
+        <li><a class="nav-link is-active" href="./ferramentas.html">Calculadoras</a></li>
         <li><a class="nav-link" href="#">Relatórios</a></li>
         <li><a class="nav-link" href="#">ESG & Metas</a></li>
-        <li><a class="nav-link" href="../html/sobre.html">Sobre</a></li>
+        <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
         <li><a class="nav-link" href="../index.html#contato">Contato</a></li>
 
       </ul>
 
-      <a href="index.html#funcionalidades" class="btn-navbar">Calcular Agora</a>
+      <a href="../index.html#funcionalidades" class="btn-navbar">Calcular Agora</a>
     </nav>
   </header>
 
@@ -85,8 +85,11 @@
           <div class="tabs">
 
             <button class="tab-button active" data-tab="energia"><i class="fas fa-bolt"></i> Energia</button>
+
             <button class="tab-button" data-tab="agua"><i class="fas fa-tint"></i> Água</button>
+
             <button class="tab-button" data-tab="residuos"><i class="fas fa-recycle"></i> Resíduos</button>
+
             <button class="tab-button" data-tab="ti"><i class="fas fa-desktop"></i> TI</button>
 
           </div>
@@ -104,22 +107,22 @@
 
                 <div class="form-group">
                   <label for="potencia">Potência (W)</label>
-                  <input type="number" id="potencia" value="0">
+                  <input type="number" id="potencia" placeholder="0">
                 </div>
 
                 <div class="form-group">
                   <label for="quantidade">Quantidade</label>
-                  <input type="number" id="quantidade" value="1">
+                  <input type="number" id="quantidade" placeholder="1">
                 </div>
 
                 <div class="form-group">
                   <label for="horas">Horas/dia</label>
-                  <input type="number" id="horas" value="0">
+                  <input type="number" id="horas" placeholder="0">
                 </div>
 
                 <div class="form-group">
                   <label for="dias">Dias/mês</label>
-                  <input type="number" id="dias" value="0">
+                  <input type="number" id="dias" placeholder="0">
                 </div>
 
                 <div class="form-group">
@@ -132,19 +135,23 @@
                 <h4>Resultados</h4>
 
                 <div class="result-item">
-                  <span>Consumo mensal:</span><strong>0.00 kWh</strong>
+                  <span>Consumo mensal:</span>
+                  <strong>0.00 kWh</strong>
                 </div>
 
                 <div class="result-item">
-                  <span>Custo estimado:</span><strong>R$ 0.00</strong>
+                  <span>Custo estimado:</span>
+                  <strong>R$ 0.00</strong>
                 </div>
 
                 <div class="result-item">
-                  <span>Emissões CO₂e:</span><strong>0.000 kg</strong>
+                  <span>Emissões CO₂e:</span>
+                  <strong>0.000 kg</strong>
                 </div>
 
                 <div class="info-box">
-                  <i class="fas fa-info-circle"></i><span>Fator de emissão baseado na matriz energética brasileira (2024).</span>
+                  <i class="fas fa-info-circle"></i><span>Fator de emissão baseado na matriz energética brasileira
+                    (2024).</span>
                 </div>
               </div>
             </div>
@@ -158,12 +165,12 @@
               <div class="form-grid">
                 <div class="form-group">
                   <label for="agua-consumo">Consumo mensal (m³)</label>
-                  <input type="number" id="agua-consumo" value="0">
+                  <input type="number" id="agua-consumo" placeholder="0">
                 </div>
 
                 <div class="form-group">
                   <label for="agua-reutilizada">Reutilização de água (m³)</label>
-                  <input type="number" id="agua-reutilizada" value="0">
+                  <input type="number" id="agua-reutilizada" placeholder="0">
                 </div>
 
                 <div class="form-group">
@@ -178,7 +185,7 @@
                   <span>Custo estimado:</span>
                   <span class="negrito">R$ 0,00</span>
                 </div>
-                
+
                 <div class="result-item">
                   <span>Valor economizado:</span>
                   <span class="negrito">R$ 0,00</span>
@@ -188,7 +195,7 @@
                   <span>Total de água consumida:</span>
                   <span class="negrito">0 L</span>
                 </div>
-                
+
                 <div class="result-item">
                   <span>Consumo real de água:</span>
                   <span class="negrito">0 L</span>
@@ -207,19 +214,38 @@
             <p>Monitore a geração de resíduos e sua taxa de reciclagem.</p>
             <div class="calculator-form">
               <div class="form-grid">
-                <div class="form-group"><label for="residuos-reciclavel">Resíduo Reciclável (kg)</label><input
-                    type="number" id="residuos-reciclavel" value="0"></div>
-                <div class="form-group"><label for="residuos-organico">Resíduo Orgânico (kg)</label><input type="number"
-                    id="residuos-organico" value="0"></div>
-                <div class="form-group"><label for="residuos-rejeito">Rejeito (kg)</label><input type="number"
-                    id="residuos-rejeito" value="0"></div>
+                <div class="form-group">
+                  <label for="residuos-reciclavel">Resíduo Reciclável (kg)</label>
+                  <input type="number" id="residuos-reciclavel" placeholder="0">
+                </div>
+
+                <div class="form-group">
+                  <label for="residuos-organico">Resíduo Orgânico (kg)</label>
+                  <input type="number" id="residuos-organico" placeholder="0">
+                </div>
+
+                <div class="form-group">
+                  <label for="residuos-rejeito">Rejeito (kg)</label>
+                  <input type="number" id="residuos-rejeito" placeholder="0">
+                </div>
               </div>
               <div class="results-box">
                 <h4>Resultados</h4>
-                <div class="result-item"><span>Total Gerado:</span><strong>0 kg</strong></div>
-                <div class="result-item"><span>Taxa de Reciclagem:</span><strong>0 %</strong></div>
-                <div class="info-box"><i class="fas fa-info-circle"></i><span>A taxa de reciclagem considera apenas o
-                    resíduo reciclável sobre o total.</span></div>
+
+                <div class="result-item">
+                  <span>Total Gerado:</span>
+                  <strong>0 kg</strong>
+                </div>
+
+                <div class="result-item">
+                  <span>Taxa de Reciclagem:</span>
+                  <strong>0 %</strong>
+                </div>
+
+                <div class="info-box">
+                  <i class="fas fa-info-circle"></i>
+                  <span>A taxa de reciclagem considera apenas o resíduo reciclável sobre o total.</span>
+                </div>
               </div>
             </div>
           </div>
@@ -227,31 +253,45 @@
           <div class="tab-content" id="ti">
             <h3>Calculadora de TI Circular</h3>
             <p>Acompanhe o ciclo de vida dos seus equipamentos eletrônicos.</p>
+
             <div class="calculator-form">
               <div class="form-grid">
-                <div class="form-group"><label for="ti-novos">Equipamentos Novos</label><input type="number"
-                    id="ti-novos" value="0"></div>
-                <div class="form-group"><label for="ti-descartados">Equipamentos Descartados</label><input type="number"
-                    id="ti-descartados" value="0"></div>
-                <div class="form-group"><label for="ti-reaproveitados">Equipamentos Reaproveitados</label><input
-                    type="number" id="ti-reaproveitados" value="0"></div>
+                <div class="form-group">
+                  <label for="ti-novos">Equipamentos Novos</label>
+                  <input type="number" id="ti-novos" placeholder="0">
+                </div>
+
+                <div class="form-group">
+                  <label for="ti-descartados">Equipamentos Descartados</label>
+                  <input type="number" id="ti-descartados" placeholder="0">
+                </div>
+
+                <div class="form-group">
+                  <label for="ti-reaproveitados">Equipamentos Reaproveitados</label>
+                  <input type="number" id="ti-reaproveitados" placeholder="0">
+                </div>
               </div>
+
               <div class="results-box">
                 <h4>Resultados</h4>
-                <div class="result-item"><span>Taxa de Reaproveitamento:</span><strong>0 %</strong></div>
-                <div class="info-box"><i class="fas fa-info-circle"></i><span>A taxa de reaproveitamento é calculada
-                    sobre o total de equipamentos descartados.</span></div>
+                <div class="result-item">
+                  <span>Taxa de Reaproveitamento:</span>
+                  <strong>0 %</strong>
+                </div>
+                <div class="info-box">
+                  <i class="fas fa-info-circle"></i>
+                  <span>A taxa de reaproveitamento é calculada sobre o total de equipamentos descartados.</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-
         <!-- Controles para Salvar no Dashboard -->
         <div class="save-dashboard-controls">
           <div class="date-selector">
             <select id="month-select">
-              <option value="0">Janeiro</option>
+              <option placeholder="0">Janeiro</option>
               <option value="1">Fevereiro</option>
               <option value="2">Março</option>
               <option value="3">Abril</option>
@@ -264,6 +304,7 @@
               <option value="10">Novembro</option>
               <option value="11">Dezembro</option>
             </select>
+            
             <input type="number" id="year-input" value="2025">
           </div>
           <button class="save-dashboard-btn"><i class="fas fa-save"></i> Salvar para o Mês</button>
@@ -271,8 +312,6 @@
 
       </div>
     </section>
-
-
 
     <!-- Seção dos Dashboards ATUALIZADA -->
     <section class="dashboard-section" id="dashboards">
@@ -282,6 +321,7 @@
             <h2>Dashboards</h2>
             <p>Visualize dados de sustentabilidade com gráficos interativos e insights em tempo real.</p>
           </div>
+
           <div class="dashboard-actions">
             <button class="btn-export"><i class="fas fa-upload"></i> Exportar</button>
             <button class="btn-schedule"><i class="fas fa-calendar-alt"></i> Agendar Relatório</button>
@@ -290,21 +330,27 @@
 
         <div class="filters-box">
           <h4><i class="fas fa-filter"></i> Filtros</h4>
+
           <div class="filters-grid">
             <div class="filter-group">
               <label for="unidade">Unidade</label>
+          
               <select id="unidade">
                 <option>Todas as Unidades</option>
               </select>
             </div>
+            
             <div class="filter-group">
               <label for="periodo">Período</label>
+            
               <select id="periodo">
                 <option>Últimos 6 meses</option>
               </select>
             </div>
+            
             <div class="filter-group">
               <label for="categoria">Categoria</label>
+            
               <select id="categoria">
                 <option>Todas as Categorias</option>
               </select>
@@ -319,30 +365,37 @@
               <strong>1.020 kWh</strong>
               <span class="card-change negative">-7,2% vs meta</span>
             </div>
+          
             <i class="fas fa-chart-line"></i>
           </div>
+
           <div class="summary-card">
             <div class="card-content">
               <span>Uso de Água</span>
               <strong>3.290 m³</strong>
               <span class="card-change negative">-6,1% vs meta</span>
             </div>
+          
             <i class="fas fa-chart-line"></i>
           </div>
+          
           <div class="summary-card">
             <div class="card-content">
               <span>Taxa Reciclagem</span>
               <strong>67%</strong>
               <span class="card-change positive">+12% vs meta</span>
             </div>
+          
             <i class="fas fa-chart-line"></i>
           </div>
+          
           <div class="summary-card">
             <div class="card-content">
               <span>TI Reaproveitada</span>
               <strong>156</strong>
               <span class="card-change positive">+28% vs meta</span>
             </div>
+          
             <i class="fas fa-chart-line"></i>
           </div>
         </div>
@@ -351,17 +404,24 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Consumo de Energia</h4>
-              <button class="btn-download"><i class="fas fa-download"></i></button>
+              <button class="btn-download">
+                <i class="fas fa-download"></i>
+              </button>
             </div>
+            
             <div class="chart-container">
               <canvas id="energyChart"></canvas>
             </div>
           </div>
+          
           <div class="chart-card">
             <div class="chart-header">
               <h4>Uso de Água</h4>
-              <button class="btn-download"><i class="fas fa-download"></i></button>
+              <button class="btn-download">
+                <i class="fas fa-download"></i>
+              </button>
             </div>
+            
             <div class="chart-container">
               <canvas id="waterChart"></canvas>
             </div>
@@ -369,8 +429,11 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Gestão de Resíduos</h4>
-              <button class="btn-download"><i class="fas fa-download"></i></button>
+              <button class="btn-download">
+                <i class="fas fa-download"></i>
+              </button>
             </div>
+            
             <div class="chart-container">
               <canvas id="wasteChart"></canvas>
             </div>
@@ -378,8 +441,11 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Reaproveitamento TI</h4>
-              <button class="btn-download"><i class="fas fa-download"></i></button>
+              <button class="btn-download">
+                <i class="fas fa-download"></i>
+              </button>
             </div>
+            
             <div class="chart-container">
               <canvas id="tiChart"></canvas>
             </div>
@@ -392,6 +458,7 @@
             <strong>Meta Atingida!</strong>
             <p>Parabéns! Vocês alcançaram a meta de redução de consumo de água em 6,1%.</p>
           </div>
+          
           <div class="alert-item warning">
             <strong>Atenção</strong>
             <p>O consumo de energia da Filial RJ está 15% acima da média. Considere uma auditoria energética.</p>
@@ -407,14 +474,15 @@
     <div class="footer-container">
       <div class="footer-col about">
         <img src="../img/logo-nome.png" alt="SustainDash Logo" class="footer-logo">
-        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro
-          sustentável.</p>
+        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro sustentável.</p>
+
         <div class="contact-info">
           <p><i class="fas fa-envelope"></i> contato@sustaindash.com</p>
           <p><i class="fas fa-phone"></i> +55 (11) 99999-9999</p>
           <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
         </div>
       </div>
+      
       <div class="footer-col links">
         <h4>Plataforma</h4>
         <ul>
@@ -424,6 +492,7 @@
           <li><a href="#esg">ESG & Metas</a></li>
         </ul>
       </div>
+      
       <div class="footer-col links">
         <h4>Empresa</h4>
         <ul>
@@ -433,6 +502,7 @@
           <li><a href="#contato">Contato</a></li>
         </ul>
       </div>
+      
       <div class="footer-col links">
         <h4>Legal</h4>
         <ul>
@@ -443,8 +513,10 @@
         </ul>
       </div>
     </div>
+    
     <div class="footer-bottom">
       <p>© 2025 EcoManager. Todos os direitos reservados.</p>
+    
       <div class="certifications">
         <span>Certificado ISO 14001</span>
         <span>•</span>

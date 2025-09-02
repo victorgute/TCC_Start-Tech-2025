@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="img/ecomanager.png" type="image/x-icon">
   <title>EcoManager</title>
 </head>
-<body>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+<body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
       apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
       authDomain: "ecomanager-tcc.firebaseapp.com",
@@ -29,31 +31,31 @@
       measurementId: "G-6TTFT5PVCX"
     };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 
 
-<!-- Navbar -->
-<header>
-  <nav class="navbar" id="navbar">
-    <a href="index.html" class="logo">
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="logo">
         <img src="img/logo-nome.png" alt="EcoManager Logo">
-    </a>
+      </a>
 
-    <ul class="nav-links" id="navLinks">
-      <li><a class="nav-link" href="index.html">Início</a></li>
-      <li><a class="nav-link" href="ferramentas.html">Calculadoras</a></li>
-      <li><a class="nav-link" href="#impacto">Relatórios</a></li>
-      <li><a class="nav-link" href="#esg">ESG & Metas</a></li>
-      <a class="nav-link" href="sobre.html">Sobre</a>
-      <li><a class="nav-link" href="#contato">Contato</a></li>
-    </ul>
-    
-    <a href="#funcionalidades" class="btn-navbar">Calcular Agora</a>
-  </nav>
-</header>
+      <ul class="nav-links" id="navLinks">
+        <li><a class="nav-link" href="#">Início</a></li>
+        <li><a class="nav-link" href="html/ferramentas.html">Calculadoras</a></li>
+        <li><a class="nav-link" href="#impacto">Relatórios</a></li>
+        <li><a class="nav-link" href="#esg">ESG & Metas</a></li>
+        <a class="nav-link" href="html/sobre.html">Sobre</a>
+        <li><a class="nav-link" href="#contato">Contato</a></li>
+      </ul>
+
+      <a href="#funcionalidades" class="btn-navbar">Calcular Agora</a>
+    </nav>
+  </header>
 
 
 
@@ -84,177 +86,195 @@
   </section>
 
 
-<!-- Indicadores -->
-<section class="indicators" id="indicadores">
-  <div class="indicators-container">
-    <h2>Indicadores em Tempo Real</h2>
-    <p class="subtitle">Acompanhe os principais KPIs de sustentabilidade da sua empresa e tome decisões baseadas em dados.</p>
-    
-    <div class="cards">
-      <!-- Card 1: Consumo Energético -->
-      <div class="card">
-        <div class="indicator-icon-wrapper">
-          <i class="fas fa-bolt"></i>
+  <!-- Indicadores -->
+  <section class="indicators" id="indicadores">
+    <div class="indicators-container">
+      <h2>Indicadores em Tempo Real</h2>
+      <p class="subtitle">Acompanhe os principais KPIs de sustentabilidade da sua empresa e tome decisões baseadas em
+        dados.</p>
+
+      <div class="cards">
+        <!-- Card 1: Consumo Energético -->
+        <div class="card">
+          <div class="indicator-icon-wrapper">
+            <i class="fas fa-bolt"></i>
+          </div>
+
+          <h3>Consumo Energético</h3>
+          <p class="indicator-value"><strong>1,248</strong> kWh</p>
+
+          <div class="indicator-change">
+            <span class="positive"><i class="fas fa-arrow-up"></i> +5.2%</span>
+            <span class="period">vs. mês anterior</span>
+          </div>
         </div>
-        <h3>Consumo Energético</h3>
-        <p class="indicator-value"><strong>1,248</strong> kWh</p>
-        <div class="indicator-change">
-          <span class="positive"><i class="fas fa-arrow-up"></i> +5.2%</span>
-          <span class="period">vs. mês anterior</span>
+
+        <!-- Card 2: Uso de Água -->
+        <div class="card">
+          <div class="indicator-icon-wrapper">
+            <i class="fas fa-tint"></i>
+          </div>
+
+          <h3>Uso de Água</h3>
+          <p class="indicator-value"><strong>3,542</strong> m³</p>
+
+          <div class="indicator-change">
+            <span class="negative"><i class="fas fa-arrow-down"></i> -8.1%</span>
+            <span class="period">economia este mês</span>
+          </div>
         </div>
-      </div>
-      
-      <!-- Card 2: Uso de Água -->
-      <div class="card">
-        <div class="indicator-icon-wrapper">
-          <i class="fas fa-tint"></i>
+
+        <!-- Card 3: Material Reciclado -->
+        <div class="card">
+          <div class="indicator-icon-wrapper">
+            <i class="fas fa-recycle"></i>
+          </div>
+
+          <h3>Material Reciclado</h3>
+          <p class="indicator-value"><strong>847</strong> kg</p>
+
+          <div class="indicator-change">
+            <span class="positive"><i class="fas fa-arrow-up"></i> +12.4%</span>
+            <span class="period">vs. trimestre anterior</span>
+          </div>
         </div>
-        <h3>Uso de Água</h3>
-        <p class="indicator-value"><strong>3,542</strong> m³</p>
-        <div class="indicator-change">
-          <span class="negative"><i class="fas fa-arrow-down"></i> -8.1%</span>
-          <span class="period">economia este mês</span>
-        </div>
-      </div>
-      
-      <!-- Card 3: Material Reciclado -->
-      <div class="card">
-        <div class="indicator-icon-wrapper">
-          <i class="fas fa-recycle"></i>
-        </div>
-        <h3>Material Reciclado</h3>
-        <p class="indicator-value"><strong>847</strong> kg</p>
-        <div class="indicator-change">
-          <span class="positive"><i class="fas fa-arrow-up"></i> +12.4%</span>
-          <span class="period">vs. trimestre anterior</span>
-        </div>
-      </div>
-      
-      <!-- Card 4: TI Reaproveitada -->
-      <div class="card">
-        <div class="indicator-icon-wrapper">
-          <i class="fas fa-desktop"></i>
-        </div>
-        <h3>TI Reaproveitada</h3>
-        <p class="indicator-value"><strong>156</strong> equipamentos</p>
-        <div class="indicator-change">
-          <span class="positive"><i class="fas fa-arrow-up"></i> +28.6%</span>
-          <span class="period">novos equipamentos</span>
+
+        <!-- Card 4: TI Reaproveitada -->
+        <div class="card">
+          <div class="indicator-icon-wrapper">
+            <i class="fas fa-desktop"></i>
+          </div>
+
+          <h3>TI Reaproveitada</h3>
+          <p class="indicator-value"><strong>156</strong> equipamentos</p>
+
+          <div class="indicator-change">
+            <span class="positive"><i class="fas fa-arrow-up"></i> +28.6%</span>
+            <span class="period">novos equipamentos</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-
-
+  </section>
 
   <!-- Como Funciona -->
-<section class="features" id="funcionalidades">
-  <div class="features-container">
-    <h2>Como Funciona</h2>
-    <p class="subtitle">Transforme dados de sustentabilidade em insights acionáveis com nossa plataforma completa.</p>
+  <section class="features" id="funcionalidades">
+    <div class="features-container">
+      <h2>Como Funciona</h2>
+      <p class="subtitle">Transforme dados de sustentabilidade em insights acionáveis com nossa plataforma completa.</p>
 
-    <div class="cards">
-      <!-- Card 1: Calculadoras -->
-      <div class="card">
-        <div class="feature-icon-wrapper">
-          <i class="fas fa-calculator"></i>
-        </div>
-        <h3>Calculadoras Inteligentes</h3>
-        <p>Calcule consumo de energia, água, resíduos e reaproveitamento de TI com precisão.</p>
-        <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a>
-      </div>
-      
-      <!-- Card 2: Dashboards -->
-      <div class="card">
-        <div class="feature-icon-wrapper">
-          <i class="fas fa-chart-pie"></i>
-        </div>
-        <h3>Dashboards Interativos</h3>
-        <p>Visualize dados por unidade, período e categoria com filtros avançados.</p>
-        <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a>
-      </div>
-      
-      <!-- Card 3: Relatórios -->
-      <div class="card">
-        <div class="feature-icon-wrapper">
-          <i class="fas fa-file-alt"></i>
-        </div>
-        <h3>Relatórios ESG</h3>
-        <p>Gere relatórios executivos e detalhados com exportação em PDF.</p>
-        <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a>
-      </div>
-      
-      <!-- Card 4: Metas -->
-      <div class="card">
-        <div class="feature-icon-wrapper">
-          <i class="fas fa-bullseye"></i>
-        </div>
-        <h3>Metas & ODS</h3>
-        <p>Defina metas anuais e acompanhe progresso alinhado aos ODS da ONU.</p>
-        <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a>
-      </div>
-    </div>
-  </div>
-</section>
+      <div class="cards">
+        <!-- Card 1: Calculadoras -->
+        <div class="card">
+          <div class="feature-icon-wrapper">
+            <i class="fas fa-calculator"></i>
+          </div>
 
+          <h3>Calculadoras Inteligentes</h3>
+          <p>Calcule consumo de energia, água, resíduos e reaproveitamento de TI com precisão.</p>
 
+          <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a>
+        </div>
 
+        <!-- Card 2: Dashboards -->
+        <div class="card">
+          <div class="feature-icon-wrapper">
+            <i class="fas fa-chart-pie"></i>
+          </div>
 
-<!-- Impacto -->
-<section class="impact" id="impacto">
-  <div class="impact-container">
-    <h2>Impacto Real, Resultados Mensuráveis</h2>
-    <p>Empresas que usam nossa plataforma alcançam resultados significativos em sustentabilidade.</p>
-    
-    <div class="stats-container">
-      <!-- Stat 1: Consumo -->
-      <div class="stat-item">
-        <div class="stat-icon-wrapper">
-          <i class="fas fa-bolt"></i>
+          <h3>Dashboards Interativos</h3>
+          <p>Visualize dados por unidade, período e categoria com filtros avançados.</p>
+
+          <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a>
         </div>
-        <div class="stat-content">
-          <strong data-target="25" data-suffix="%">0%</strong>
-          <span>redução no consumo<br><strong>Energia</strong></span>
+
+        <!-- Card 3: Relatórios -->
+        <div class="card">
+          <div class="feature-icon-wrapper">
+            <i class="fas fa-file-alt"></i>
+          </div>
+
+          <h3>Relatórios ESG</h3>
+          <p>Gere relatórios executivos e detalhados com exportação em PDF.</p>
+
+          <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a>
         </div>
-      </div>
-      
-      <!-- Stat 2: Economia -->
-      <div class="stat-item">
-        <div class="stat-icon-wrapper">
-          <i class="fas fa-tint"></i> <!-- Ícone de gota d'água -->
-        </div>
-        <div class="stat-content">
-          <strong data-target="18" data-suffix="%">0%</strong>
-          <span>economia mensal<br><strong>Água</strong></span>
-        </div>
-      </div>
-      
-      <!-- Stat 3: Reciclagem -->
-      <div class="stat-item">
-        <div class="stat-icon-wrapper">
-          <i class="fas fa-recycle"></i>
-        </div>
-        <div class="stat-content">
-          <strong data-target="67" data-suffix="%">0%</strong>
-          <span>taxa de reciclagem<br><strong>Resíduos</strong></span>
-        </div>
-      </div>
-      
-      <!-- Stat 4: Equipamentos -->
-      <div class="stat-item">
-        <div class="stat-icon-wrapper">
-          <i class="fas fa-desktop"></i>
-        </div>
-        <div class="stat-content">
-          <strong data-target="234">0</strong>
-          <span>equipamentos reaproveitados<br><strong>TI Circular</strong></span>
+
+        <!-- Card 4: Metas -->
+        <div class="card">
+          <div class="feature-icon-wrapper">
+            <i class="fas fa-bullseye"></i>
+          </div>
+
+          <h3>Metas & ODS</h3>
+          <p>Defina metas anuais e acompanhe progresso alinhado aos ODS da ONU.</p>
+
+          <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+
+
+
+  <!-- Impacto -->
+  <section class="impact" id="impacto">
+    <div class="impact-container">
+      <h2>Impacto Real, Resultados Mensuráveis</h2>
+      <p>Empresas que usam nossa plataforma alcançam resultados significativos em sustentabilidade.</p>
+
+      <div class="stats-container">
+        <!-- Stat 1: Consumo -->
+        <div class="stat-item">
+          <div class="stat-icon-wrapper">
+            <i class="fas fa-bolt"></i>
+          </div>
+
+          <div class="stat-content">
+            <strong data-target="25" data-suffix="%">0%</strong>
+            <span>redução no consumo<br><strong>Energia</strong></span>
+          </div>
+        </div>
+
+        <!-- Stat 2: Economia -->
+        <div class="stat-item">
+          <div class="stat-icon-wrapper">
+            <i class="fas fa-tint"></i> <!-- Ícone de gota d'água -->
+          </div>
+
+          <div class="stat-content">
+            <strong data-target="18" data-suffix="%">0%</strong>
+            <span>economia mensal<br><strong>Água</strong></span>
+          </div>
+        </div>
+
+        <!-- Stat 3: Reciclagem -->
+        <div class="stat-item">
+          <div class="stat-icon-wrapper">
+            <i class="fas fa-recycle"></i>
+          </div>
+
+          <div class="stat-content">
+            <strong data-target="67" data-suffix="%">0%</strong>
+            <span>taxa de reciclagem<br><strong>Resíduos</strong></span>
+          </div>
+        </div>
+
+        <!-- Stat 4: Equipamentos -->
+        <div class="stat-item">
+          <div class="stat-icon-wrapper">
+            <i class="fas fa-desktop"></i>
+          </div>
+
+          <div class="stat-content">
+            <strong data-target="234">0</strong>
+            <span>equipamentos reaproveitados<br><strong>TI Circular</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
 
@@ -266,6 +286,7 @@
     <div class="cta-container">
       <h2>Pronto para Transformar sua Gestão ESG?</h2>
       <p>Comece hoje mesmo a monitorar e otimizar os indicadores de sustentabilidade da sua empresa.</p>
+      
       <div class="cta-buttons">
         <a href="#" class="btn-cta-primary">Começar Agora</a>
         <a href="#" class="btn-cta-secondary">Falar com Especialista</a>
@@ -279,12 +300,14 @@
       <div class="footer-col about">
         <img src="img/logo-nome.png" alt="SustainDash Logo" class="footer-logo">
         <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro sustentável.</p>
+
         <div class="contact-info">
           <p><i class="fas fa-envelope"></i> contato@sustaindash.com</p>
           <p><i class="fas fa-phone"></i> +55 (11) 99999-9999</p>
           <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
         </div>
       </div>
+
       <div class="footer-col links">
         <h4>Plataforma</h4>
         <ul>
@@ -294,6 +317,7 @@
           <li><a href="#esg">ESG & Metas</a></li>
         </ul>
       </div>
+
       <div class="footer-col links">
         <h4>Empresa</h4>
         <ul>
@@ -303,6 +327,7 @@
           <li><a href="#contato">Contato</a></li>
         </ul>
       </div>
+      
       <div class="footer-col links">
         <h4>Legal</h4>
         <ul>
@@ -313,6 +338,7 @@
         </ul>
       </div>
     </div>
+    
     <div class="footer-bottom">
       <p>© 2025 EcoManager. Todos os direitos reservados.</p>
       <div class="certifications">
@@ -325,8 +351,8 @@
     </div>
   </footer>
 
-  
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="js/script-geral.js"></script>
 </body>
+
 </html>

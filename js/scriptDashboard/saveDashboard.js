@@ -1,5 +1,7 @@
 import { charts } from './initDashboards.js';
 
+let currentEnergyMonth = null;
+
 export function initSaveDashboardButton() {
     const saveBtn = document.querySelector('.save-dashboard-btn');
     const monthSelect = document.getElementById('month-select');
@@ -17,6 +19,7 @@ export function initSaveDashboardButton() {
 
         // 1. Ler os dados das calculadoras
         const energyConsumption = parseFloat(document.querySelector('#energia .results-box strong')?.textContent.replace(',', '.')) || 0;
+        let equipamentoEletronico = document.querySelector('#equipamento')?.value;
         const waterConsumption = parseFloat(document.querySelector('#agua-consumo')?.value) || 0;
         const waterEconomy = parseFloat(document.querySelector('#agua-reutilizada')?.value) || 0;
         const tarifaAgua = parseFloat(document.querySelector('#agua-tarifa')?.value.replace(',', '.')) || 0;
@@ -35,7 +38,24 @@ export function initSaveDashboardButton() {
 
         // 3. Atualizar os gráficos
         if (charts.energy) {
-            charts.energy.data.datasets[0].data[monthIndex] = energyConsumption;
+            if (currentEnergyMonth !== monthIndex) {
+                charts.energy.data.datasets[0].data = [];
+                charts.energy.data.labels = [];
+                currentEnergyMonth = monthIndex;
+            }
+
+            const existingIndex = charts.energy.data.labels.indexOf(equipamentoEletronico);
+
+            if (existingIndex !== -1) {
+                charts.energy.data.datasets[0].data[existingIndex] = energyConsumption;
+            } else {
+                charts.energy.data.labels.push(equipamentoEletronico);
+                charts.energy.data.datasets[0].data.push(energyConsumption);
+            }
+
+            const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            charts.energy.options.plugins.title.text = monthNames[monthIndex];
+
             charts.energy.update();
         }
 
