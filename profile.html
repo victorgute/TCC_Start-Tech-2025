@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoManager - Meu Perfil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2L4+0/6n+P3J1qK4XvFk6f1k6e5r6P9aW/Jc+6G/1O1y9Q/A+F+9W/k4A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/profile.css">
+
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav class="navbar" id="navbar">
+            <a href="index.html" class="logo">
+                <img src="img/logo-nome.png" alt="EcoManager Logo"
+                    onerror="this.onerror=null;this.src='https://placehold.co/150x45/ffffff/000000?text=EcoManager';">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a class="nav-link" href="index.html">Início</a></li>
+                <li><a class="nav-link" href="ferramentas.html">Ferramentas</a></li>
+                <li><a class="nav-link" href="sobre.html">Sobre</a></li>
+            </ul>
+            <button id="logout-btn" class="btn-navbar">Fazer Logout</button>
+        </nav>
+    </header>
+    <!-- Scripts do Firebase para proteção de rota -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
+            authDomain: "ecomanager-tcc.firebaseapp.com",
+            projectId: "ecomanager-tcc",
+            storageBucket: "ecomanager-tcc.appspot.com",
+            messagingSenderId: "807838989383",
+            appId: "1:807838989383:web:21327d954d978d3f498562",
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (!user) {
+                window.location.href = '../login.html';
+            }
+        });
+    </script>
+
+
+    <main>
+        <div class="profile-container">
+            <div class="profile-header">
+                <span class="back-arrow"><a href="../index.html" title="Voltar"><i
+                            class="fas fa-arrow-left"></i></a></span>
+                <div>
+                    <h1>Meu Perfil</h1>
+                    <p>Gerencie suas informações pessoais</p>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-card-header">
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                    <div class="user-info">
+                        <h2>João Silva</h2>
+                        <p>Analista de Sustentabilidade</p>
+                    </div>
+                    <button class="edit-button"><i class="fas fa-pencil-alt"></i> Editar</button>
+                </div>
+                <div class="profile-card-body">
+                    <div class="info-field">
+                        <label>Nome Completo</label>
+                        <div class="value">João Silva</div>
+                    </div>
+                    <div class="info-field">
+                        <label>Email</label>
+                        <div class="value"><i class="fas fa-envelope"></i> joao.silva@empresa.com</div>
+                    </div>
+                    <div class="info-field">
+                        <label>Empresa</label>
+                        <div class="value">Empresa ESG Ltda</div>
+                    </div>
+                    <div class="info-field">
+                        <label>Cargo</label>
+                        <div class="value">Analista de Sustentabilidade</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+  <footer id="contato">
+    <div class="footer-container">
+      <div class="footer-col about">
+        <img src="img/logo-nome.png" alt="EcoManager Logo" class="footer-logo" onerror="this.onerror=null;this.src='https://placehold.co/150x40/111827/ffffff?text=EcoManager';">
+        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro sustentável.</p>
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> contato@ecomanager.com</p>
+          <p><i class="fas fa-phone"></i> +55 (11) 99999-9990</p>
+          <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
+        </div>
+      </div>
+      <div class="footer-col links">
+        <h4>Plataforma</h4>
+        <ul>
+          <li><a href="ferramentas.html">Calculadoras</a></li>
+          <li><a href="ferramentas.html#dashboards">Dashboards</a></li>
+          <li><a href="#">Relatórios</a></li>
+          <li><a href="#">ESG & Metas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col links">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="sobre.html">Sobre Nós</a></li>
+          <li><a href="#">Compromisso ESG</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="contato.html">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer-col links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+          <li><a href="#">LGPD</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 EcoManager. Todos os direitos reservados.</p>
+      <div class="certifications">
+        <span>Certificado ISO 14001</span>
+        <span>•</span>
+        <span>B Corp Certified</span>
+        <span>•</span>
+        <span>Carbon Neutral</span>
+      </div>
+    </div>
+  </footer>
+    <script src="../js/script-geral.js"></script>
+</body>
+
+</html>
