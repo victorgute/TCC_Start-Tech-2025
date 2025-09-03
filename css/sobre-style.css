@@ -1,10 +1,19 @@
-/* Estilos para a página Sobre Nós */
+/* ------------------------------
+   Geral
+--------------------------------*/
 
-/* Hero Section */
+h2, h3 {
+  text-align: center;
+
+}
+
+/* ------------------------------
+   PÁGINA SOBRE NÓS - HERO
+--------------------------------*/
 .about-hero {
-  background: linear-gradient(rgba(17, 24, 39, 0.6), rgba(17, 24, 39, 0.6)), url('https://placehold.co/1920x600/1f2937/FFFFFF?text=Imagem+de+Fundo') center/cover no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/foto-time.jpg) center/cover no-repeat;
   color: #ffffff;
-  padding: 8rem 2rem;
+  padding: 6rem 2rem;
   text-align: center;
 }
 
@@ -14,19 +23,23 @@
 }
 
 .about-hero h1 {
-  font-size: 3rem;
+  font-size: 2.75rem;
   font-weight: 700;
   margin-bottom: 1rem;
 }
 
 .about-hero p {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Values Section */
+
+/* ------------------------------
+   SEÇÃO DE VALORES
+--------------------------------*/
 .values {
   padding: 5rem 2rem;
+  background-color: #f9fafb;
   text-align: center;
 }
 
@@ -37,39 +50,106 @@
 }
 
 .values-container {
+  max-width: 1100px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  max-width: 1100px;
-  margin: 0 auto;
 }
 
 .value-card {
-  padding: 2rem;
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
 .value-card i {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   color: #10b981;
   margin-bottom: 1.5rem;
 }
 
 .value-card h3 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #1f2937;
   margin-bottom: 1rem;
 }
 
 .value-card p {
-  font-size: 1rem;
+  text-align: justify;
   color: #6b7280;
-  line-height: 1.6;
+  font-size: 1.3rem;
 }
 
-/* Team Section */
-.team {
+
+/* ------------------------------
+  Impacto Social e Ambiental
+--------------------------------*/
+
+.values-social-impact {
+  display: flex;
   padding: 5rem 2rem;
   background-color: #f9fafb;
+  text-align: center;
+}
+
+
+.container-social-impact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  gap: 2rem;
+  text-align: justify;
+}
+
+.container-social-impact .value-card {
+  flex: 1 1 0;
+  max-width: 600px;
+}
+
+.container-social-impact img {
+  flex: 1 1 0;
+  max-width: 400px;
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.impact-title {
+  font-size: 2rem;
+  color: #10b981;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Responsividade para o texto "Sustentabilidade" */
+@media (max-width: 900px) {
+  .impact-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .impact-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* ------------------------------
+   SEÇÃO DA EQUIPE
+--------------------------------*/
+.team {
+  padding: 5rem 2rem;
   text-align: center;
 }
 
@@ -80,23 +160,36 @@
 }
 
 .team-container {
+  max-width: 1200px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+}
+
+.team-member {
+  text-align: center;
 }
 
 .team-member img {
   width: 100%;
-  max-width: 250px;
+  max-width: 200px;
+  height: auto;
   border-radius: 50%;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.team-member img {
+  transition: transform 0.3s ease;
+}
+
+.team-member img:hover {
+  transform: scale(1.08);
 }
 
 .team-member h3 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: #1f2937;
   margin-bottom: 0.25rem;
 }
@@ -105,21 +198,95 @@
   color: #6b7280;
 }
 
-/* Responsividade */
-@media (max-width: 900px) {
-  .values-container {
-    grid-template-columns: 1fr;
+
+
+/* ------------------------------
+   RESPONSIVIDADE (SOBRE)
+--------------------------------*/
+@media (max-width: 1200px) {
+  .values-container,
+  .team-container {
+    max-width: 100%;
+    gap: 1.5rem;
   }
+  .container-social-impact {
+    max-width: 100%;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .values-container,
   .team-container {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+  .container-social-impact {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+  .container-social-impact .value-card,
+  .container-social-impact img {
+    max-width: 100%;
+  }
+  .container-social-impact img {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
   }
 }
 
 @media (max-width: 600px) {
-  .team-container {
-    grid-template-columns: 1fr;
+  .about-hero {
+    padding: 3rem 1rem;
   }
   .about-hero h1 {
-    font-size: 2.25rem;
+    font-size: 2rem;
   }
+  .about-hero p {
+    font-size: 1rem;
+  }
+  .values {
+    padding: 2.5rem 1rem;
+  }
+  .values h2,
+  .team h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .values-container,
+  .team-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .value-card {
+    padding: 1.5rem 1rem;
+  }
+  .container-social-impact {
+    padding: 2rem 0.5rem;
+    gap: 1rem;
+  }
+  .container-social-impact .value-card {
+    padding: 1.2rem 0.7rem;
+  }
+
+   .container-social-impact .value-card p {
+    font-size: calc(1.3rem + 0.2vw);
+   }
+  
+  .container-social-impact img {
+    max-width: 100%;
+    margin: 0 auto 1rem auto;
+  }
+  .team {
+    padding: 2.5rem 1rem;
+  }
+  .team-member img {
+    max-width: 120px;
+  }
+}
+
+/* Ajuste para evitar overflow horizontal */
+body, html {
+  overflow-x: hidden;
 }
