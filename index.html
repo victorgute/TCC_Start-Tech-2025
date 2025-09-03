@@ -10,32 +10,6 @@
   <title>EcoManager</title>
 </head>
 <body>
-  <!-- Scripts do Firebase (necessários em todas as páginas protegidas) -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script>
-    // --- Configuração do Firebase ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
-      authDomain: "ecomanager-tcc.firebaseapp.com",
-      projectId: "ecomanager-tcc",
-      storageBucket: "ecomanager-tcc.appspot.com",
-      messagingSenderId: "807838989383",
-      appId: "1:807838989383:web:21327d954d978d3f498562",
-    };
-    firebase.initializeApp(firebaseConfig);
-
-    // Script de Proteção de Rota
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (!user) {
-        const currentPath = window.location.pathname;
-        const newPath = currentPath.substring(0, currentPath.lastIndexOf('/') + 1) + 'login.html';
-        if (!currentPath.endsWith('login.html') && !currentPath.endsWith('signup.html')) {
-             window.location.pathname = newPath;
-        }
-      }
-    });
-  </script>
 
 <!-- Navbar -->
 <header>
