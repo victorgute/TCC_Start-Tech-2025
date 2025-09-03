@@ -63,12 +63,12 @@ export function initDashboards() {
         labels: labels,
         datasets: [
           {
-            label: 'Consumo real de água',
+            label: 'Consumo real de água (m³)',
             data: Array(12).fill(0),
             backgroundColor: '#2980b9',
           },
           {
-            label: 'Consumo total de água',
+            label: 'Consumo total de água (m³)',
             data: Array(12).fill(0),
             backgroundColor: '#3498db',
           },
