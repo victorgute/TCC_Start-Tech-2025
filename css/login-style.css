@@ -1,181 +1,169 @@
-/* Estilos para a Página de Login */
-body {
-    background-color: #f9fafb;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    font-family: 'Inter', sans-serif; /* Usando a mesma fonte do projeto */
-}
-
+/* ------------------------------
+   PÁGINAS DE LOGIN E REGISTO
+--------------------------------*/
 .login-container {
-    padding: 2rem;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
 .login-box {
-    background-color: #ffffff;
-    padding: 3rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
-    width: 100%;
-    max-width: 450px;
-    text-align: center;
+  background-color: #ffffff;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
 }
 
 .login-logo {
-    height: 50px;
-    margin-bottom: 1.5rem;
+  height: 50px;
+  margin-bottom: 1.5rem;
 }
 
 .login-box h2 {
-    font-size: 1.75rem;
-    color: #1f2937;
-    margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
 }
 
 .login-box p {
-    color: #6b7280;
-    margin-bottom: 2rem;
-}
-
-#login-form {
-    text-align: left;
+  color: #6b7280;
+  margin-bottom: 2rem;
 }
 
 .input-group {
-    margin-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  text-align: left;
 }
 
 .input-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #374151;
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
 }
 
 .input-group input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 1rem;
-}
-
-.error-message {
-    color: #ef4444;
-    background-color: #fee2e2;
-    border: 1px solid #fca5a5;
-    padding: 0.75rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    display: none; /* Escondido por padrão */
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
 }
 
 .btn-login {
-    width: 100%;
-    background-color: #10b981;
-    color: #ffffff;
-    border: none;
-    padding: 0.9rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  width: 100%;
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .btn-login:hover {
-    background-color: #0f9f59;
+  background-color: #0f9f59;
 }
 
-.login-footer {
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: #6b7280;
-    display: flex;
-    justify-content: space-between;
+.separator {
+  text-align: center;
+  color: #9ca3af;
+  margin: 1.5rem 0;
+  display: flex;
+  align-items: center;
 }
 
-.login-footer a {
-    color: #10b981;
-    text-decoration: none;
-    font-weight: 500;
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.btn-google {
-    width: 100%;
-    background-color: #ffffff;
-    color: #374151;
-    border: 1px solid #d1d5db;
-    padding: 0.8rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-top: 1rem;
-}
-
-.btn-google:hover {
-    background-color: #f9fafb;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-.btn-google img {
-    height: 20px;
-    width: 20px;
-}
-
-/* ... (estilos anteriores) ... */
+.separator::before { margin-right: .5em; }
+.separator::after { margin-left: .5em; }
 
 .btn-provider {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-top: 1rem;
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
 }
 
 .btn-google {
-    background-color: #ffffff;
-    color: #374151;
-    border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
 }
 
 .btn-google:hover {
-    background-color: #f9fafb;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  background-color: #f9fafb;
 }
 
 .btn-google img {
-    height: 20px;
-    width: 20px;
+  height: 20px;
+  width: 20px;
 }
 
 .btn-github {
-    background-color: #24292e; /* Cor principal do GitHub */
-    color: #ffffff;
-    border: 1px solid #24292e;
+  background-color: #24292e;
+  color: #ffffff;
+  border: 1px solid #24292e;
 }
 
 .btn-github:hover {
-    background-color: #333;
+  background-color: #374151;
 }
 
 .btn-github i {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
-/* ... (resto dos estilos) ... */
+.login-footer {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.login-footer a {
+  color: #10b981;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.error-message {
+  color: #ef4444;
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.success-message {
+  color: #0f9f59;
+  background-color: #eefcf6;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
