@@ -8,8 +8,8 @@ function calcularAgua(inputs, results) {
     const consumoTotal = consumoM3 * 1000;
     const consumoReal = consumoTotal - (economia * 1000);
 
-    results.custo.textContent = `R$ ${custoEstimado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
-    results.economia.textContent = `R$ ${Math.abs(economiaEstimada).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
+    results.custo.textContent = `${custoEstimado.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
+    results.economia.textContent = `${Math.abs(economiaEstimada).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`;
     results.consumoTotal.textContent = `${consumoTotal.toLocaleString('pt-BR')} L`;
     results.consumoReal.textContent = `${consumoReal.toLocaleString('pt-BR')} L`;
 }

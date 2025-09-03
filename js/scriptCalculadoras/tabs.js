@@ -20,7 +20,26 @@ export function initCalculatorTabs() {
 }
 
 function limparCampos(container) {
-  const inputs = container.querySelectorAll("input, select, textarea");
+  const inputs = container.querySelectorAll("input");
+  const resultados = container.querySelectorAll(".negrito")
+
+  const resetMap = {
+    valorMonetario: "R$ 0,00",
+    energiaConsumida: "0,00 kWh",
+    aguaConsumida: "0 L",
+    residuosGerados: "0Kg",
+    economiaPercentual: "0%"
+  }
+
+  resultados.forEach(item => {
+    for (const classe in resetMap) {
+      if (item.classList.contains(classe) && item.textContent !== resetMap[classe]) {
+        item.textContent = resetMap[classe];
+        break;
+      }
+    }
+  })
+
   inputs.forEach(input => {
     if (input.id === 'tarifa' || input.id === 'agua-tarifa') return;
     input.value = "";

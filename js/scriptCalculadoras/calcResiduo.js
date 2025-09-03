@@ -21,8 +21,8 @@ export function initWasteCalculator() {
     };
 
     const results = { 
-        total: form.querySelector('.results-box .result-item:nth-of-type(1) strong'), 
-        taxa: form.querySelector('.results-box .result-item:nth-of-type(2) strong') 
+        total: form.querySelector('.results-box .result-item:nth-of-type(1) .negrito'), 
+        taxa: form.querySelector('.results-box .result-item:nth-of-type(2) .negrito') 
     };
 
     Object.values(inputs).forEach(input => input.addEventListener('input', () => calcularResiduos(inputs, results)));

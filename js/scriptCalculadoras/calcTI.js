@@ -17,7 +17,7 @@ export function initTICalculator() {
     };
 
     const results = { 
-        taxa: form.querySelector('.results-box .result-item:nth-of-type(1) strong') 
+        taxa: form.querySelector('.results-box .result-item:nth-of-type(1) .negrito') 
     };
 
     Object.values(inputs).forEach(input => input.addEventListener('input', () => calcularTI(inputs, results)));

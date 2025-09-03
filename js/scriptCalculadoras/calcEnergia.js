@@ -13,7 +13,6 @@ function calcularEnergia(inputs, results) {
 
     results.consumo.textContent = `${consumoMensal.toFixed(2).replace('.', ',')} kWh`;
     results.custo.textContent = `R$ ${custoEstimado.toFixed(2).replace('.', ',')}`;
-    results.emissoes.textContent = `${emissoesCO2.toFixed(3).replace('.', ',')} kg`;
 }
 
 export function initEnergyCalculator() {
@@ -29,9 +28,9 @@ export function initEnergyCalculator() {
     };
 
     const results = {
-        consumo: form.querySelector('.results-box .result-item:nth-of-type(1) strong'),
-        custo: form.querySelector('.results-box .result-item:nth-of-type(2) strong'),
-        emissoes: form.querySelector('.results-box .result-item:nth-of-type(3) strong')
+        consumo: form.querySelector('.results-box .result-item:nth-of-type(1) .negrito'),
+        custo: form.querySelector('.results-box .result-item:nth-of-type(2) .negrito'),
+        emissoes: form.querySelector('.results-box .result-item:nth-of-type(3) .negrito')
     };
 
     Object.values(inputs).forEach(input => input.addEventListener('input', () => calcularEnergia(inputs, results)));

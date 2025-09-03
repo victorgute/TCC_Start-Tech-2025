@@ -18,12 +18,12 @@ export function initSaveDashboardButton() {
         const monthIndex = parseInt(monthSelect.value);
 
         // 1. Ler os dados das calculadoras
-        const energyConsumption = parseFloat(document.querySelector('#energia .results-box strong')?.textContent.replace(',', '.')) || 0;
+        const energyConsumption = parseFloat(document.querySelector('#energia .energiaConsumida')?.textContent.replace(',', '.')) || 0;
         let equipamentoEletronico = document.querySelector('#equipamento')?.value;
         const waterConsumption = parseFloat(document.querySelector('#agua-consumo')?.value) || 0;
         const waterEconomy = parseFloat(document.querySelector('#agua-reutilizada')?.value) || 0;
         const tarifaAgua = parseFloat(document.querySelector('#agua-tarifa')?.value.replace(',', '.')) || 0;
-        const wasteRecyclingRate = parseFloat(document.querySelector('#residuos .results-box strong:last-of-type')?.textContent.replace(',', '.')) || 0;
+        const wasteRecyclingRate = parseFloat(document.querySelector('#residuos .economiaPercentual')?.textContent.replace(',', '.')) || 0;
         const tiReused = parseInt(document.querySelector('#ti-reaproveitados')?.value) || 0;
         const tiDiscarded = parseInt(document.querySelector('#ti-descartados')?.value) || 0;
 
