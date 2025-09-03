@@ -1,6 +1,6 @@
-/* Estilos para a página de Ferramentas (Calculadoras & Dashboards) */
-
-/* Hero Section */
+/* ------------------------------
+   PÁGINA DE FERRAMENTAS - HERO
+--------------------------------*/
 .tools-hero {
   background: linear-gradient(90deg, #0f9f59, #10b981);
   color: #ffffff;
@@ -27,13 +27,16 @@
   max-width: 800px;
 }
 
-/* Seção da Calculadora */
+
+/* ------------------------------
+   SEÇÃO DA CALCULADORA
+--------------------------------*/
 .calculator-section {
   padding: 5rem 2rem;
   background-color: #f9fafb;
 }
 
-.container {
+.calculator-section .container {
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -52,7 +55,10 @@
   text-align: center;
 }
 
-/* Abas (Tabs) */
+
+/* ------------------------------
+   ABAS (TABS)
+--------------------------------*/
 .tabs {
   display: flex;
   background-color: #e5e7eb;
@@ -71,7 +77,7 @@
   font-weight: 600;
   color: #4b5563;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -85,7 +91,7 @@
 .tab-button.active {
   background-color: #ffffff;
   color: #10b981;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
 }
 
 .tab-content {
@@ -110,10 +116,14 @@
   margin-bottom: 2rem;
 }
 
-/* Formulário da Calculadora */
+
+/* ------------------------------
+   FORMULÁRIO DA CALCULADORA
+--------------------------------*/
 .calculator-form {
   display: flex;
   gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .form-grid {
@@ -121,6 +131,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  min-width: 300px;
 }
 
 .results-box {
@@ -128,6 +139,7 @@
   background-color: #f9fafb;
   padding: 1.5rem;
   border-radius: 12px;
+  min-width: 280px;
 }
 
 .form-group {
@@ -179,34 +191,8 @@
 }
 
 
-/* Estilo para o botão Salvar Dashboard */
-.save-button-container {
-  text-align: center;
-  margin-top: 2.5rem;
-}
-
-.save-dashboard-btn {
-  background-color: #10b981;
-  color: #ffffff;
-  border: none;
-  padding: 0.8rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.save-dashboard-btn:hover {
-  background-color: #0f9f59;
-  transform: translateY(-2px);
-}
-
 /* ------------------------------
-   SEÇÃO DE DASHBOARDS
+   CONTROLES PARA SALVAR
 --------------------------------*/
 .dashboard-section {
   padding: 5rem 2rem;
@@ -463,6 +449,7 @@
 
 /* Estilo para os controles de salvar dashboard */
 .save-dashboard-controls {
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -494,7 +481,7 @@
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: all 0.3s ease;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
