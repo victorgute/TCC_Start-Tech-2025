@@ -13,9 +13,9 @@ export function initDashboards() {
           label: 'Consumo (kWh)',
           data: [],
           backgroundColor: [
-            'rgba(16, 185, 129, 0.5)',
-            'rgba(59, 130, 246, 0.5)',
-            'rgba(234, 179, 8, 0.5)',
+            '#005F7380', // AA e AAA
+            '#7F1D1D80', // AA e AAA
+            '#065f4680', // AA e AAA
             'rgba(239, 68, 68, 0.5)',
             'rgba(168, 85, 247, 0.5)',
             'rgba(251, 191, 36, 0.5)',
@@ -119,7 +119,16 @@ export function initDashboards() {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: '',
+            font: {
+              size: 16
+            }
+          }
+        }
       }
     });
   }
@@ -129,17 +138,33 @@ export function initDashboards() {
     charts.ti = new Chart(tiCtx, {
       type: 'bar',
       data: {
-        labels: ['Descartados', 'Reaproveitados'],
-        datasets: [{
-          label: 'Equipamentos',
-          data: [0, 0],
-          backgroundColor: ['#6366f1', '#10b981']
-        }]
+        labels: ['Reaproveitados', 'Descartados'],
+        datasets: []
       },
       options: {
         indexAxis: 'y',
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        elements: {
+          bar: {
+            borderRadius: {
+              bottomRight: 10,
+              topRight: 10,
+            },
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'right'
+          },
+          title: {
+            display: true,
+            text: '',
+            font: {
+              size: 16
+            }
+          }
+        }
       }
     });
   }

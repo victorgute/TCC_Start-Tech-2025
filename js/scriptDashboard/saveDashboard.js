@@ -1,6 +1,8 @@
 import { charts } from './initDashboards.js';
 
 let currentEnergyMonth = null;
+let currentTiMonth = null;
+let currentWasteMonth = null;
 
 export function initSaveDashboardButton() {
     const saveBtn = document.querySelector('.save-dashboard-btn');
@@ -16,6 +18,7 @@ export function initSaveDashboardButton() {
 
     saveBtn.addEventListener('click', () => {
         const monthIndex = parseInt(monthSelect.value);
+        const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
         const summary = document.querySelectorAll('.summary-cards .summary-card strong');
         const activeTab = document.querySelector('.tab-content.active');
 
@@ -48,7 +51,6 @@ export function initSaveDashboardButton() {
                         charts.energy.data.datasets[0].data.push(energyConsumption);
                     }
 
-                    const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
                     charts.energy.options.plugins.title.text = monthNames[monthIndex];
                     charts.energy.update();
                 }
@@ -84,6 +86,13 @@ export function initSaveDashboardButton() {
                     summary[2].textContent = `${wasteRecyclingRate.toFixed(0)}%`;
                 }
                 if (charts.waste) {
+                    // Se o mês mudou, reseta os dados e atualiza o título
+                    if (currentWasteMonth !== monthIndex) {
+                        charts.waste.data.datasets[0].data = [0, 0, 0];
+                        currentWasteMonth = monthIndex;
+                        charts.waste.options.plugins.title.text = monthNames[monthIndex];
+                    }
+                    // Atualiza o gráfico com os novos dados do mês
                     charts.waste.data.datasets[0].data = [reciclavel, organico, rejeito];
                     charts.waste.update();
                 }
@@ -91,14 +100,42 @@ export function initSaveDashboardButton() {
             }
 
             case 'ti': {
+                const nomeEquipamento = document.querySelector('#equipamentosTI')?.value.trim() || 'Equipamento';
                 const tiReused = parseInt(document.querySelector('#ti-reaproveitados')?.value) || 0;
                 const tiDiscarded = parseInt(document.querySelector('#ti-descartados')?.value) || 0;
 
                 if (summary.length >= 4) {
                     summary[3].textContent = tiReused;
                 }
+
                 if (charts.ti) {
-                    charts.ti.data.datasets[0].data = [tiDiscarded, tiReused];
+                    // Se o mês mudou, reseta o gráfico de TI e atualiza o título
+                    if (currentTiMonth !== monthIndex) {
+                        charts.ti.data.datasets = [];
+                        currentTiMonth = monthIndex;
+                        charts.ti.options.plugins.title.text = monthNames[monthIndex];
+                    }
+
+                    const existingDatasetIndex = charts.ti.data.datasets.findIndex(dataset => dataset.label === nomeEquipamento);
+
+                    if (existingDatasetIndex !== -1) {
+                        // Atualiza os dados existentes se o nome do equipamento ja existir
+                        charts.ti.data.datasets[existingDatasetIndex].data = [tiReused, tiDiscarded];
+                    } else {
+                        // Adiciona os dados de um novo equipamento
+                        const r = Math.floor(Math.random() * 255);
+                        const g = Math.floor(Math.random() * 255);
+                        const b = Math.floor(Math.random() * 255);
+
+                        charts.ti.data.datasets.push({
+                            label: nomeEquipamento,
+                            data: [tiReused, tiDiscarded],
+                            backgroundColor: `rgba(${r}, ${g}, ${b}, 0.5)`,
+                            borderColor: `rgba(${r}, ${g}, ${b}, 1)`,
+                            borderWidth: 2
+                        });
+                    }
+
                     charts.ti.update();
                 }
                 break;
