@@ -173,7 +173,7 @@
   font-size: 1rem;
 }
 
-.result-item strong {
+.negrito {
   font-weight: 600;
   color: #1f2937;
 }
@@ -193,54 +193,6 @@
 
 /* ------------------------------
    CONTROLES PARA SALVAR
---------------------------------*/
-.save-dashboard-controls {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.date-selector {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.date-selector select,
-.date-selector input {
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: #fff;
-}
-
-.save-dashboard-btn {
-  background-color: #10b981;
-  color: #ffffff;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.save-dashboard-btn:hover {
-  background-color: #0f9f59;
-  transform: translateY(-2px);
-}
-
-
-/* ------------------------------
-   SEÇÃO DE DASHBOARDS
 --------------------------------*/
 .dashboard-section {
   padding: 5rem 2rem;
@@ -294,13 +246,53 @@
   border-color: #10b981;
 }
 
-.btn-export:hover { background-color: #f3f4f6; }
-.btn-schedule:hover { background-color: #0f9f59; }
+.btn-export:hover {
+  background-color: #f3f4f6;
+}
 
+.btn-schedule:hover {
+  background-color: #0f9f59;
+}
 
-/* ------------------------------
-   CARTÕES DE RESUMO
---------------------------------*/
+/* Filtros */
+.filters-box {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 2rem;
+}
+
+.filters-box h4 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.filter-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.filter-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+}
+
+/* Cartões de Resumo */
 .summary-cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -335,18 +327,20 @@
   font-weight: 600;
 }
 
-.card-change.positive { color: #10b981; }
-.card-change.negative { color: #ef4444; }
+.card-change.positive {
+  color: #10b981;
+}
 
-.summary-card > i {
+.card-change.negative {
+  color: #ef4444;
+}
+
+.summary-card>i {
   font-size: 1.5rem;
   color: #9ca3af;
 }
 
-
-/* ------------------------------
-   GRÁFICOS
---------------------------------*/
+/* Gráficos */
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -381,14 +375,58 @@
 }
 
 .chart-container {
+  background-color: #f9fafb;
   height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  border-radius: 8px;
 }
 
+/* Alertas */
+.alerts-box {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+}
 
-/* ------------------------------
-   RESPONSIVIDADE (FERRAMENTAS)
---------------------------------*/
+.alerts-box h4 {
+  font-size: 1.125rem;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.alert-item {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.alert-item:last-child {
+  margin-bottom: 0;
+}
+
+.alert-item.success {
+  background-color: #eefcf6;
+  color: #0f9f59;
+}
+
+.alert-item.warning {
+  background-color: #fffbeb;
+  color: #f59e0b;
+}
+
+.alert-item strong {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Responsividade */
 @media (max-width: 900px) {
+
+  .filters-grid,
   .summary-cards,
   .charts-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -396,16 +434,60 @@
 }
 
 @media (max-width: 600px) {
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
+
+  .filters-grid,
   .summary-cards,
   .charts-grid {
     grid-template-columns: 1fr;
   }
+
   .dashboard-header {
     text-align: center;
     justify-content: center;
   }
 }
 
+/* Estilo para os controles de salvar dashboard */
+.save-dashboard-controls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.date-selector {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.date-selector select,
+.date-selector input {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+.save-dashboard-btn {
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.save-dashboard-btn:hover {
+  background-color: #0f9f59;
+  transform: translateY(-2px);
+}
