@@ -73,7 +73,7 @@ export function initDashboards() {
             backgroundColor: '#3498db',
           },
           {
-            label: 'Custo total estimado',
+            label: 'Custo total estimado (R$)',
             data: Array(12).fill(0),
             backgroundColor: '#e67e22',
             borderColor: '#e67e22',
@@ -83,7 +83,7 @@ export function initDashboards() {
             hidden: true,
           },
           {
-            label: 'Valor economizado',
+            label: 'Valor economizado (R$)',
             data: Array(12).fill(0),
             backgroundColor: '#2ecc71',
             borderColor: '#2ecc71',
