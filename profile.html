@@ -2,157 +2,162 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoManager - Meu Perfil</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-        xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2L4+0/6n+P3J1qK4XvFk6f1k6e5r6P9aW/Jc+6G/1O1y9Q/A+F+9W/k4A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="./css/profile.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoManager - Meu Perfil</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    xintegrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2L4+0/6n+P3J1qK4XvFk6f1k6e5r6P9aW/Jc+6G/1O1y9Q/A+F+9W/k4A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="./css/profile.css">
 
 </head>
 
 <body>
 
-    <!-- Header -->
-    <header>
-        <nav class="navbar" id="navbar">
-            <a href="index.html" class="logo">
-                <img src="img/logo-nome.png" alt="EcoManager Logo"
-                    onerror="this.onerror=null;this.src='https://placehold.co/150x45/ffffff/000000?text=EcoManager';">
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a class="nav-link" href="index.html">Início</a></li>
-                <li><a class="nav-link" href="ferramentas.html">Ferramentas</a></li>
-                <li><a class="nav-link" href="sobre.html">Sobre</a></li>
-            </ul>
-            <button id="logout-btn" class="btn-navbar">Fazer Logout</button>
-        </nav>
-    </header>
-    <!-- Scripts do Firebase para proteção de rota -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
-            authDomain: "ecomanager-tcc.firebaseapp.com",
-            projectId: "ecomanager-tcc",
-            storageBucket: "ecomanager-tcc.appspot.com",
-            messagingSenderId: "807838989383",
-            appId: "1:807838989383:web:21327d954d978d3f498562",
-        };
-        firebase.initializeApp(firebaseConfig);
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (!user) {
-                window.location.href = '../login.html';
-            }
-        });
-    </script>
+  <!-- Header -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="logo">
+        <img src="img/logo-nome.png" alt="EcoManager Logo"
+          onerror="this.onerror=null;this.src='https://placehold.co/150x45/ffffff/000000?text=EcoManager';">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a class="nav-link" href="index.html">Início</a></li>
+        <li><a class="nav-link" href="ferramentas.html">Ferramentas</a></li>
+        <li><a class="nav-link" href="sobre.html">Sobre</a></li>
+      </ul>
+      <button id="logout-btn" class="btn-navbar">Fazer Logout</button>
+    </nav>
+  </header>
+  <!-- Scripts do Firebase para proteção de rota -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
+      authDomain: "ecomanager-tcc.firebaseapp.com",
+      projectId: "ecomanager-tcc",
+      storageBucket: "ecomanager-tcc.appspot.com",
+      messagingSenderId: "807838989383",
+      appId: "1:807838989383:web:21327d954d978d3f498562",
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (!user) {
+        window.location.href = '../login.html';
+      }
+    });
+  </script>
 
 
-    <main>
-        <div class="profile-container">
-            <div class="profile-header">
-                <div>
-                    <h1>Meu Perfil</h1>
-                    <p>Gerencie suas informações pessoais</p>
-                </div>
-            </div>
-
-            <div class="profile-card">
-    <div class="profile-card-header">
-        <div class="avatar"><i class="fas fa-user"></i></div>
-        <div class="user-info">
-            <h2 id="nome-display">Diego Fagundes</h2>
-            <p id="cargo-display">Desenvolvedor Fullstack</p>
+  <main>
+    <div class="profile-container">
+      <div class="profile-header">
+        <div>
+          <h1>Meu Perfil</h1>
+          <p>Gerencie suas informações pessoais</p>
         </div>
-        <button class="edit-button" id="edit-btn"><i class="fas fa-pencil-alt"></i> Editar</button>
-        <button class="save-button" id="save-btn" style="display:none;"><i class="fas fa-save"></i> Salvar</button>
-    </div>
-    <div class="profile-card-body">
-        <div class="info-field">
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <div class="avatar"><i class="fas fa-user"></i></div>
+          <div class="user-info">
+            <h2 id="nome-display">Carregando...</h2>
+            <p id="cargo-display">Carregando...</p>
+          </div>
+          <button class="edit-button" id="edit-btn"><i class="fas fa-pencil-alt"></i> Editar</button>
+          <button class="save-button" id="save-btn" style="display:none;"><i class="fas fa-save"></i> Salvar</button>
+        </div>
+        <div class="profile-card-body">
+          <div class="info-field">
             <label>Nome Completo</label>
-            <div class="value" id="nome-completo-display">Diego Fagundes</div>
-        </div>
-        <div class="info-field">
+            <div class="value" id="nome-completo-display">Carregando...</div>
+          </div>
+          <div class="info-field">
             <label>Email</label>
-            <div class="value" id="email-display"><i class="fas fa-envelope"></i> zdiegofagundes@gmail.com</div>
-        </div>
-        <div class="info-field">
+            <div class="value" id="email-display"><i class="fas fa-envelope"></i> Carregando...</div>
+          </div>
+          <div class="info-field">
             <label>Empresa</label>
-            <div class="value" id="empresa-display">EcoManager</div>
-        </div>
-        <div class="info-field">
+            <div class="value" id="empresa-display">Carregando...</div>
+          </div>
+          <div class="info-field">
             <label>Cargo</label>
-            <div class="value" id="cargo-completo-display">Desenvolvedor Fullstack & Chatbot Engineer</div>
+            <div class="value" id="cargo-completo-display">Carregando...</div>
+          </div>
         </div>
+      </div>
+      <script>
+        // Dados iniciais
+        const dados = {
+          nome: "Diego Fagundes",
+          email: "zdiegofagundes@gmail.com",
+          empresa: "EcoManager",
+          cargo: "Desenvolvedor Fullstack",
+          cargoCompleto: "Desenvolvedor Fullstack & Chatbot Engineer"
+        };
+
+        let editMode = false;
+
+        document.getElementById('edit-btn').addEventListener('click', function () {
+          if (!editMode) {
+            editMode = true;
+            // Troca para inputs apenas nos campos abaixo
+            document.getElementById('nome-completo-display').innerHTML =
+              `<input type="text" id="nome-completo-input" class="editing" value="${dados.nome}" style="width: 100%;">`;
+            document.getElementById('email-display').innerHTML =
+              `<input type="email" id="email-input" class="editing" value="${dados.email}" style="width: 100%;">`;
+            document.getElementById('empresa-display').innerHTML =
+              `<input type="text" id="empresa-input" class="editing" value="${dados.empresa}" style="width: 100%;">`;
+            document.getElementById('cargo-completo-display').innerHTML =
+              `<input type="text" id="cargo-completo-input" class="editing" value="${dados.cargoCompleto}" style="width: 100%;">`;
+            // Mostra botão salvar
+            document.getElementById('save-btn').style.display = 'inline-block';
+          }
+        });
+
+        document.getElementById('save-btn').addEventListener('click', function () {
+          // Salva os dados dos inputs
+          dados.nome = document.getElementById('nome-completo-input').value;
+          dados.email = document.getElementById('email-input').value;
+          dados.empresa = document.getElementById('empresa-input').value;
+          dados.cargoCompleto = document.getElementById('cargo-completo-input').value;
+
+          // Atualiza os campos visuais
+          document.getElementById('nome-completo-display').textContent = dados.nome;
+          document.getElementById('email-display').innerHTML = `<i class="fas fa-envelope"></i> ${dados.email}`;
+          document.getElementById('empresa-display').textContent = dados.empresa;
+          document.getElementById('cargo-completo-display').textContent = dados.cargoCompleto;
+
+          // Atualiza o nome e cargo do header
+          document.getElementById('nome-display').textContent = dados.nome;
+          document.getElementById('cargo-display').textContent = dados.cargoCompleto;
+
+          document.getElementById('save-btn').style.display = 'none';
+          editMode = false;
+        });
+
+        // Inicializa os campos do header e body com "Carregando..." ou dados do banco posteriormente
+        document.getElementById('nome-display').textContent = dados.nome;
+        document.getElementById('cargo-display').textContent = dados.cargoCompleto;
+        document.getElementById('nome-completo-display').textContent = dados.nome;
+        document.getElementById('email-display').innerHTML = `<i class="fas fa-envelope"></i> ${dados.email}`;
+        document.getElementById('empresa-display').textContent = dados.empresa;
+        document.getElementById('cargo-completo-display').textContent = dados.cargoCompleto;
+      </script>
     </div>
-</div>
-<!-- ...existing code... -->
-<script>
-  // Dados iniciais
-  const dados = {
-    nome: "Diego Fagundes",
-    email: "zdiegofagundes@gmail.com",
-    empresa: "EcoManager",
-    cargo: "Desenvolvedor Fullstack",
-    cargoCompleto: "Desenvolvedor Fullstack & Chatbot Engineer"
-  };
-
-  let editMode = false;
-
-  document.getElementById('edit-btn').addEventListener('click', function () {
-    if (!editMode) {
-      editMode = true;
-      // Troca para inputs
-      document.getElementById('nome-display').innerHTML =
-        `<input type="text" id="nome-input" value="${dados.nome}" style="width: 90%;">`;
-      document.getElementById('cargo-display').innerHTML =
-        `<input type="text" id="cargo-input" value="${dados.cargo}" style="width: 90%;">`;
-      document.getElementById('nome-completo-display').innerHTML =
-        `<input type="text" id="nome-completo-input" value="${dados.nome}" style="width: 100%;">`;
-      document.getElementById('email-display').innerHTML =
-        `<input type="email" id="email-input" value="${dados.email}" style="width: 100%;">`;
-      document.getElementById('empresa-display').innerHTML =
-        `<input type="text" id="empresa-input" value="${dados.empresa}" style="width: 100%;">`;
-      document.getElementById('cargo-completo-display').innerHTML =
-        `<input type="text" id="cargo-completo-input" value="${dados.cargoCompleto}" style="width: 100%;">`;
-      // Mostra botão salvar
-      document.getElementById('save-btn').style.display = 'inline-block';
-    }
-  });
-
-  document.getElementById('save-btn').addEventListener('click', function () {
-    // Salva os dados dos inputs
-    dados.nome = document.getElementById('nome-input').value;
-    dados.cargo = document.getElementById('cargo-input').value;
-    dados.email = document.getElementById('email-input').value;
-    dados.empresa = document.getElementById('empresa-input').value;
-    dados.cargoCompleto = document.getElementById('cargo-completo-input').value;
-
-    // Volta para modo visual
-    document.getElementById('nome-display').textContent = dados.nome;
-    document.getElementById('cargo-display').textContent = dados.cargo;
-    document.getElementById('nome-completo-display').textContent = dados.nome;
-    document.getElementById('email-display').innerHTML = `<i class="fas fa-envelope"></i> ${dados.email}`;
-    document.getElementById('empresa-display').textContent = dados.empresa;
-    document.getElementById('cargo-completo-display').textContent = dados.cargoCompleto;
-
-   // Mostra botão salvar
-    document.getElementById('save-btn').style.display = 'inline-block';
-    editMode = false;
-  });
-</script>
-            </div>
-        </div>
-    </main>
-    <!-- Footer -->
+    </div>
+  </main>
+  <!-- Footer -->
   <footer id="contato">
     <div class="footer-container">
       <div class="footer-col about">
-        <img src="img/logo-nome.png" alt="EcoManager Logo" class="footer-logo" onerror="this.onerror=null;this.src='https://placehold.co/150x40/111827/ffffff?text=EcoManager';">
-        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro sustentável.</p>
+        <img src="img/logo-nome.png" alt="EcoManager Logo" class="footer-logo"
+          onerror="this.onerror=null;this.src='https://placehold.co/150x40/111827/ffffff?text=EcoManager';">
+        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro
+          sustentável.</p>
         <div class="contact-info">
           <p><i class="fas fa-envelope"></i> contato@ecomanager.com</p>
           <p><i class="fas fa-phone"></i> +55 (11) 99999-9990</p>

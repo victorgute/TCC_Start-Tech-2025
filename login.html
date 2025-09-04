@@ -1,4 +1,22 @@
-<!DOCTYPE html>
+document.getElementById('edit-btn').addEventListener('click', function () {
+  if (!editMode) {
+    editMode = true;
+    // Troca para inputs
+    document.getElementById('nome-display').innerHTML =
+      `<input type="text" id="nome-input" class="editing" value="${dados.nome}" style="width: 90%;">`;
+    document.getElementById('cargo-display').innerHTML =
+      `<input type="text" id="cargo-input" class="editing" value="${dados.cargo}" style="width: 90%;">`;
+    document.getElementById('nome-completo-display').innerHTML =
+      `<input type="text" id="nome-completo-input" class="editing" value="${dados.nome}" style="width: 100%;">`;
+    document.getElementById('email-display').innerHTML =
+      `<input type="email" id="email-input" class="editing" value="${dados.email}" style="width: 100%;">`;
+    document.getElementById('empresa-display').innerHTML =
+      `<input type="text" id="empresa-input" class="editing" value="${dados.empresa}" style="width: 100%;">`;
+    document.getElementById('cargo-completo-display').innerHTML =
+      `<input type="text" id="cargo-completo-input" class="editing" value="${dados.cargoCompleto}" style="width: 100%;">`;
+    // Mostra botão salvar
+    document.getElementById('save-btn').style.display = 'inline-block';
+  }<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
