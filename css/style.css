@@ -28,7 +28,8 @@ p,
 ul,
 li,
 a,
-i {
+i,
+span{
     letter-spacing: 0.5px;
 }
 

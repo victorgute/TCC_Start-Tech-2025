@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESG & Metas - EcoManager</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="img/ecomanager.png" type="image/x-icon">
+  <style>
+    /* Estilos da Página ESG & Metas */
+    body {
+      background-color: #f9fafb;
+    }
+
+    /* Hero Section */
+    .esg-hero {
+      background-color: #10b981;
+      color: #ffffff;
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+    .esg-hero h1 {
+      font-size: 2.75rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .esg-hero p {
+      font-size: 1.25rem;
+      max-width: 800px;
+      margin: 1rem auto 0;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    /* Seção de Abordagem e Metas */
+    .esg-section {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-header h2 {
+      font-size: 2.25rem;
+      color: #1f2937;
+    }
+    .section-header p {
+      font-size: 1.125rem;
+      color: #6b7280;
+      max-width: 700px;
+      margin: 0.5rem auto 0;
+    }
+
+    /* Cards de Abordagem */
+    .approach-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-bottom: 5rem;
+    }
+    .approach-card {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid #e5e7eb;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .approach-card .icon {
+      color: #10b981;
+      font-size: 1.5rem;
+    }
+    .approach-card h3 {
+      font-size: 1.25rem;
+      color: #1f2937;
+      margin: 0 0 0.5rem 0;
+    }
+    .approach-card p {
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    /* Seção de Metas */
+    .goals-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .goals-section-header h3 {
+      font-size: 1.75rem;
+      color: #10b981;
+      font-weight: 600;
+    }
+
+    .btn-add {
+        background: #10b981;
+        color: #ffffff;
+        padding: 0.6rem 1.25rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .goal-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .goal-card {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 16px;
+      border: 1px solid #e5e7eb;
+      position: relative;
+    }
+    .goal-card h4 {
+      font-size: 1.25rem;
+      color: #1f2937;
+      margin-bottom: 0.25rem;
+    }
+    .goal-card .description {
+      color: #6b7280;
+      margin-bottom: 1rem;
+      min-height: 40px;
+    }
+    .progress-bar-container {
+      background-color: #e5e7eb;
+      border-radius: 99px;
+      height: 10px;
+      margin: 1rem 0;
+    }
+    .progress-bar {
+      background-color: #10b981;
+      height: 100%;
+      border-radius: 99px;
+    }
+    .progress-text {
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-align: right;
+    }
+    .goal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    .status-tag {
+      padding: 0.25rem 0.75rem;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .status-tag.in-progress { background-color: #eefcf6; color: #10b981; }
+    .status-tag.almost-done { background-color: #fffbeb; color: #f59e0b; }
+    .status-tag.done { background-color: #dcfce7; color: #22c55e; }
+
+    .deadline { font-size: 0.875rem; color: #6b7280; }
+    .card-actions {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .card-actions button {
+        background: none; border: none; font-size: 1rem; cursor: pointer; color: #9ca3af;
+    }
+    
+    /* Modal */
+    .modal {
+      display: none; position: fixed; z-index: 1001; left: 0; top: 0;
+      width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fefefe; margin: 10% auto; padding: 2rem;
+      border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 16px;
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .close-button { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: .5rem; font-weight: 500; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: .75rem; border: 1px solid #d1d5db; border-radius: 8px;
+    }
+
+    /* Responsividade */
+    @media (max-width: 900px) {
+      .approach-cards, .goal-cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .approach-cards, .goal-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Scripts do Firebase (necessários em todas as páginas protegidas) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
+      authDomain: "ecomanager-tcc.firebaseapp.com",
+      projectId: "ecomanager-tcc",
+      storageBucket: "ecomanager-tcc.appspot.com",
+      messagingSenderId: "807838989383",
+      appId: "1:807838989383:web:21327d954d978d3f498562",
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (!user) {
+        const path = window.location.pathname;
+        const newPath = path.substring(0, path.lastIndexOf('/')) + '/login.html';
+        window.location.href = window.location.origin + newPath;
+      }
+    });
+  </script>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <a href="index.html" class="logo">
+          <img src="img/logo-nome.png" alt="EcoManager Logo">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a class="nav-link" href="index.html">Início</a></li>
+        <li><a class="nav-link" href="ferramentas.html">Calculadoras</a></li>
+        <li><a class="nav-link is-active" href="esg-metas.html">ESG & Metas</a></li>
+        <li><a class="nav-link" href="sobre.html">Sobre</a></li>
+      </ul>
+      <div class="profile-icon">
+        <a href="profile.html" title="Meu Perfil"><i class="fas fa-user-circle"></i></a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="esg-hero">
+      <h1>ESG & Metas Sustentáveis</h1>
+      <p>Nosso compromisso com a sustentabilidade, governança transparente e responsabilidade social.</p>
+    </section>
+
+    <section class="esg-section">
+      <div class="section-header">
+        <h2>Nossa Abordagem ESG</h2>
+        <p>Integramos práticas ambientais, sociais e de governança em todas as nossas operações, criando valor sustentável para stakeholders e sociedade.</p>
+      </div>
+      <div class="approach-cards">
+        <div class="approach-card">
+          <div class="icon"><i class="fas fa-leaf"></i></div>
+          <div>
+            <h3>Environmental</h3>
+            <p>Redução de emissões, gestão de recursos naturais, economia circular e energia renovável.</p>
+          </div>
+        </div>
+        <div class="approach-card">
+          <div class="icon"><i class="fas fa-users"></i></div>
+          <div>
+            <h3>Social</h3>
+            <p>Diversidade, inclusão, desenvolvimento da comunidade e bem-estar dos colaboradores.</p>
+          </div>
+        </div>
+        <div class="approach-card">
+          <div class="icon"><i class="fas fa-balance-scale"></i></div>
+          <div>
+            <h3>Governance</h3>
+            <p>Transparência, ética, compliance e estruturas de governança robustas.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="goals-container">
+        <!-- Tags e Metas serão renderizadas aqui pelo JavaScript -->
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <button class="btn-add" id="add-tag-btn"><i class="fas fa-plus"></i> Adicionar Nova Categoria</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal para Metas -->
+  <div id="goal-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title">Nova Meta</h2>
+        <span class="close-button">&times;</span>
+      </div>
+      <form id="goal-form">
+        <input type="hidden" id="goal-id">
+        <div class="form-group">
+          <label for="goal-title">Título da Meta</label>
+          <input type="text" id="goal-title" required>
+        </div>
+        <div class="form-group">
+          <label for="goal-description">Descrição</label>
+          <textarea id="goal-description" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="goal-tag">Categoria</label>
+            <select id="goal-tag" required></select>
+        </div>
+        <div class="form-group">
+          <label for="goal-progress">Progresso (%)</label>
+          <input type="number" id="goal-progress" min="0" max="100" value="0" required>
+        </div>
+        <div class="form-group">
+          <label for="goal-deadline">Prazo</label>
+          <input type="number" id="goal-deadline" placeholder="Ex: 2025" required>
+        </div>
+        <button type="submit" class="btn-add">Salvar Meta</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal para Tags -->
+  <div id="tag-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="tag-modal-title">Nova Categoria</h2>
+            <span class="close-button">&times;</span>
+        </div>
+        <form id="tag-form">
+            <input type="hidden" id="tag-id">
+            <div class="form-group">
+                <label for="tag-name">Nome da Categoria</label>
+                <input type="text" id="tag-name" required>
+            </div>
+            <button type="submit" class="btn-add">Salvar Categoria</button>
+        </form>
+    </div>
+  </div>
+
+
+  <footer id="contato">
+     <!-- Conteúdo do rodapé existente -->
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const goalsContainer = document.getElementById('goals-container');
+        const addTagBtn = document.getElementById('add-tag-btn');
+        const goalModal = document.getElementById('goal-modal');
+        const tagModal = document.getElementById('tag-modal');
+        const goalForm = document.getElementById('goal-form');
+        const tagForm = document.getElementById('tag-form');
+        let currentEditingGoalId = null;
+        let currentEditingTagId = null;
+
+        // Dados de exemplo (em um app real, viria de um backend)
+        let tags = [
+            { id: 1, name: 'Ambiental' },
+            { id: 2, name: 'Social' },
+            { id: 3, name: 'Governança' }
+        ];
+
+        let goals = [
+            { id: 1, tagId: 1, title: 'Neutralidade de Carbono', description: 'Redução de 100% das emissões de GEE escopo 1 e 2.', progress: 78, deadline: 2030 },
+            { id: 2, tagId: 1, title: 'Energia Renovável', description: '100% da energia consumida de fontes renováveis.', progress: 92, deadline: 2025 },
+            { id: 3, tagId: 2, title: 'Diversidade de Gênero', description: '50% de mulheres em posições de liderança.', progress: 85, deadline: 2025 },
+        ];
+
+        function getStatus(progress) {
+            if (progress >= 100) return { text: 'Concluído', class: 'done' };
+            if (progress >= 90) return { text: 'Quase concluído', class: 'almost-done' };
+            return { text: 'Em andamento', class: 'in-progress' };
+        }
+        
+        function renderGoals() {
+            goalsContainer.innerHTML = '';
+            tags.forEach(tag => {
+                const tagSection = document.createElement('div');
+                tagSection.className = 'tag-section';
+                tagSection.innerHTML = `
+                    <div class="goals-section-header">
+                        <h3>${tag.name}</h3>
+                        <div>
+                            <button class="btn-add add-goal-btn" data-tag-id="${tag.id}"><i class="fas fa-plus"></i> Nova Meta</button>
+                            <button class="card-actions-btn edit-tag-btn" data-tag-id="${tag.id}"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="card-actions-btn delete-tag-btn" data-tag-id="${tag.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="goal-cards" id="tag-goals-${tag.id}"></div>
+                `;
+                goalsContainer.appendChild(tagSection);
+
+                const tagGoalsContainer = document.getElementById(`tag-goals-${tag.id}`);
+                const filteredGoals = goals.filter(goal => goal.tagId === tag.id);
+
+                if (filteredGoals.length > 0) {
+                    filteredGoals.forEach(goal => {
+                        const status = getStatus(goal.progress);
+                        const goalCard = document.createElement('div');
+                        goalCard.className = 'goal-card';
+                        goalCard.innerHTML = `
+                            <div class="card-actions">
+                                <button class="edit-goal-btn" data-goal-id="${goal.id}"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="delete-goal-btn" data-goal-id="${goal.id}"><i class="fas fa-trash"></i></button>
+                            </div>
+                            <h4>${goal.title}</h4>
+                            <p class="description">${goal.description}</p>
+                            <p class="progress-text">${goal.progress}%</p>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: ${goal.progress}%;"></div>
+                            </div>
+                            <div class="goal-footer">
+                                <span class="status-tag status-tag.${status.class}">${status.text}</span>
+                                <span class="deadline"><i class="fas fa-calendar-alt"></i> Meta: ${goal.deadline}</span>
+                            </div>
+                        `;
+                        tagGoalsContainer.appendChild(goalCard);
+                    });
+                } else {
+                    tagGoalsContainer.innerHTML = '<p>Nenhuma meta nesta categoria ainda.</p>';
+                }
+            });
+            updateEventListeners();
+        }
+
+        function populateTagDropdown() {
+            const select = document.getElementById('goal-tag');
+            select.innerHTML = '';
+            tags.forEach(tag => {
+                const option = document.createElement('option');
+                option.value = tag.id;
+                option.textContent = tag.name;
+                select.appendChild(option);
+            });
+        }
+
+        function openGoalModal(goalId = null, tagId = null) {
+            goalForm.reset();
+            populateTagDropdown();
+            currentEditingGoalId = goalId;
+            if (goalId) {
+                const goal = goals.find(g => g.id === goalId);
+                document.getElementById('modal-title').textContent = 'Editar Meta';
+                document.getElementById('goal-id').value = goal.id;
+                document.getElementById('goal-title').value = goal.title;
+                document.getElementById('goal-description').value = goal.description;
+                document.getElementById('goal-tag').value = goal.tagId;
+                document.getElementById('goal-progress').value = goal.progress;
+                document.getElementById('goal-deadline').value = goal.deadline;
+            } else {
+                document.getElementById('modal-title').textContent = 'Nova Meta';
+                if (tagId) {
+                    document.getElementById('goal-tag').value = tagId;
+                }
+            }
+            goalModal.style.display = 'block';
+        }
+
+        function openTagModal(tagId = null) {
+            tagForm.reset();
+            currentEditingTagId = tagId;
+            if (tagId) {
+                const tag = tags.find(t => t.id === tagId);
+                document.getElementById('tag-modal-title').textContent = 'Editar Categoria';
+                document.getElementById('tag-id').value = tag.id;
+                document.getElementById('tag-name').value = tag.name;
+            } else {
+                document.getElementById('tag-modal-title').textContent = 'Nova Categoria';
+            }
+            tagModal.style.display = 'block';
+        }
+
+        function closeModal() {
+            goalModal.style.display = 'none';
+            tagModal.style.display = 'none';
+        }
+
+        goalForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const formData = {
+                title: document.getElementById('goal-title').value,
+                description: document.getElementById('goal-description').value,
+                tagId: parseInt(document.getElementById('goal-tag').value),
+                progress: parseInt(document.getElementById('goal-progress').value),
+                deadline: document.getElementById('goal-deadline').value,
+            };
+            if (currentEditingGoalId) {
+                const index = goals.findIndex(g => g.id === currentEditingGoalId);
+                goals[index] = { ...goals[index], ...formData };
+            } else {
+                formData.id = Date.now();
+                goals.push(formData);
+            }
+            renderGoals();
+            closeModal();
+        });
+
+        tagForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const tagName = document.getElementById('tag-name').value;
+            if (currentEditingTagId) {
+                const index = tags.findIndex(t => t.id === currentEditingTagId);
+                tags[index].name = tagName;
+            } else {
+                const newTag = { id: Date.now(), name: tagName };
+                tags.push(newTag);
+            }
+            renderGoals();
+            closeModal();
+        });
+
+        function updateEventListeners() {
+            document.querySelectorAll('.add-goal-btn').forEach(btn => {
+                btn.onclick = () => openGoalModal(null, parseInt(btn.dataset.tagId));
+            });
+            document.querySelectorAll('.edit-goal-btn').forEach(btn => {
+                btn.onclick = () => openGoalModal(parseInt(btn.dataset.goalId));
+            });
+            document.querySelectorAll('.delete-goal-btn').forEach(btn => {
+                btn.onclick = () => {
+                    if (confirm('Tem certeza que deseja excluir esta meta?')) {
+                        goals = goals.filter(g => g.id !== parseInt(btn.dataset.goalId));
+                        renderGoals();
+                    }
+                };
+            });
+            document.querySelectorAll('.edit-tag-btn').forEach(btn => {
+                btn.onclick = () => openTagModal(parseInt(btn.dataset.tagId));
+            });
+            document.querySelectorAll('.delete-tag-btn').forEach(btn => {
+                btn.onclick = () => {
+                     if (confirm('Tem certeza que deseja excluir esta categoria e todas as suas metas?')) {
+                        const tagIdToDelete = parseInt(btn.dataset.tagId);
+                        tags = tags.filter(t => t.id !== tagIdToDelete);
+                        goals = goals.filter(g => g.tagId !== tagIdToDelete);
+                        renderGoals();
+                    }
+                };
+            });
+        }
+        
+        addTagBtn.onclick = () => openTagModal();
+        document.querySelectorAll('.close-button').forEach(btn => btn.onclick = closeModal);
+        window.onclick = e => {
+            if (e.target == goalModal || e.target == tagModal) closeModal();
+        };
+
+        renderGoals();
+    });
+  </script>
+</body>
+</html>
