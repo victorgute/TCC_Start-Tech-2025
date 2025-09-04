@@ -136,6 +136,10 @@ NAVBAR
       font-size: 2rem;
     }
 
+    .avatar i {
+        color: #fff;
+    }
+
 /* ------------------------------
 HERO E CARROSSEL
 --------------------------------*/
