@@ -1,54 +1,59 @@
 /* SIDEBAR INFO */
-    .sidebar {
-      min-width: 260px;
-      background: #f9f9f9;
-      padding: 20px;
-      border-radius: 8px;
-      border: 1px solid #eee;
-      box-sizing: border-box;
-    }
+.sidebar {
+  min-width: 260px;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  box-sizing: border-box;
+}
 
 /* CARDS DE CONTATO */
-  .contact-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin: 0;
-    padding: 0;
-  }
-  .contact-cards .card {
-    background: #fff;
-    padding: 25px 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .contact-cards .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  }
-  .contact-cards .icon {
-    font-size: 32px;
-    margin-bottom: 12px;
-    color: #00a36c;
-  }
-  .contact-cards h3 {
-    margin-bottom: 8px;
-    font-size: 18px;
-    color: #333;
-  }
-  .contact-cards p {
-    font-size: 14px;
-    color: #555;
-  }
+.contact-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
 
-  /* Responsivo: cards em coluna em telas pequenas */
-  @media (max-width: 700px) {
-    .contact-cards {
-      grid-template-columns: 1fr;
-    }
+.contact-cards .card {
+  background: #fff;
+  padding: 25px 20px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contact-cards .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.contact-cards .icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: #00a36c;
+}
+
+.contact-cards h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.contact-cards p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Responsivo: cards em coluna em telas pequenas */
+@media (max-width: 700px) {
+  .contact-cards {
+    grid-template-columns: 1fr;
   }
+}
 
 .form-sidebar-wrapper {
   display: flex;
