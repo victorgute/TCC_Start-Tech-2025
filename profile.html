@@ -54,8 +54,6 @@
     <main>
         <div class="profile-container">
             <div class="profile-header">
-                <span class="back-arrow"><a href="../index.html" title="Voltar"><i
-                            class="fas fa-arrow-left"></i></a></span>
                 <div>
                     <h1>Meu Perfil</h1>
                     <p>Gerencie suas informações pessoais</p>
@@ -63,32 +61,89 @@
             </div>
 
             <div class="profile-card">
-                <div class="profile-card-header">
-                    <div class="avatar"><i class="fas fa-user"></i></div>
-                    <div class="user-info">
-                        <h2>Diego Fagundes</h2>
-                        <p>Desenvolvedor Fullstack</p>
-                    </div>
-                    <button class="edit-button"><i class="fas fa-pencil-alt"></i> Editar</button>
-                </div>
-                <div class="profile-card-body">
-                    <div class="info-field">
-                        <label>Nome Completo</label>
-                        <div class="value">João Silva</div>
-                    </div>
-                    <div class="info-field">
-                        <label>Email</label>
-                        <div class="value"><i class="fas fa-envelope"></i> joao.silva@empresa.com</div>
-                    </div>
-                    <div class="info-field">
-                        <label>Empresa</label>
-                        <div class="value">Empresa ESG Ltda</div>
-                    </div>
-                    <div class="info-field">
-                        <label>Cargo</label>
-                        <div class="value">Analista de Sustentabilidade</div>
-                    </div>
-                </div>
+    <div class="profile-card-header">
+        <div class="avatar"><i class="fas fa-user"></i></div>
+        <div class="user-info">
+            <h2 id="nome-display">Diego Fagundes</h2>
+            <p id="cargo-display">Desenvolvedor Fullstack</p>
+        </div>
+        <button class="edit-button" id="edit-btn"><i class="fas fa-pencil-alt"></i> Editar</button>
+        <button class="save-button" id="save-btn" style="display:none;"><i class="fas fa-save"></i> Salvar</button>
+    </div>
+    <div class="profile-card-body">
+        <div class="info-field">
+            <label>Nome Completo</label>
+            <div class="value" id="nome-completo-display">Diego Fagundes</div>
+        </div>
+        <div class="info-field">
+            <label>Email</label>
+            <div class="value" id="email-display"><i class="fas fa-envelope"></i> zdiegofagundes@gmail.com</div>
+        </div>
+        <div class="info-field">
+            <label>Empresa</label>
+            <div class="value" id="empresa-display">EcoManager</div>
+        </div>
+        <div class="info-field">
+            <label>Cargo</label>
+            <div class="value" id="cargo-completo-display">Desenvolvedor Fullstack & Chatbot Engineer</div>
+        </div>
+    </div>
+</div>
+<!-- ...existing code... -->
+<script>
+  // Dados iniciais
+  const dados = {
+    nome: "Diego Fagundes",
+    email: "zdiegofagundes@gmail.com",
+    empresa: "EcoManager",
+    cargo: "Desenvolvedor Fullstack",
+    cargoCompleto: "Desenvolvedor Fullstack & Chatbot Engineer"
+  };
+
+  let editMode = false;
+
+  document.getElementById('edit-btn').addEventListener('click', function () {
+    if (!editMode) {
+      editMode = true;
+      // Troca para inputs
+      document.getElementById('nome-display').innerHTML =
+        `<input type="text" id="nome-input" value="${dados.nome}" style="width: 90%;">`;
+      document.getElementById('cargo-display').innerHTML =
+        `<input type="text" id="cargo-input" value="${dados.cargo}" style="width: 90%;">`;
+      document.getElementById('nome-completo-display').innerHTML =
+        `<input type="text" id="nome-completo-input" value="${dados.nome}" style="width: 100%;">`;
+      document.getElementById('email-display').innerHTML =
+        `<input type="email" id="email-input" value="${dados.email}" style="width: 100%;">`;
+      document.getElementById('empresa-display').innerHTML =
+        `<input type="text" id="empresa-input" value="${dados.empresa}" style="width: 100%;">`;
+      document.getElementById('cargo-completo-display').innerHTML =
+        `<input type="text" id="cargo-completo-input" value="${dados.cargoCompleto}" style="width: 100%;">`;
+      // Mostra botão salvar
+      document.getElementById('save-btn').style.display = 'inline-block';
+    }
+  });
+
+  document.getElementById('save-btn').addEventListener('click', function () {
+    // Salva os dados dos inputs
+    dados.nome = document.getElementById('nome-input').value;
+    dados.cargo = document.getElementById('cargo-input').value;
+    dados.email = document.getElementById('email-input').value;
+    dados.empresa = document.getElementById('empresa-input').value;
+    dados.cargoCompleto = document.getElementById('cargo-completo-input').value;
+
+    // Volta para modo visual
+    document.getElementById('nome-display').textContent = dados.nome;
+    document.getElementById('cargo-display').textContent = dados.cargo;
+    document.getElementById('nome-completo-display').textContent = dados.nome;
+    document.getElementById('email-display').innerHTML = `<i class="fas fa-envelope"></i> ${dados.email}`;
+    document.getElementById('empresa-display').textContent = dados.empresa;
+    document.getElementById('cargo-completo-display').textContent = dados.cargoCompleto;
+
+   // Mostra botão salvar
+    document.getElementById('save-btn').style.display = 'inline-block';
+    editMode = false;
+  });
+</script>
             </div>
         </div>
     </main>

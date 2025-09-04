@@ -37,12 +37,6 @@ body {
       gap: 1rem;
       margin-bottom: 2rem;
     }
-    
-    .back-arrow a {
-      font-size: 1.75rem;
-      color: #374151;
-      text-decoration: none;
-    }
 
     .profile-header h1 {
       font-size: 2rem;
@@ -56,6 +50,43 @@ body {
       margin: 0;
     }
 
+
+.profile-card-body input,
+.profile-card-header input {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  color: #374151;
+  width: 100%;
+  transition: background 0.2s;
+  outline: none;
+}
+
+.profile-card-body input.editing,
+.profile-card-header input.editing {
+  background-color: #fff;
+  border: 1.5px solid #10b981;
+  color: #1f2937;
+}
+
+.save-button:hover {
+  background: #059669;
+}
+.save-button {
+  background: #10b981;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+    
     /* ------------------------------
        CARD DE PERFIL
     --------------------------------*/
