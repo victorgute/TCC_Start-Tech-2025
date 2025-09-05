@@ -24,12 +24,7 @@ h2 {
     font-weight: 500;
 }
 
-p,
-ul,
-li,
-a,
-i,
-span{
+p,ul,li,a,i,span{
     letter-spacing: 0.5px;
 }
 
