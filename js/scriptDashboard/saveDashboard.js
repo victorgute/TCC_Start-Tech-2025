@@ -67,7 +67,7 @@ export function initSaveDashboardButton() {
                 }
 
                 if (charts.water) {
-                    charts.water.data.datasets[0].data[monthIndex] = waterEconomy;
+                    charts.water.data.datasets[0].data[monthIndex] = waterConsumption - waterEconomy;
                     charts.water.data.datasets[1].data[monthIndex] = waterConsumption;
                     charts.water.data.datasets[2].data[monthIndex] = waterConsumption * tarifaAgua;
                     charts.water.data.datasets[3].data[monthIndex] = waterEconomy * tarifaAgua;
