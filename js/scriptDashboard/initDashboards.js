@@ -139,7 +139,13 @@ export function initDashboards() {
       type: 'bar',
       data: {
         labels: ['Reaproveitados', 'Descartados'],
-        datasets: []
+        datasets: [{
+          label: 'Nenhum equipamento selecionado',
+          data: [0, 0],
+          backgroundColor: 'rgba(200, 200, 200, 0.5)',
+          borderColor: 'rgba(200, 200, 200, 1)',
+          borderWidth: 1
+        }]
       },
       options: {
         indexAxis: 'y',

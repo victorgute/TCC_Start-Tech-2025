@@ -46,12 +46,12 @@
         <img src="../img/logo-nome.png" alt="EcoManager Logo">
       </a>
 
-    <ul class="nav-links" id="navLinks">
-      <li><a class="nav-link" href="../index.html">Início</a></li>
-      <li><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
-      <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
-    </ul>
-    <button id="logout-btn" class="btn-navbar">Fazer Logout</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a class="nav-link" href="../index.html">Início</a></li>
+        <li><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
+        <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
+      </ul>
+      <button id="logout-btn" class="btn-navbar">Fazer Logout</button>
     </nav>
   </header>
 
@@ -72,8 +72,9 @@
       <!-- O código das calculadoras continua o mesmo -->
       <div class="container">
         <h2>Calculadoras de Sustentabilidade</h2>
-        <p class="subtitle">Monitore e calcule o impacto ambiental da sua empresa com ferramentas precisas e atualizadas.</p>
-        
+        <p class="subtitle">Monitore e calcule o impacto ambiental da sua empresa com ferramentas precisas e
+          atualizadas.</p>
+
         <div class="tabs-container">
           <div class="tabs">
 
@@ -297,7 +298,7 @@
               <option value="10">Novembro</option>
               <option value="11">Dezembro</option>
             </select>
-            
+
             <input type="number" id="year-input" value="2025">
           </div>
           <button class="save-dashboard-btn"><i class="fas fa-save"></i> Salvar para o Mês</button>
@@ -327,23 +328,23 @@
           <div class="filters-grid">
             <div class="filter-group">
               <label for="unidade">Unidade</label>
-          
+
               <select id="unidade">
                 <option>Todas as Unidades</option>
               </select>
             </div>
-            
+
             <div class="filter-group">
               <label for="periodo">Período</label>
-            
+
               <select id="periodo">
                 <option>Últimos 6 meses</option>
               </select>
             </div>
-            
+
             <div class="filter-group">
               <label for="categoria">Categoria</label>
-            
+
               <select id="categoria">
                 <option>Todas as Categorias</option>
               </select>
@@ -358,7 +359,7 @@
               <strong>1.020 kWh</strong>
               <span class="card-change negative">-7,2% vs meta</span>
             </div>
-          
+
             <i class="fas fa-chart-line"></i>
           </div>
 
@@ -368,27 +369,27 @@
               <strong>3.290 m³</strong>
               <span class="card-change negative">-6,1% vs meta</span>
             </div>
-          
+
             <i class="fas fa-chart-line"></i>
           </div>
-          
+
           <div class="summary-card">
             <div class="card-content">
               <span>Taxa Reciclagem</span>
               <strong>67%</strong>
               <span class="card-change positive">+12% vs meta</span>
             </div>
-          
+
             <i class="fas fa-chart-line"></i>
           </div>
-          
+
           <div class="summary-card">
             <div class="card-content">
               <span>TI Reaproveitada</span>
               <strong>156</strong>
               <span class="card-change positive">+28% vs meta</span>
             </div>
-          
+
             <i class="fas fa-chart-line"></i>
           </div>
         </div>
@@ -397,24 +398,38 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Consumo de Energia</h4>
-              <button class="btn-download">
-                <i class="fas fa-download"></i>
-              </button>
+
+              <div class="download-buttons">
+                <button class="btn-JPG" data-type="jpg" title="Baixar JPG">
+                  <i class="fas fa-download"></i> JPG
+                </button>
+
+                <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
+                  <i class="fas fa-download"></i> PDF
+                </button>
+              </div>
             </div>
-            
+
             <div class="chart-container">
               <canvas id="energyChart"></canvas>
             </div>
           </div>
-          
+
           <div class="chart-card">
             <div class="chart-header">
               <h4>Uso de Água</h4>
-              <button class="btn-download">
-                <i class="fas fa-download"></i>
-              </button>
+              
+              <div class="download-buttons">
+                <button class="btn-JPG" data-type="jpg" title="Baixar JPG">
+                  <i class="fas fa-download"></i> JPG
+                </button>
+                
+                <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
+                  <i class="fas fa-download"></i> PDF
+                </button>
+              </div>
             </div>
-            
+
             <div class="chart-container">
               <canvas id="waterChart"></canvas>
             </div>
@@ -422,11 +437,18 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Gestão de Resíduos</h4>
-              <button class="btn-download">
-                <i class="fas fa-download"></i>
-              </button>
+
+              <div class="download-buttons">
+                <button class="btn-JPG" data-type="jpg" title="Baixar JPG">
+                  <i class="fas fa-download"></i> JPG
+                </button>
+
+                <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
+                  <i class="fas fa-download"></i> PDF
+                </button>
+              </div>
             </div>
-            
+
             <div class="chart-container">
               <canvas id="wasteChart"></canvas>
             </div>
@@ -434,11 +456,18 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Reaproveitamento TI</h4>
-              <button class="btn-download">
-                <i class="fas fa-download"></i>
-              </button>
+              
+              <div class="download-buttons">
+                <button class="btn-JPG" data-type="jpg" title="Baixar JPG">
+                  <i class="fas fa-download"></i> JPG
+                </button>
+
+                <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
+                  <i class="fas fa-download"></i> PDF
+                </button>
+              </div>
             </div>
-            
+
             <div class="chart-container">
               <canvas id="tiChart"></canvas>
             </div>
@@ -451,7 +480,7 @@
             <strong>Meta Atingida!</strong>
             <p>Parabéns! Vocês alcançaram a meta de redução de consumo de água em 6,1%.</p>
           </div>
-          
+
           <div class="alert-item warning">
             <strong>Atenção</strong>
             <p>O consumo de energia da Filial RJ está 15% acima da média. Considere uma auditoria energética.</p>
@@ -467,7 +496,8 @@
     <div class="footer-container">
       <div class="footer-col about">
         <img src="../img/logo-nome.png" alt="SustainDash Logo" class="footer-logo">
-        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro sustentável.</p>
+        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro
+          sustentável.</p>
 
         <div class="contact-info">
           <p><i class="fas fa-envelope"></i> contato@sustaindash.com</p>
@@ -475,7 +505,7 @@
           <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
         </div>
       </div>
-      
+
       <div class="footer-col links">
         <h4>Plataforma</h4>
         <ul>
@@ -485,7 +515,7 @@
           <li><a href="#esg">ESG & Metas</a></li>
         </ul>
       </div>
-      
+
       <div class="footer-col links">
         <h4>Empresa</h4>
         <ul>
@@ -495,7 +525,7 @@
           <li><a href="./contato.html">Contato</a></li>
         </ul>
       </div>
-      
+
       <div class="footer-col links">
         <h4>Legal</h4>
         <ul>
@@ -506,10 +536,10 @@
         </ul>
       </div>
     </div>
-    
+
     <div class="footer-bottom">
       <p>© 2025 EcoManager. Todos os direitos reservados.</p>
-    
+
       <div class="certifications">
         <span>Certificado ISO 14001</span>
         <span>•</span>
