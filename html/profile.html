@@ -33,7 +33,22 @@
   <!-- Scripts do Firebase para proteção de rota -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
+      authDomain: "ecomanager-tcc.firebaseapp.com",
+      projectId: "ecomanager-tcc",
+      storageBucket: "ecomanager-tcc.appspot.com",
+      messagingSenderId: "807838989383",
+      appId: "1:807838989383:web:21327d954d978d3f498562",
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (!user) {
+        window.location.href = '../login.html';
+      }
+    });
+  </script>
 
 
   <main>
