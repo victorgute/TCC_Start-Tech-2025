@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg.style.display = 'none';
             const success = await signInWithEmail(emailInput.value, passwordInput.value);
             if (success) {
-                window.location.href = 'ferramentas.html'; // Redireciona para a página principal após login
+                // CORREÇÃO: Usar caminho absoluto
+                window.location.href = '/html/ferramentas.html'; 
             } else {
                 errorMsg.textContent = 'Email ou senha inválidos.';
                 errorMsg.style.display = 'block';
@@ -25,7 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
         googleBtn.addEventListener('click', async () => {
             const success = await signInWithGoogle();
             if (success) {
-                window.location.href = 'ferramentas.html';
+                // CORREÇÃO: Usar caminho absoluto
+                window.location.href = '/html/ferramentas.html';
             }
         });
     }
