@@ -1,1 +1,4 @@
-js/login.js
+back-end/node_modules
+back-end/serviceAccountKey.json
+back-end/.env
+front-end/js/auth.js

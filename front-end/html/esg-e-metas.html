@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ESG & Metas - EcoManager</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="shortcut icon" href="img/ecomanager.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/esg-e-metas.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <nav class="navbar" id="navbar">
+        <a href="../../index.html" class="logo">
+          <img src="../img/logo-nome.png" alt="EcoManager Logo" />
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a class="nav-link" href="../../index.html">Início</a></li>
+          <li>
+            <a class="nav-link" href="./ferramentas.html">Calculadoras</a>
+          </li>
+          <li>
+            <a class="nav-link is-active" href="./esg-metas.html"
+              >ESG & Metas</a
+            >
+          </li>
+          <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
+          <li><a class="nav-link" href="./contato.html">Contato</a></li>
+        </ul>
+        <div class="profile-card">
+          <div class="profile-card-header">
+            <div class="avatar">
+              <a href="./profile.html"><i class="fas fa-user"></i></a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="esg-hero">
+        <div class="container">
+          <h1>ESG & Metas Sustentáveis</h1>
+          <p>
+            Nosso compromisso com a sustentabilidade, governança transparente e
+            responsabilidade social.
+          </p>
+        </div>
+      </section>
+
+      <!-- Indicadores -->
+      <section class="indicators" id="indicadores">
+        <div class="indicators-container">
+          <h2>Indicadores em Tempo Real</h2>
+          <p class="subtitle">
+            Acompanhe os principais KPIs de sustentabilidade da sua empresa e
+            tome decisões baseadas em dados.
+          </p>
+
+          <div class="cards">
+            <div class="card">
+              <div class="indicator-icon-wrapper">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <h3>Consumo Energético</h3>
+              <p class="indicator-value"><strong>1,248</strong> kWh</p>
+              <div class="indicator-change">
+                <span class="positive"
+                  ><i class="fas fa-arrow-up"></i> +5.2%</span
+                ><span class="period">vs. mês anterior</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="indicator-icon-wrapper">
+                <i class="fas fa-tint"></i>
+              </div>
+              <h3>Uso de Água</h3>
+              <p class="indicator-value"><strong>3,542</strong> m³</p>
+              <div class="indicator-change">
+                <span class="negative"
+                  ><i class="fas fa-arrow-down"></i> -8.1%</span
+                >
+                <span class="period">economia este mês</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="indicator-icon-wrapper">
+                <i class="fas fa-recycle"></i>
+              </div>
+              <h3>Material Reciclado</h3>
+              <p class="indicator-value"><strong>847</strong> kg</p>
+              <div class="indicator-change">
+                <span class="positive"
+                  ><i class="fas fa-arrow-up"> </i> +12.4%</span
+                ><span class="period">vs. trimestre anterior</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="indicator-icon-wrapper">
+                <i class="fas fa-desktop"></i>
+              </div>
+              <h3>TI Reaproveitada</h3>
+              <p class="indicator-value"><strong>156</strong> equipamentos</p>
+              <div class="indicator-change">
+                <span class="positive"
+                  ><i class="fas fa-arrow-up"></i> +28.6%</span
+                >
+                <span class="period">novos equipamentos</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <script>
+        // Script de animação dos indicadores
+        document.addEventListener("DOMContentLoaded", function () {
+          const cards = document.querySelectorAll(".indicators .card");
+          cards.forEach((card, i) => {
+            setTimeout(() => {
+              card.classList.add("is-visible");
+            }, 200 + i * 150);
+          });
+        });
+      </script>
+
+      <section class="esg-goals-section">
+        <div class="container" id="goals-container">
+          <div class="goals-header">
+            <h2>Nossas Metas ESG</h2>
+            <p>
+              Compromissos mensuráveis e transparentes para um futuro
+              sustentável.
+            </p>
+            <button id="add-goal-btn" class="btn-add-goal">
+              <i class="fas fa-plus"></i> Adicionar Nova Meta
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="goal-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2 id="modal-title"></h2>
+        <form id="goal-form">
+          <input type="hidden" id="goal-id" />
+          <div class="form-group">
+            <label for="goal-title">Título da Meta</label
+            ><input type="text" id="goal-title" required />
+          </div>
+          <div class="form-group">
+            <label for="goal-description">Descrição</label
+            ><textarea id="goal-description" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="goal-progress">Progresso (%)</label
+            ><input
+              type="number"
+              id="goal-progress"
+              min="0"
+              max="100"
+              value="0"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="goal-deadline">Prazo</label
+            ><input
+              type="number"
+              id="goal-deadline"
+              placeholder="Ex: 2025"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="goal-category">Categoria (Tag)</label>
+            <div class="category-input-wrapper">
+              <select id="goal-category-select"></select
+              ><button type="button" id="manage-tags-btn">
+                Gerenciar Tags
+              </button>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Salvar Meta</button>
+        </form>
+      </div>
+    </div>
+    <div id="tags-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2>Gerenciar Categorias</h2>
+        <div id="tags-list"></div>
+        <form id="add-tag-form" class="add-tag-form">
+          <input
+            type="text"
+            id="new-tag-name"
+            placeholder="Nome da nova categoria"
+            required
+          /><button type="submit" class="btn-primary">Adicionar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Chatbot -->
+    <div class="chatbot-container" id="chatbot-container">
+      <div class="chat-widget" id="chat-widget">
+        <div class="chat-header" id="chat-header">
+          <div class="chat-header-info">
+            <h3>Assistente ESG</h3>
+            <div class="status">
+              <span class="status-indicator"></span> Online
+            </div>
+          </div>
+          <div class="chat-header-actions">
+            <button
+              class="chat-action-btn"
+              id="chat-fullscreen-btn"
+              title="Tela Cheia"
+            >
+              <i class="fas fa-expand"></i>
+            </button>
+            <button
+              class="chat-action-btn"
+              id="chat-minimize-btn"
+              title="Minimizar"
+            >
+              <i class="fas fa-minus"></i>
+            </button>
+            <button class="chat-action-btn" id="chat-close-btn" title="Fechar">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-form-container">
+          <form class="chat-input-form" id="chat-form">
+            <button type="button" id="attach-file-btn" title="Anexar arquivo">
+              <i class="fas fa-paperclip"></i>
+            </button>
+            <input
+              type="file"
+              id="file-input"
+              accept=".png, .jpg, .jpeg, .pdf"
+              style="display: none"
+            />
+            <input
+              type="text"
+              id="chat-input"
+              placeholder="Digite sua pergunta sobre ESG..."
+            />
+            <button type="button" id="speech-to-text-btn" title="Falar">
+              <i class="fas fa-microphone"></i>
+            </button>
+            <button type="submit" class="send-btn" title="Enviar">
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+        <div class="chat-footer">
+          Powered by EcoManager · Dados seguros e privados
+        </div>
+      </div>
+      <button class="chat-toggle-button" id="chat-toggle-btn">
+        <i class="fas fa-robot"></i>
+      </button>
+    </div>
+    <script src="../js/esg-e-metas.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script type="module" src="../js/mainScript.js"></script>
+    <script type="module" src="../js/app.js"></script>
+  </body>
+</html>
