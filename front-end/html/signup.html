@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/login-style.css" />
+    <link
+      rel="shortcut icon"
+      href="../img/ecomanager.png"
+      type="image/x-icon"
+    />
+    <title>Criar Conta - EcoManager</title>
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-box">
+        <a href="index.html"
+          ><img
+            src="../img/logo-nome.png"
+            alt="EcoManager Logo"
+            class="login-logo"
+            onerror="this.onerror=null;this.src='https://placehold.co/200x60/ffffff/000000?text=EcoManager';"
+        /></a>
+        <h2>Crie sua Conta</h2>
+        <p>Comece a sua jornada de sustentabilidade conosco.</p>
+
+        <div
+          id="error-message"
+          class="error-message"
+          style="display: none"
+        ></div>
+
+        <form id="signup-form">
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="seuemail@empresa.com"
+              required
+            />
+          </div>
+          <div class="input-group">
+            <label for="password">Senha</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Mínimo de 6 caracteres"
+              required
+            />
+          </div>
+          <button type="submit" class="btn-login">Criar Conta</button>
+        </form>
+
+        <div class="login-footer">
+          <span>Já tem uma conta? <a href="../login.html">Faça login</a></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts do Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <script type="module" src="../js/signup.js"></script>
+    <script type="module" src="../js/mainScript.js"></script>
+    <script type="module" src="../js/app.js"></script>
+  </body>
+</html>

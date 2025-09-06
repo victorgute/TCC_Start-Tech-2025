@@ -1,0 +1,15 @@
+{
+    "user_uid": { "S": "USER_UID_EXEMPLO" },
+    "record_id": { "S": "ENERGIA#2025#09" },
+    "calculator_type": { "S": "Energia" },
+    "year": { "N": "2025" },
+    "month": { "N": "9" },
+    "data": {
+        "M": {
+            "consumo_kwh": { "N": "1500" },
+            "custo_eur": { "N": "250.75" },
+            "fonte_energia": { "S": "Rede Elétrica" }
+        }
+    },
+    "created_at": { "S": "2025-09-01T10:00:00Z" }
+}
