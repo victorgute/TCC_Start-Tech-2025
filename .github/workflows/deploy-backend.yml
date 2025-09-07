@@ -35,7 +35,6 @@ jobs:
       # 4. Constrói a imagem Docker e envia-a para o ECR
       - name: Build, tag, and push image to Amazon ECR
         env:
-          # Substitua pelo ID da sua conta AWS e pelo nome do seu repositório ECR
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ecomanager-backend # O nome que deu ao seu repositório ECR
           IMAGE_TAG: ${{ github.sha }} # Usa o ID do commit como uma etiqueta de versão única
