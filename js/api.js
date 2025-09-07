@@ -3,7 +3,7 @@ import { getUserToken } from './auth.js';
 // CORREÇÃO IMPORTANTE: Removido o 'localhost'.
 // Agora, o frontend fará as chamadas para o mesmo domínio onde ele está hospedado.
 // Ex: se o site é 'd123.cloudfront.net', a chamada será para 'd123.cloudfront.net/api/calculator'.
-// Vamos configurar o CloudFront mais tarde para redirecionar isso para o seu backend.
+// Vamos configurar o CloudFront mais tarde para redirecionar isso para o seu backend
 const API_BASE_URL = ''; 
 
 const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) => {
