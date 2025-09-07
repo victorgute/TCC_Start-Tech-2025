@@ -1,18 +1,15 @@
 import { getUserToken } from './auth.js';
 
-// CORREÇÃO IMPORTANTE: Removido o 'localhost'.
-// Agora, o frontend fará as chamadas para o mesmo domínio onde ele está hospedado.
-// Ex: se o site é 'd123.cloudfront.net', a chamada será para 'd123.cloudfront.net/api/calculator'.
-// Vamos configurar o CloudFront mais tarde para redirecionar isso para o seu backend
-const API_BASE_URL = ''; 
+// A URL BASE FOI REMOVIDA. AGORA OS PEDIDOS SERÃO FEITOS PARA O MESMO DOMÍNIO DO SITE.
+const API_BASE_URL = '';
 
 const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) => {
     const token = await getUserToken();
     if (!token) {
         console.error("Tentativa de fazer um pedido sem estar autenticado.");
-        // CORREÇÃO: Redireciona para o caminho absoluto correto.
+        // CAMINHO CORRIGIDO PARA SER ABSOLUTO
         window.location.href = '/html/login.html';
-        return null;
+        throw new Error("Utilizador não autenticado.");
     }
 
     const options = {
@@ -66,3 +63,4 @@ export const downloadDashboard = async () => {
         alert(`Não foi possível fazer o download: ${error.message}`);
     }
 };
+
