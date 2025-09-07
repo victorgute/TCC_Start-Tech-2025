@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="goal-card-header"><h3>${goal.title}</h3><div class="goal-card-actions"><button class="edit-btn"><i class="fas fa-pencil-alt"></i></button><button class="delete-btn"><i class="fas fa-trash-alt"></i></button></div></div>
                         <p class="goal-card-description">${goal.description}</p>
                         <div class="progress-bar-container"><div class="progress-bar" style="width: ${goal.progress}%;"></div></div>
-                        <div class="goal-card-footer"><span class="goal-status ${statusClass}">${statusText}</span><span>Progresso: ${goal.progress}%</span><span><i class="fas fa-calendar-alt"></i> Meta: ${goal.deadline}</span></div>`;
+                        <div class="goal-card-footer"><span class="goal-status ${statusClass}">${statusText}</span><span>Meta: ${goal.progress}%</span><span><i class="fas fa-calendar-alt"></i> Meta: ${goal.deadline}</span></div>`;
                     grid.appendChild(goalCard);
                 });
             }
@@ -215,8 +215,44 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     });
 
+    // --- INTEGRAÇÃO COM CHATBOT ---
+    /**
+     * Ouve o evento personalizado disparado pelo chatbot para adicionar uma nova meta.
+     */
+    document.addEventListener('add-goal-from-chat', (e) => {
+        const newGoal = e.detail; // O objeto da meta vem nos detalhes do evento
+
+        if (newGoal && newGoal.title && newGoal.category) {
+            // Garante que a nova categoria seja adicionada se não existir
+            if (!tags.includes(newGoal.category)) {
+                tags.push(newGoal.category);
+                saveTags();
+                renderTags(); // Atualiza o modal de tags e o select do formulário
+            }
+
+            // Adiciona a nova meta ao array de metas
+            goals.push({
+                id: Date.now(), // Gera um novo ID único
+                title: newGoal.title,
+                description: newGoal.description || 'Descrição não fornecida.',
+                progress: newGoal.progress || 0,
+                deadline: newGoal.deadline || new Date().getFullYear() + 1,
+                category: newGoal.category
+            });
+
+            // Salva as metas no localStorage
+            saveGoals();
+            // Renderiza novamente as metas na tela para mostrar a nova adição
+            renderGoals();
+
+            console.log('Meta adicionada via chatbot:', newGoal);
+        } else {
+            console.error('Dados da meta recebidos do chatbot são inválidos:', newGoal);
+        }
+    });
+
     // --- INICIALIZAÇÃO ---
     renderTags();
     renderGoals();
-
 });
+
