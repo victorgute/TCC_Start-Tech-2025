@@ -1,0 +1,37 @@
+name: Deploy Frontend to AWS S3
+
+# Este workflow é acionado sempre que houver um push na branch 'main'
+# E que as alterações ocorram em qualquer um dos ficheiros ou pastas do frontend
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'css/**'
+      - 'html/**'
+      - 'img/**'
+      - 'js/**'
+      - '*.html' # Para apanhar o index.html e outros ficheiros na raiz
+
+jobs:
+  deploy-to-s3:
+    name: Deploy Frontend to S3
+    runs-on: ubuntu-latest # Usa uma máquina virtual Linux para executar os passos
+
+    steps:
+      # 1. Copia o código do seu repositório para a máquina virtual
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # 2. Configura as credenciais da AWS usando os segredos que já guardámos
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2 # A sua região de Ohio
+
+      # 3. Sincroniza os ficheiros com o bucket S3
+      - name: Sync files to S3 bucket
+        run: |
+          aws s3 sync . s3://software-sustentabilidade-frontend --delete --exclude ".git/*" --exclude ".github/*" --exclude "back-end/*" --exclude "Dockerfile"
