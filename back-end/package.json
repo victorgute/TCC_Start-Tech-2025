@@ -12,10 +12,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.883.0",
-    "@aws-sdk/lib-dynamodb": "^3.883.0",
+    "@aws-sdk/client-dynamodb": "^3.592.0",
+    "@aws-sdk/client-ssm": "^3.592.0",
+    "@aws-sdk/lib-dynamodb": "^3.592.0",
     "cors": "^2.8.5",
-    "dotenv": "^16.6.1",
     "express": "^4.21.2",
     "firebase-admin": "^13.5.0",
     "json2csv": "^6.0.0-alpha.2"

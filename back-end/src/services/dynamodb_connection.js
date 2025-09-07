@@ -1,26 +1,35 @@
-// FORÇAR O CARREGAMENTO DAS VARIÁVEIS DE AMBIENTE NESTE FICHEIRO
-import 'dotenv/config';
-
-// Importa os clientes e comandos necessários do AWS SDK v3
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand, QueryCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 
-// Configura o cliente do DynamoDB
-const client = new DynamoDBClient({ region: process.env.AWS_REGION });
-const docClient = DynamoDBDocumentClient.from(client);
-const tableName = process.env.DYNAMODB_TABLE_NAME;
+// As variáveis serão povoadas na inicialização
+let docClient;
+let tableName;
+
+/**
+ * Inicializa a conexão com o DynamoDB usando a configuração carregada.
+ * @param {object} config - O objeto de configuração carregado do Parameter Store.
+ */
+export function initializeDbConnection(config) {
+    if (!config || !config.AWS_REGION || !config.DYNAMODB_TABLE_NAME) {
+        throw new Error("Configuração do DynamoDB (região ou nome da tabela) em falta.");
+    }
+    const client = new DynamoDBClient({ region: config.AWS_REGION });
+    docClient = DynamoDBDocumentClient.from(client);
+    tableName = config.DYNAMODB_TABLE_NAME;
+    console.log(`[DynamoDB Service] Conexão inicializada com a tabela: ${tableName}`);
+}
 
 
 /**
  * Função para ADICIONAR dados de uma calculadora com validação.
  */
 export const addCalculatorData = async (userId, calculatorType, year, month, data) => {
-  // --- NOVA LÓGICA DE VALIDAÇÃO ---
-  // Garante que todos os valores numéricos no objeto 'data' não sejam NaN.
+  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
+    
   const sanitizedData = {};
   for (const key in data) {
     if (typeof data[key] === 'number' && isNaN(data[key])) {
-      sanitizedData[key] = 0; // Se for NaN, converte para 0
+      sanitizedData[key] = 0;
     } else {
       sanitizedData[key] = data[key];
     }
@@ -30,10 +39,9 @@ export const addCalculatorData = async (userId, calculatorType, year, month, dat
     user_uid: userId,
     record_id: `${calculatorType.toUpperCase()}#${year}#${month}`,
     calculator_type: calculatorType,
-    // Adiciona uma salvaguarda para o caso de 'year' ou 'month' serem inválidos
     year: parseInt(year, 10) || new Date().getFullYear(),
     month: parseInt(month, 10) || (new Date().getMonth() + 1),
-    data: sanitizedData, // Usa o objeto de dados já limpo
+    data: sanitizedData,
     created_at: new Date().toISOString(),
   };
 
@@ -57,6 +65,8 @@ export const addCalculatorData = async (userId, calculatorType, year, month, dat
  * Função para OBTER todos os dados de um utilizador.
  */
 export const getUserCalculatorData = async (user_uid) => {
+  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
+  
   const params = {
     TableName: tableName,
     KeyConditionExpression: "user_uid = :uid",
@@ -74,19 +84,15 @@ export const getUserCalculatorData = async (user_uid) => {
   }
 };
 
-// ... (as suas outras funções como saveDashboardConfig, etc. continuam aqui)
-
-
-
-// --- NOVAS FUNÇÕES PARA O DASHBOARD ---
-
 /**
  * Função para GUARDAR a configuração do dashboard de um utilizador.
  */
 export const saveDashboardConfig = async (userId, config) => {
+  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
+    
   const item = {
     user_uid: userId,
-    record_id: 'DASHBOARD_CONFIG', // Usamos uma chave de ordenação fixa para a configuração
+    record_id: 'DASHBOARD_CONFIG',
     data: config,
     updated_at: new Date().toISOString()
   };
@@ -106,6 +112,8 @@ export const saveDashboardConfig = async (userId, config) => {
  * Função para OBTER a configuração do dashboard de um utilizador.
  */
 export const getDashboardConfig = async (userId) => {
+  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
+  
   const command = new GetCommand({
     TableName: tableName,
     Key: {
@@ -116,11 +124,14 @@ export const getDashboardConfig = async (userId) => {
 
   try {
     const { Item } = await docClient.send(command);
-    console.log(`[DynamoDB Service] Configuração do dashboard encontrada para o user: ${userId}`);
-    return Item ? Item.data : {}; // Retorna a configuração ou um objeto vazio
+    if(Item) {
+      console.log(`[DynamoDB Service] Configuração do dashboard encontrada para o user: ${userId}`);
+      return Item.data;
+    }
+    console.log(`[DynamoDB Service] Nenhuma configuração de dashboard encontrada para o user: ${userId}`);
+    return {};
   } catch (error) {
     console.error(`[DynamoDB Service] Erro ao obter config:`, error);
     throw new Error('Erro ao comunicar com o DynamoDB.');
   }
 };
-

@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMsg.style.display = 'none';
             const success = await signUpWithEmail(emailInput.value, passwordInput.value);
             if (success) {
-                // CORREÇÃO: Usar caminho absoluto
-                window.location.href = '/html/ferramentas.html'; 
+                // CORRIGIDO: Redireciona para o caminho absoluto
+                window.location.href = '/html/ferramentas.html';
             } else {
                 errorMsg.textContent = 'Erro ao criar conta. Verifique o email ou a senha (mínimo 6 caracteres).';
                 errorMsg.style.display = 'block';
@@ -21,3 +21,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
