@@ -170,7 +170,7 @@ export function initDashboards() {
             position: 'right',
             labels: {
               font: {
-                size: 11 // Reduz o tamanho da fonte da legenda para caber melhor
+                size: 11
               },
 
               generateLabels: function (chart) {
@@ -181,7 +181,7 @@ export function initDashboards() {
                   const maxLength = 12; // Máximo de caracteres por linha antes de quebrar
 
                   if (text.length > maxLength) {
-                    // Transforma a string em um array de strings, que o Chart.js renderiza em linhas separadas
+                    // Transforma a string em um array de strings, que é lido separadamente
                     const words = text.split(' ');
                     const newText = [];
                     let currentLine = '';
