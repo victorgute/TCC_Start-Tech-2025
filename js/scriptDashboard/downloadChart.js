@@ -11,7 +11,7 @@ export function initChartDownload() {
 
             const canvas = chartCard.querySelector('canvas');
             const baseChartTitle = chartCard.querySelector('h4').textContent;
-            const downloadType = targetButton.dataset.type;
+            const downloadType = targetButton.dataset.type; // 'jpg' ou 'pdf'
 
             if (!canvas || !canvas.id) return;
 
@@ -20,12 +20,13 @@ export function initChartDownload() {
 
             if (!chartInstance) return;
 
-            // Pega o título do gráfico (mês)
+            // Pega o título dinâmico do gráfico (mês)
             const dynamicTitle = chartInstance.options.plugins.title.text;
-            const finalFileName = dynamicTitle 
-                ? `${baseChartTitle} ${dynamicTitle}` 
-                : baseChartTitle;
+            
+            // Cria o nome final do arquivo: combina o título base com o título dinâmico (mês), se existir.
+            const finalFileName = dynamicTitle ? `${baseChartTitle} ${dynamicTitle}` : baseChartTitle;
 
+            // Chama a função de download apropriada com base no tipo (jpg ou pdf)
             if (downloadType === 'jpg') {
                 downloadChartAsJPG(chartInstance, finalFileName);
             } else if (downloadType === 'pdf') {
@@ -45,15 +46,17 @@ function downloadChartAsJPG(chartInstance, chartTitle) {
 
   const ctx = tempCanvas.getContext('2d');
 
-  // Preenche o fundo com branco
+  // 1. Preenche o fundo do canvas temporário com a cor branca.
   ctx.fillStyle = '#FFFFFF';
   ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
 
-  // Desenha o gráfico original sobre o fundo branco
+  // 2. Desenha a imagem do gráfico original sobre o fundo branco.
   ctx.drawImage(originalCanvas, 0, 0);
 
-  // Gera a imagem a partir do canvas temporário e dispara o download
+  // 3. Gera a imagem em formato JPG a partir do canvas temporário.
   const image = tempCanvas.toDataURL('image/jpeg', 1.0);
+  
+  // 4. Cria um link temporário para iniciar o download.
   const link = document.createElement('a');
   link.href = image;
   link.download = `${chartTitle.replace(/\s+/g, '_').toLowerCase()}.jpg`;
@@ -62,18 +65,38 @@ function downloadChartAsJPG(chartInstance, chartTitle) {
 
 function downloadChartAsPDF(chartInstance, chartTitle) {
     const { jsPDF } = window.jspdf;
+    // Inicializa o construtor de PDF no formato A4.
     const doc = new jsPDF({
         orientation: 'p',
         unit: 'mm',
         format: 'a4'
     });
     
-    const image = chartInstance.canvas.toDataURL('image/png');
+    // Cria um canvas temporário para adicionar o fundo branco
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = chartInstance.canvas.width;
+    tempCanvas.height = chartInstance.canvas.height;
+
+    const ctx = tempCanvas.getContext('2d');
+
+    // 1. Preenche o fundo do canvas temporário com a cor branca.
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+
+    // 2. Desenha a imagem do gráfico original sobre o fundo branco.
+    ctx.drawImage(chartInstance.canvas, 0, 0);
+
+    // 3. Gera a imagem em formato PNG a partir do canvas temporário.
+    const image = tempCanvas.toDataURL('image/png');
+
+    // Calcula as dimensões proporcionais da imagem para caber na largura da página A4, com margens.
     const imgProps = doc.getImageProperties(image);
     const pdfWidth = doc.internal.pageSize.getWidth();
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    const pdfHeight = (imgProps.height * (pdfWidth - 20)) / imgProps.width;
 
+    // Adiciona o título e a imagem ao documento PDF.
     doc.text(chartTitle, 14, 15);
-    doc.addImage(image, 'PNG', 10, 25,);
+    doc.addImage(image, 'PNG', 10, 25, pdfWidth - 20, pdfHeight);
+    // Salva o documento PDF com um nome de arquivo formatado.
     doc.save(`${chartTitle.replace(/\s+/g, '_').toLowerCase()}.pdf`);
 }
