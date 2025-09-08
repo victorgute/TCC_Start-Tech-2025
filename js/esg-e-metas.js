@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="goal-card-header"><h3>${goal.title}</h3><div class="goal-card-actions"><button class="edit-btn"><i class="fas fa-pencil-alt"></i></button><button class="delete-btn"><i class="fas fa-trash-alt"></i></button></div></div>
                         <p class="goal-card-description">${goal.description}</p>
                         <div class="progress-bar-container"><div class="progress-bar" style="width: ${goal.progress}%;"></div></div>
-                        <div class="goal-card-footer"><span class="goal-status ${statusClass}">${statusText}</span><span>Progresso: ${goal.progress}%</span><span><i class="fas fa-calendar-alt"></i> Meta: ${goal.deadline}</span></div>`;
+                        <div class="goal-card-footer"><span class="goal-status ${statusClass}">${statusText}</span><span>Meta: ${goal.progress}%</span><span><i class="fas fa-calendar-alt"></i> Meta: ${goal.deadline}</span></div>`;
                     grid.appendChild(goalCard);
                 });
             }
@@ -206,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Sincroniza as metas entre abas/janelas do navegador.
-     * Se o localStorage for alterado em outra aba, atualiza a visualização.
      */
     window.addEventListener('storage', (e) => { 
         if (e.key === 'esgGoals') { 
@@ -215,8 +214,48 @@ document.addEventListener('DOMContentLoaded', () => {
         } 
     });
 
+    // --- INTEGRAÇÃO COM CHATBOT ---
+    /**
+     * Ouve o evento personalizado disparado pelo chatbot para adicionar uma ou mais metas.
+     */
+    document.addEventListener('add-goal-from-chat', (e) => {
+        const goalsToAdd = e.detail; // Pode ser um array de metas
+
+        if (Array.isArray(goalsToAdd) && goalsToAdd.length > 0) {
+            goalsToAdd.forEach(newGoal => {
+                if (newGoal && newGoal.title && newGoal.category) {
+                    // Garante que a nova categoria seja adicionada se não existir
+                    if (!tags.includes(newGoal.category)) {
+                        tags.push(newGoal.category);
+                        saveTags();
+                        renderTags();
+                    }
+
+                    // Adiciona a nova meta ao array de metas
+                    goals.push({
+                        id: Date.now() + Math.random(), // Adiciona random para evitar colisões
+                        title: newGoal.title,
+                        description: newGoal.description || 'Descrição não fornecida.',
+                        progress: newGoal.progress || 0,
+                        deadline: newGoal.deadline || new Date().getFullYear() + 1,
+                        category: newGoal.category
+                    });
+                } else {
+                     console.error('Dados da meta recebidos do chatbot são inválidos:', newGoal);
+                }
+            });
+
+            saveGoals();
+            renderGoals();
+            console.log('Metas adicionadas via chatbot:', goalsToAdd);
+
+        } else {
+            console.error('Nenhuma meta válida recebida do chatbot:', goalsToAdd);
+        }
+    });
+
+
     // --- INICIALIZAÇÃO ---
     renderTags();
     renderGoals();
-
 });
