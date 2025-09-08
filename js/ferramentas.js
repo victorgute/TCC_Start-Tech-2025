@@ -116,7 +116,7 @@ async function initFerramentasPage() {
         updateDashboards(initialData); 
     } catch (error) {
         console.error("Erro ao carregar dados iniciais:", error);
-        showNotification("Não foi possível carregar os dados do dashboard.", false);
+        // Não mostra uma notificação de erro aqui para não confundir com o erro do XML
     }
 }
 
@@ -124,13 +124,4 @@ async function initFerramentasPage() {
 if (document.querySelector('.calculator-section')) {
     initFerramentasPage();
 }
-// --- Rota de Health Check ---
-// Esta rota responde ao "ping" do Load Balancer para dizer que a aplicação está viva.
-app.get('/', (req, res) => {
-  res.status(200).send({ status: 'ok' });
-});
-
-// --- Iniciar o Servidor ---
-const PORT = process.env.PORT || 3001;
-// ... (o resto do seu ficheiro)
 
