@@ -67,7 +67,7 @@ export function initSaveDashboardButton() {
                 }
 
                 if (charts.water) {
-                    charts.water.data.datasets[0].data[monthIndex] = waterEconomy;
+                    charts.water.data.datasets[0].data[monthIndex] = waterConsumption - waterEconomy;
                     charts.water.data.datasets[1].data[monthIndex] = waterConsumption;
                     charts.water.data.datasets[2].data[monthIndex] = waterConsumption * tarifaAgua;
                     charts.water.data.datasets[3].data[monthIndex] = waterEconomy * tarifaAgua;
@@ -100,7 +100,9 @@ export function initSaveDashboardButton() {
             }
 
             case 'ti': {
-                const nomeEquipamento = document.querySelector('#equipamentosTI')?.value.trim() || 'Equipamento';
+                // Pega o nome do equipamento e substitui hífens por espaços para permitir a quebra de linha na legenda.
+                const nomeEquipamento = (document.querySelector('#equipamentosTI')?.value.trim() || 'Equipamento').replace(/-/g, ' ');
+
                 const tiReused = parseInt(document.querySelector('#ti-reaproveitados')?.value) || 0;
                 const tiDiscarded = parseInt(document.querySelector('#ti-descartados')?.value) || 0;
 
