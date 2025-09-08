@@ -1,6 +1,6 @@
 /**
  * @file Gerencia toda a lógica do Chatbot Assistente ESG, incluindo a interface,
- * interações do usuário, comunicação com a API da OpenAI e funcionalidades
+ * interações do usuário, comunicação com a API e funcionalidades
  * como anexar arquivos e reconhecimento de voz.
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,14 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file-input');
     const speechToTextBtn = document.getElementById('speech-to-text-btn');
 
+
     // Variáveis de estado do chatbot
     let mediaRecorder;
     let audioChunks = [];
     let isRecording = false;
     let chatHistory = [];
-    let pendingGoal = null; // Armazena uma meta sugerida pelo bot, aguardando confirmação do usuário
+    let pendingGoals = []; // Armazena metas sugeridas pelo bot
     let attachedFile = null;
-    
+
     // Variáveis para a funcionalidade de arrastar o chat
     let isDragging = false;
     let offsetX, offsetY;
@@ -62,55 +63,100 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Manipula o clique em um botão de resposta rápida.
+     * Manipula o clique em um botão de resposta rápida ou de sugestão de categoria.
      * @param {Event} e - O evento de clique.
      */
     function handleQuickReply(e) {
-        if (e.target.classList.contains('quick-reply-btn')) {
-            const question = e.target.textContent;
-            const optionsContainer = e.target.closest('.bot-options');
-            if (optionsContainer) optionsContainer.remove(); // Remove as opções após o clique
-            
+        const target = e.target;
+        let question = '';
+        let isButtonClick = false;
+
+        if (target.classList.contains('quick-reply-btn')) {
+            question = target.textContent;
+            isButtonClick = true;
+        } else if (target.classList.contains('category-suggestion-btn')) {
+            const category = target.dataset.category;
+            question = `Sugira mais 3 metas na categoria ${category}`;
+            isButtonClick = true;
+        }
+        
+        if(isButtonClick){
+            const optionsContainer = target.closest('.bot-options');
+            if (optionsContainer) optionsContainer.remove();
+
             appendMessage(question, 'user');
             getAIResponse(question, null);
         }
     }
-
+    
     /**
-     * Manipula a confirmação (Sim/Não) do usuário para adicionar uma meta sugerida pelo bot.
+     * Manipula a confirmação do usuário para adicionar uma ou mais metas.
      * @param {Event} e - O evento de clique.
      */
     function handleConfirmation(e) {
-        if (e.target.classList.contains('confirm-btn') && pendingGoal) {
-            const confirmation = e.target.dataset.confirm === 'yes';
-            e.target.closest('.bot-options').remove(); // Remove os botões de confirmação
+        const target = e.target;
+        if (target.classList.contains('confirm-btn') && pendingGoals.length > 0) {
+            const action = target.dataset.action;
+            const goalsToAdd = [];
 
-            if (confirmation) {
-                // Dispara um evento personalizado para que o script de metas possa adicionar a nova meta.
-                // Isso desacopla o chatbot da lógica de gerenciamento de metas.
-                const addGoalEvent = new CustomEvent('add-goal-from-chat', { detail: pendingGoal });
-                document.dispatchEvent(addGoalEvent);
-                
-                appendMessage(`Certo! Adicionei a meta "${pendingGoal.title}" na categoria ${pendingGoal.category}.`, 'bot');
-            } else {
-                appendMessage('Entendido. A meta não foi adicionada. Como mais posso ajudar?', 'bot');
+            if (action === 'all') {
+                goalsToAdd.push(...pendingGoals);
+            } else if (action.startsWith('meta-')) {
+                const index = parseInt(action.split('-')[1], 10) - 1;
+                if (pendingGoals[index]) {
+                    goalsToAdd.push(pendingGoals[index]);
+                }
             }
-            pendingGoal = null; // Limpa a meta pendente
+
+            if (goalsToAdd.length > 0) {
+                // Dispara um evento personalizado para que o script de metas possa adicionar a(s) nova(s) meta(s).
+                const addGoalEvent = new CustomEvent('add-goal-from-chat', {
+                    detail: goalsToAdd
+                });
+                document.dispatchEvent(addGoalEvent);
+
+                const titles = goalsToAdd.map(g => `"${g.title}"`).join(', ');
+                appendMessage(`Certo! Adicionei a(s) meta(s): ${titles}.`, 'bot');
+
+                // Adiciona a mensagem com os botões de categoria
+                const suggestionHTML = `<p>Quer mais algumas sugestões de metas? Selecione nos botões abaixo a categoria e eu vou te propor mais 3 metas com base no seu negócio.</p>
+                <div class="bot-options-container">
+                    <button class="category-suggestion-btn" data-category="Ambiental">Ambiental</button>
+                    <button class="category-suggestion-btn" data-category="Social">Social</button>
+                    <button class="category-suggestion-btn" data-category="Governança">Governança</button>
+                </div>`;
+                appendMessage(suggestionHTML, 'bot bot-options', true);
+            }
+            
+            // Limpa as metas pendentes e remove os botões de confirmação
+            pendingGoals = [];
+             const optionsContainer = target.closest('.bot-options');
+            if (optionsContainer) {
+                optionsContainer.remove();
+            }
+
+        } else if (target.classList.contains('more-goals-btn')) {
+             const optionsContainer = target.closest('.bot-options');
+            if (optionsContainer) {
+                optionsContainer.remove();
+            }
+            appendMessage("Ok, me diga qual o seu nicho para eu criar mais 3 metas.", 'user');
+            getAIResponse("Crie mais 3 metas de diminuição, por favor.", null);
         }
     }
 
-    // Listener de eventos no container de mensagens para respostas rápidas e confirmações
+
+    // Listener de eventos no container de mensagens
     chatMessages.addEventListener('click', (e) => {
         handleQuickReply(e);
         handleConfirmation(e);
     });
-    
+
     // Abre o seletor de arquivos ao clicar no botão de anexo
     attachFileBtn.addEventListener('click', () => fileInput.click());
 
     /**
      * Manipula a seleção de um arquivo para anexo.
-     * Exibe uma pré-visualização do arquivo na janela do chat.
      */
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
@@ -118,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         attachedFile = file;
         const reader = new FileReader();
-        
+
         reader.onload = (event) => {
             let filePreviewHTML;
             const historyText = `[Arquivo Anexado: ${file.name}]`;
@@ -131,89 +177,68 @@ document.addEventListener('DOMContentLoaded', () => {
             const displayHTML = `Anexei o seguinte arquivo:<br>${filePreviewHTML}`;
             appendMessage(displayHTML, 'user', true, historyText);
         };
-        
+
         reader.readAsDataURL(file);
-        fileInput.value = ''; // Limpa o input para permitir anexar o mesmo arquivo novamente
+        fileInput.value = '';
     });
 
-    /**
-     * Abre a janela do chatbot.
-     */
     function openChat() {
         chatWidget.classList.add('open');
         chatToggleButton.classList.add('hidden');
-        // Inicia o chat se for a primeira vez que é aberto
         if (chatMessages.children.length === 0) {
             initChat();
         }
     }
 
-    /**
-     * Fecha a janela do chatbot.
-     */
     function closeChat() {
         chatWidget.classList.remove('open');
         chatToggleButton.classList.remove('hidden');
-
-        // Sai do modo de tela cheia se estiver ativo
         if (chatbotContainer.classList.contains('fullscreen')) {
             toggleFullscreen();
         }
-        
-        // Reseta a posição do chat para o padrão
         chatbotContainer.style.left = '';
         chatbotContainer.style.top = '';
         chatbotContainer.style.right = '20px';
         chatbotContainer.style.bottom = '20px';
-
-        // Loga o histórico da conversa no console ao fechar (pode ser usado para salvar)
         if (chatHistory.length > 0) {
             console.log("Histórico da Conversa:", JSON.stringify(chatHistory, null, 2));
         }
     }
-    
-    /**
-     * Alterna o modo de tela cheia para o chatbot.
-     */
+
     function toggleFullscreen() {
         const isFullscreen = chatbotContainer.classList.toggle('fullscreen');
         chatWidget.classList.toggle('fullscreen');
         const icon = chatFullscreenButton.querySelector('i');
-
         if (isFullscreen) {
-            // Remove estilos de posicionamento para que o CSS de tela cheia seja aplicado
             chatbotContainer.style.left = '';
             chatbotContainer.style.top = '';
             chatbotContainer.style.right = '';
             chatbotContainer.style.bottom = '';
-
-            icon.classList.remove('fa-expand');
-            icon.classList.add('fa-compress');
+            icon.classList.replace('fa-expand', 'fa-compress');
             chatFullscreenButton.title = "Sair da Tela Cheia";
         } else {
-            // Restaura a posição padrão ao sair da tela cheia
-            chatbotContainer.style.left = 'auto';
-            chatbotContainer.style.top = 'auto';
             chatbotContainer.style.right = '20px';
             chatbotContainer.style.bottom = '20px';
-            
-            icon.classList.remove('fa-compress');
-            icon.classList.add('fa-expand');
+            icon.classList.replace('fa-compress', 'fa-expand');
             chatFullscreenButton.title = "Tela Cheia";
         }
     }
-
-    // --- LÓGICA PARA ARRASTAR O CHAT ---
-
+    
+    // Lógica para expandir textarea
+    chatInput.addEventListener('input', () => {
+        chatInput.style.height = 'auto';
+        chatInput.style.height = (chatInput.scrollHeight) + 'px';
+    });
+    
+    // Lógica de arrastar
     function onDragStart(event) {
         if (chatbotContainer.classList.contains('fullscreen') || event.target.closest('.chat-header-actions')) return;
-        
         isDragging = true;
         chatHeader.style.cursor = 'grabbing';
+        document.body.classList.add('is-dragging-chatbot');
         const rect = chatbotContainer.getBoundingClientRect();
         offsetX = event.clientX - rect.left;
         offsetY = event.clientY - rect.top;
-
         document.addEventListener('mousemove', onDragging);
         document.addEventListener('mouseup', onDragEnd, { once: true });
     }
@@ -221,18 +246,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function onDragging(event) {
         if (!isDragging) return;
         event.preventDefault();
-
         let newX = event.clientX - offsetX;
         let newY = event.clientY - offsetY;
-
         const containerWidth = chatbotContainer.offsetWidth;
         const containerHeight = chatbotContainer.offsetHeight;
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
-
         newX = Math.max(0, Math.min(newX, viewportWidth - containerWidth));
         newY = Math.max(0, Math.min(newY, viewportHeight - containerHeight));
-
         chatbotContainer.style.left = `${newX}px`;
         chatbotContainer.style.top = `${newY}px`;
         chatbotContainer.style.right = 'auto';
@@ -242,42 +263,37 @@ document.addEventListener('DOMContentLoaded', () => {
     function onDragEnd() {
         isDragging = false;
         chatHeader.style.cursor = 'move';
+        document.body.classList.remove('is-dragging-chatbot');
         document.removeEventListener('mousemove', onDragging);
     }
-
-    // --- EVENT LISTENERS DO CHATBOT ---
+    
 
     chatHeader.addEventListener('mousedown', onDragStart);
     chatToggleButton.addEventListener('click', openChat);
     chatCloseButton.addEventListener('click', closeChat);
-    chatMinimizeButton.addEventListener('click', closeChat); // Minimizar também fecha o chat
+    chatMinimizeButton.addEventListener('click', closeChat);
     chatFullscreenButton.addEventListener('click', toggleFullscreen);
-    
-    /**
-     * Manipula o clique no botão de gravação de voz (Speech-to-Text).
-     */
+
     speechToTextBtn.addEventListener('click', async () => {
         if (!isRecording) {
             try {
-                // Solicita permissão e inicia a gravação
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream);
                 mediaRecorder.ondataavailable = event => audioChunks.push(event.data);
                 mediaRecorder.onstop = () => {
                     const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
                     audioChunks = [];
-                    transcribeAudio(audioBlob); // Envia o áudio para transcrição
+                    transcribeAudio(audioBlob);
                 };
                 mediaRecorder.start();
                 isRecording = true;
                 speechToTextBtn.innerHTML = '<i class="fas fa-stop-circle"></i>';
-                speechToTextBtn.style.color = '#ef4444'; // Vermelho para indicar gravação
+                speechToTextBtn.style.color = '#ef4444';
             } catch (error) {
                 console.error("Erro ao acessar o microfone:", error);
                 appendMessage("Não consegui acessar seu microfone. Por favor, verifique as permissões do navegador.", 'bot');
             }
         } else {
-            // Para a gravação
             mediaRecorder.stop();
             isRecording = false;
             speechToTextBtn.innerHTML = '<i class="fas fa-microphone"></i>';
@@ -285,33 +301,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    /**
-     * Envia o áudio gravado para a API da OpenAI (Whisper) para transcrição.
-     * @param {Blob} audioBlob - O áudio gravado como um Blob.
-     */
     async function transcribeAudio(audioBlob) {
-        // ATENÇÃO: Substitua "COLE_SUA_CHAVE_DA_API_DA_OPENAI_AQUI" pela sua chave de API real.
-        const apiKey = "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"; 
+        const apiKey = "";
         const apiUrl = "https://api.openai.com/v1/audio/transcriptions";
-        
         const formData = new FormData();
         formData.append('file', audioBlob, 'recording.webm');
         formData.append('model', 'whisper-1');
         formData.append('language', 'pt');
-
         chatInput.placeholder = "Transcrevendo áudio...";
         try {
-            const response = await fetch(apiUrl, { 
-                method: 'POST', 
-                headers: { 'Authorization': `Bearer ${apiKey}` }, 
-                body: formData 
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${apiKey}` },
+                body: formData
             });
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(`Erro da API: ${errorData.error.message}`);
             }
             const data = await response.json();
-            chatInput.value = data.text; // Preenche o input com o texto transcrito
+            chatInput.value = data.text;
+            chatInput.dispatchEvent(new Event('input')); // Dispara o evento de input para ajustar a altura
         } catch (error) {
             console.error("Erro ao transcrever o áudio:", error);
             appendMessage("Ocorreu um erro ao tentar transcrever o áudio. Tente novamente.", 'bot');
@@ -320,45 +330,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Manipula o envio do formulário de chat (envio de mensagem).
-     */
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const messageText = chatInput.value.trim();
         if (!messageText && !attachedFile) return;
 
-        let userMessage = messageText;
         chatInput.value = '';
-        
-        // Se houver um arquivo, exibe a mensagem de anexo
+        chatInput.style.height = 'auto'; // Reseta a altura
+
         if (attachedFile) {
-             appendMessage(`Anexei o arquivo: ${attachedFile.name}`, 'user');
-        } else {
-            appendMessage(userMessage, 'user');
+            appendMessage(`Anexei o arquivo: ${attachedFile.name}`, 'user');
         }
-        
-        // Obtém a resposta da IA
-        await getAIResponse(userMessage, attachedFile);
-        attachedFile = null; // Limpa o arquivo anexado após o envio
+        if (messageText) {
+             appendMessage(messageText, 'user');
+        }
+
+        await getAIResponse(messageText, attachedFile);
+        attachedFile = null;
+    });
+    
+    chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            chatForm.dispatchEvent(new Event('submit'));
+        }
     });
 
-    /**
-     * Adiciona uma mensagem à janela do chat e ao histórico.
-     * @param {string} content - O conteúdo da mensagem (pode ser HTML).
-     * @param {string} sender - O remetente ('user' ou 'bot').
-     * @param {boolean} [isHtml=false] - Se o conteúdo é HTML.
-     * @param {string|null} [historyContent=null] - Conteúdo alternativo para salvar no histórico.
-     */
+
     function appendMessage(content, sender, isHtml = false, historyContent = null) {
         const messageElement = document.createElement('div');
         messageElement.className = `message ${sender}`;
         if (isHtml) {
             messageElement.innerHTML = content;
         } else {
-            const p = document.createElement('p');
-            p.textContent = content;
-            messageElement.appendChild(p);
+            messageElement.innerHTML = content.replace(/\n/g, '<br>'); // Substitui quebras de linha por <br>
         }
         chatMessages.appendChild(messageElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -369,133 +374,119 @@ document.addEventListener('DOMContentLoaded', () => {
             chatHistory.push({ role: role, content: contentToSave });
         }
     }
-    
-    /**
-     * Envia a conversa para a API da OpenAI e processa a resposta.
-     * @param {string} userInput - A mensagem do usuário.
-     * @param {File|null} file - O arquivo anexado.
-     */
+
     async function getAIResponse(userInput, file) {
         appendMessage('<div class="typing-indicator"><span></span><span></span><span></span></div>', 'bot typing-indicator', true);
         const typingIndicator = chatMessages.lastChild;
 
-        // ATENÇÃO: Substitua pela sua chave da API da OpenAI.
-        const apiKey = "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";
+        const apiKey = "";
         const apiUrl = "https://api.openai.com/v1/chat/completions";
         
-        // Prompt do sistema aprimorado para melhor compreensão e respostas
-        const systemPrompt = `Você é um Consultor especialista em ESG da empresa EcoManager. Sua função é analisar os dados de dashboards de sustentabilidade (luz, água, resíduos, etc.) e ajudar os usuários a criar metas ESG. Responda de forma clara, objetiva e amigável.
-        - Se o usuário informar um nicho (ex: "mercado", "escritório", "indústria"), forneça 3 sugestões de metas ESG específicas para aquele setor.
-        - Se o usuário pedir para criar uma meta ou enviar um arquivo para análise, forneça uma análise concisa e um JSON com a sugestão de meta no seguinte formato: \`{\"sugestaoMeta\":{\"title\":\"...\",\"description\":\"...\",\"category\":\"Ambiental|Social|Governança\",\"deadline\":AAAA,\"progress\":0}}\`.
-        - Para perguntas gerais sobre ESG, explique o conceito de forma simples.
-        - Sempre se comporte como um assistente prestativo.
-        - Seja sempre específico antes de criar a meta. Pergunte ao usuário até que ano ele quer alcançar a meta (prazo), quantos % de diminuição ou aumento e uma descrição concisa da meta.`;
+        const systemPrompt = `Você é um Consultor especialista em ESG da empresa EcoManager. Sua função é analisar dados de dashboards de sustentabilidade (luz, água, resíduos, etc.) e ajudar os usuários a criar metas ESG.
 
-        let messages = [
-            { role: "system", content: systemPrompt },
-            ...chatHistory // Inclui o histórico anterior para dar contexto à IA
-        ];
+        **Instruções Principais:**
+        1.  **Seja Proativo:** Se o usuário não fornecer informações suficientes (nicho da empresa, % de redução, ano da meta), FAÇA PERGUNTAS para obter os detalhes necessários. Ex: "Qual é o ramo da sua empresa (ex: varejo, escritório, indústria)?", "Qual a porcentagem de redução que você almeja?", "Até que ano você pretende alcançar essa meta?".
+        2.  **Analise Dashboards:** Se um arquivo for enviado, presuma que é um dashboard. Analise os dados e sugira metas baseadas nos pontos críticos (ex: alto consumo de energia, baixa taxa de reciclagem).
+        3.  **Crie Metas Múltiplas:** Se o usuário pedir "metas" (no plural) ou se a análise do dashboard justificar, crie até 3 metas simultaneamente, sendo uma Ambiental, uma Social e uma de Governança, todas personalizadas para o nicho do usuário.
+        4.  **Formato de Saída (JSON Obrigatório):** Ao sugerir metas, SEMPRE inclua no final da sua resposta um bloco de código JSON com a(s) meta(s) no seguinte formato:
+            \`\`\`json
+            {
+              "sugestaoMetas": [
+                {
+                  "title": "Título Conciso da Meta 1",
+                  "description": "Plano de ação detalhado e passo a passo para implementar a meta. Seja bem descritivo aqui, não economize nos detalhes.",
+                  "category": "Ambiental",
+                  "deadline": 2027,
+                  "progress": 0
+                },
+                {
+                  "title": "Título Conciso da Meta 2",
+                  "description": "Plano de ação detalhado...",
+                  "category": "Social",
+                  "deadline": 2028,
+                  "progress": 0
+                },
+                {
+                  "title": "Título Conciso da Meta 3",
+                  "description": "Plano de ação detalhado para a meta de governança...",
+                  "category": "Governança",
+                  "deadline": 2029,
+                  "progress": 0
+                }
+              ]
+            }
+            \`\`\`
+        5.  **Plano de Ação Detalhado:** A "description" de cada meta DEVE ser um plano de ação completo, com passos claros e práticos de como a empresa pode atingir o objetivo.
+        6.  **Tom Amigável:** Mantenha um tom profissional, mas amigável e prestativo.
+        7.  **Pós-Confirmação:** Após o usuário confirmar a adição de uma meta, ofereça proativamente mais sugestões com a mensagem: "Quer mais algumas sugestões de metas? Selecione nos botões abaixo a categoria e eu vou te propor mais 3 metas com base no seu negócio." e forneça botões para "Ambiental", "Social" e "Governança".`;
 
-        // Se houver um arquivo, lê o conteúdo e adiciona à mensagem do usuário
+
+        let messages = [{ role: "system", content: systemPrompt }, ...chatHistory];
+
         if (file) {
             try {
-                const fileContent = await new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = reject;
-                    reader.readAsText(file);
-                });
-                
-                // Adiciona o conteúdo do arquivo à mensagem do usuário para a IA
-                userInput += `\n\n--- CONTEÚDO DO ARQUIVO ANEXADO (${file.name}) ---\n${fileContent}\n--- FIM DO ARQUIVO ---`;
-
+                // Para simplificar, vamos apenas informar a IA sobre o arquivo.
+                // A análise de imagem/PDF real precisaria de um modelo multimodal (GPT-4o, etc.)
+                userInput += `\n\n[ANÁLISE DE ARQUIVO: O usuário anexou o arquivo '${file.name}'. Por favor, analise os dados contidos nele e sugira metas ESG relevantes.]`;
             } catch (e) {
-                console.error("Não foi possível ler o arquivo de texto.", e);
-                appendMessage("Desculpe, só consigo ler o conteúdo de arquivos de texto (.txt, .csv, etc.). Para outros tipos, por favor, descreva o conteúdo.", 'bot');
+                console.error("Erro ao processar o arquivo:", e);
+                appendMessage("Desculpe, tive um problema ao analisar o arquivo.", 'bot');
                 typingIndicator.remove();
                 return;
             }
         }
 
-        // Adiciona a mensagem atual do usuário ao corpo da requisição
         messages.push({ role: "user", content: userInput });
-        
+
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-4.1-2025-04-14",
-                    messages: messages
-                })
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({ model: "gpt-4", messages: messages })
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(`Erro da API: ${errorData.error.message}`);
-            }
+            if (!response.ok) throw new Error(`Erro da API: ${response.statusText}`);
 
             const data = await response.json();
             const botResponse = data.choices[0].message.content;
 
             typingIndicator.remove();
-            
-            // Tenta extrair um JSON de sugestão de meta da resposta
-            try {
-                // Regex aprimorada para encontrar o JSON de forma mais robusta
-                const jsonMatch = botResponse.match(/```json\s*(\{[\s\S]*?\})\s*```|(\{[\s\S]*?"sugestaoMeta"[\s\S]*?\})/);
-                if (jsonMatch) {
-                    const jsonString = jsonMatch[1] || jsonMatch[2];
-                    const parsedJson = JSON.parse(jsonString);
+
+            const jsonMatch = botResponse.match(/```json\s*(\{[\s\S]*?\})\s*```/);
+            if (jsonMatch) {
+                const jsonString = jsonMatch[1];
+                let cleanResponse = botResponse.replace(jsonMatch[0], '').trim();
+
+                appendMessage(cleanResponse, 'bot');
+
+                const parsedJson = JSON.parse(jsonString);
+                if (parsedJson.sugestaoMetas && parsedJson.sugestaoMetas.length > 0) {
+                    pendingGoals = parsedJson.sugestaoMetas;
+
+                    let confirmationHTML = `<p>Posso adicionar essa(s) meta(s) na sua página? Quer que eu adicione qual?</p>
+                                            <div class="bot-options-container">`;
+
+                    pendingGoals.forEach((goal, index) => {
+                        confirmationHTML += `<button class="confirm-btn" data-action="meta-${index + 1}">Meta ${index + 1}: ${goal.title}</button>`;
+                    });
                     
-                    if (parsedJson.sugestaoMeta) {
-                        pendingGoal = parsedJson.sugestaoMeta;
-                        
-                        // Remove o bloco JSON da resposta para uma exibição mais limpa
-                        let cleanResponse = botResponse.replace(jsonMatch[0], '').trim();
-                        if (cleanResponse) {
-                             appendMessage(cleanResponse.replace(/\n/g, '<br>'), 'bot', true);
-                        }
-                       
-                        const confirmationHTML = `<p>Posso adicionar esta meta sugerida na sua página?</p>
-                        <div class="bot-options-container">
-                            <button class="confirm-btn" data-confirm="yes">Sim, por favor!</button>
-                            <button class="confirm-btn" data-confirm="no">Não, obrigado.</button>
-                        </div>`;
-                        appendMessage(confirmationHTML, 'bot bot-options', true);
-                        
-                        // Adiciona a resposta da IA (sem o JSON) ao histórico
-                        chatHistory.push({ role: 'assistant', content: cleanResponse });
-                        return; // Interrompe a função aqui
+                    if(pendingGoals.length > 1) {
+                         confirmationHTML += `<button class="confirm-btn" data-action="all">Todas as Metas</button>`;
                     }
+                   
+                    confirmationHTML += `<button class="more-goals-btn">Ver mais metas</button></div>`;
+                    appendMessage(confirmationHTML, 'bot bot-options', true);
                 }
-            } catch (e) {
-                console.error("Erro ao parsear JSON da IA:", e, "String JSON:", botResponse);
-                // Se o parse falhar, a resposta completa será exibida abaixo
+            } else {
+                appendMessage(botResponse, 'bot');
             }
-
-            // Se não houver JSON de meta, apenas exibe a resposta e adiciona ao histórico
-            appendMessage(botResponse.replace(/\n/g, '<br>'), 'bot', true);
-            chatHistory.push({ role: 'assistant', content: botResponse });
-
+             chatHistory.push({ role: 'assistant', content: botResponse });
 
         } catch (error) {
-            console.error("Erro ao chamar a API da OpenAI:", error);
+            console.error("Erro na API da OpenAI:", error);
             typingIndicator.remove();
-            appendMessage("Desculpe, estou com problemas para me conectar. Verifique sua chave de API e tente novamente mais tarde.", 'bot');
+            appendMessage("Desculpe, estou com problemas no momento. Tente novamente mais tarde.", 'bot');
         }
     }
 });
 
-// PADRÃO PARA USAR
-// model: "gpt-4.1-2025-04-14"
-// const apiKey = "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"; 
-// const systemPrompt = `Você é um Consultor especialista em ESG da empresa EcoManager. Sua função é analisar os dados de dashboards de sustentabilidade (luz, água, resíduos, etc.) e ajudar os usuários a criar metas ESG. Responda de forma clara, objetiva e amigável.
-//         - Se o usuário informar um nicho (ex: "mercado", "escritório", "indústria"), forneça 3 sugestões de metas ESG específicas para aquele setor.
-//         - Se o usuário pedir para criar uma meta ou enviar um arquivo para análise, forneça uma análise concisa e um JSON com a sugestão de meta no seguinte formato: \`{\"sugestaoMeta\":{\"title\":\"...\",\"description\":\"...\",\"category\":\"Ambiental|Social|Governança\",\"deadline\":AAAA,\"progress\":0}}\`.
-//         - Para perguntas gerais sobre ESG, explique o conceito de forma simples.
-//         - Sempre se comporte como um assistente prestativo.
-//         - Seja sempre específico antes de criar a meta. Pergunte ao usuário até que ano ele quer alcançar a meta (prazo), quantos % de diminuição ou aumento e uma descrição concisa da meta.`;

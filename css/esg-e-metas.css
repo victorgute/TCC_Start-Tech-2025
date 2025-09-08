@@ -527,6 +527,7 @@ body.is-dragging-chatbot {
 .message.bot-options {
    background-color: transparent;
    padding: 0.5rem 0;
+   max-width: 100%;
 }
 
 .bot-options-container {
@@ -549,6 +550,7 @@ body.is-dragging-chatbot {
 
 .bot-options-container button:hover {
    background-color: #eefcf6;
+   border-color: var(--primary-color);
 }
 
 .message img {
@@ -595,32 +597,42 @@ body.is-dragging-chatbot {
 
 .chat-input-form-container {
    background-color: #FFFFFF;
-   padding: 0.75rem;
+   padding: 0.5rem;
    border-top: 1px solid var(--border-color);
+   display: flex;
+   align-items: center;
 }
 
 .chat-input-form {
    display: flex;
-   align-items: center;
+   align-items: flex-end;
+   flex-grow: 1;
+   background-color: #f3f4f6;
+   border-radius: 20px;
+   padding: 5px;
 }
 
 #attach-file-btn,
 #speech-to-text-btn {
    background: none;
    border: none;
-   font-size: 1.5rem;
+   font-size: 1.2rem;
    cursor: pointer;
    color: var(--text-medium);
-   padding: 0 0.5rem;
+   padding: 8px;
 }
 
 #chat-input {
    flex-grow: 1;
    border: none;
-   padding: 0.75rem;
+   padding: 8px;
    font-size: 1rem;
    font-family: var(--font-secondary);
    background: transparent;
+   resize: none; /* Impede o redimensionamento manual */
+   overflow-y: auto; /* Adiciona scroll se o texto for muito grande */
+   max-height: 100px; /* Limita a altura máxima do textarea */
+   line-height: 1.4;
 }
 
 #chat-input:focus {
@@ -639,6 +651,7 @@ body.is-dragging-chatbot {
    display: flex;
    align-items: center;
    justify-content: center;
+   flex-shrink: 0; /* Impede que o botão encolha */
 }
 
 .chat-footer {
@@ -649,3 +662,4 @@ body.is-dragging-chatbot {
    background-color: #FFFFFF;
    border-top: 1px solid var(--border-color);
 }
+

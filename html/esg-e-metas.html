@@ -13,13 +13,13 @@
     <!-- Header -->
     <header>
         <nav class="navbar" id="navbar">
-            <a href="index.html" class="logo">
+            <a href="../index.html" class="logo">
                 <img src="../img/logo-nome.png" alt="EcoManager Logo">
             </a>
             <ul class="nav-links" id="navLinks">
-                <li><a class="nav-link" href="./index.html">Início</a></li>
-                <li><a class="nav-link" href="./ferramentas.html">Calculadoras</a></li>
-                <li><a class="nav-link is-active" href="./esg-metas.html">ESG & Metas</a></li>
+                <li><a class="nav-link" href="../index.html">Início</a></li>
+                <li><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
+                <li><a class="nav-link is-active" href="./esg-e-metas.html">ESG & Metas</a></li>
                 <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
                 <li><a class="nav-link" href="./contato.html">Contato</a></li>
             </ul>
@@ -146,8 +146,8 @@
             <div class="chat-input-form-container">
                 <form class="chat-input-form" id="chat-form">
                     <button type="button" id="attach-file-btn" title="Anexar arquivo"><i class="fas fa-paperclip"></i></button>
-                    <input type="file" id="file-input" accept=".png, .jpg, .jpeg, .pdf" style="display: none;">
-                    <input type="text" id="chat-input" placeholder="Digite sua pergunta sobre ESG...">
+                    <input type="file" id="file-input" accept=".png, .jpg, .jpeg, .pdf, .txt, .csv" style="display: none;">
+                    <textarea id="chat-input" placeholder="Digite seu pedido aqui..." rows="1"></textarea>
                     <button type="button" id="speech-to-text-btn" title="Falar"><i class="fas fa-microphone"></i></button>
                     <button type="submit" class="send-btn" title="Enviar"><i class="fas fa-paper-plane"></i></button>
                 </form>
