@@ -159,9 +159,46 @@ export function initDashboards() {
             },
           }
         },
+        layout: {
+          padding: {
+            right: 10,
+            left: 10,
+          }
+        },
         plugins: {
           legend: {
-            position: 'right'
+            position: 'right',
+            labels: {
+              font: {
+                size: 11 // Reduz o tamanho da fonte da legenda para caber melhor
+              },
+
+              generateLabels: function (chart) {
+                const originalLabels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+
+                originalLabels.forEach(label => {
+                  const text = label.text;
+                  const maxLength = 12; // Máximo de caracteres por linha antes de quebrar
+
+                  if (text.length > maxLength) {
+                    // Transforma a string em um array de strings, que o Chart.js renderiza em linhas separadas
+                    const words = text.split(' ');
+                    const newText = [];
+                    let currentLine = '';
+                    words.forEach(word => {
+                      if ((currentLine + word).length > maxLength && currentLine.length > 0) {
+                        newText.push(currentLine.trim());
+                        currentLine = '';
+                      }
+                      currentLine += word + ' ';
+                    });
+                    newText.push(currentLine.trim());
+                    label.text = newText;
+                  }
+                });
+                return originalLabels;
+              }
+            }
           },
           title: {
             display: true,
