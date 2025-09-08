@@ -1,5 +1,6 @@
 import { charts } from './initDashboards.js';
 
+let currentYear = null;
 let currentEnergyMonth = null;
 let currentTiMonth = null;
 let currentWasteMonth = null;
@@ -11,14 +12,17 @@ export function initSaveDashboardButton() {
 
     if (!saveBtn || !monthSelect || !yearInput) return;
 
-    // Define o mês e ano atuais como padrão
+    // Define o mês e ano atuais como padrão e inicializa as variáveis de controle
     const today = new Date();
     monthSelect.value = today.getMonth();
     yearInput.value = today.getFullYear();
+    currentYear = yearInput.value;
 
     saveBtn.addEventListener('click', () => {
         const monthIndex = parseInt(monthSelect.value);
         const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const year = yearInput.value;
+        const chartTitleWithYear = `${monthNames[monthIndex]} ${year}`;
         const summary = document.querySelectorAll('.summary-cards .summary-card strong');
         const activeTab = document.querySelector('.tab-content.active');
 
@@ -36,10 +40,11 @@ export function initSaveDashboardButton() {
                 }
 
                 if (charts.energy) {
-                    if (currentEnergyMonth !== monthIndex) {
+                    if (currentEnergyMonth !== monthIndex || currentYear !== year) {
                         charts.energy.data.datasets[0].data = [];
                         charts.energy.data.labels = [];
                         currentEnergyMonth = monthIndex;
+                        currentYear = year;
                     }
 
                     const existingIndex = charts.energy.data.labels.indexOf(equipamentoEletronico);
@@ -51,7 +56,7 @@ export function initSaveDashboardButton() {
                         charts.energy.data.datasets[0].data.push(energyConsumption);
                     }
 
-                    charts.energy.options.plugins.title.text = monthNames[monthIndex];
+                    charts.energy.options.plugins.title.text = chartTitleWithYear;
                     charts.energy.update();
                 }
                 break;
@@ -87,10 +92,11 @@ export function initSaveDashboardButton() {
                 }
                 if (charts.waste) {
                     // Se o mês mudou, reseta os dados e atualiza o título
-                    if (currentWasteMonth !== monthIndex) {
+                    if (currentWasteMonth !== monthIndex || currentYear !== year) {
                         charts.waste.data.datasets[0].data = [0, 0, 0];
                         currentWasteMonth = monthIndex;
-                        charts.waste.options.plugins.title.text = monthNames[monthIndex];
+                        currentYear = year;
+                        charts.waste.options.plugins.title.text = chartTitleWithYear;
                     }
                     // Atualiza o gráfico com os novos dados do mês
                     charts.waste.data.datasets[0].data = [reciclavel, organico, rejeito];
@@ -112,10 +118,11 @@ export function initSaveDashboardButton() {
 
                 if (charts.ti) {
                     // Se o mês mudou, reseta o gráfico de TI e atualiza o título
-                    if (currentTiMonth !== monthIndex) {
+                    if (currentTiMonth !== monthIndex || currentYear !== year) {
                         charts.ti.data.datasets = [];
                         currentTiMonth = monthIndex;
-                        charts.ti.options.plugins.title.text = monthNames[monthIndex];
+                        currentYear = year;
+                        charts.ti.options.plugins.title.text = chartTitleWithYear;
                     }
 
                     const existingDatasetIndex = charts.ti.data.datasets.findIndex(dataset => dataset.label === nomeEquipamento);

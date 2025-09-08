@@ -20,10 +20,10 @@ export function initChartDownload() {
 
             if (!chartInstance) return;
 
-            // Pega o título dinâmico do gráfico (mês)
+            // Pega o título dinâmico do gráfico (ex: "Janeiro 2025")
             const dynamicTitle = chartInstance.options.plugins.title.text;
             
-            // Cria o nome final do arquivo: combina o título base com o título dinâmico (mês), se existir.
+            // Cria o nome final do arquivo: combina o título base com o título dinâmico (que já contém o ano).
             const finalFileName = dynamicTitle ? `${baseChartTitle} ${dynamicTitle}` : baseChartTitle;
 
             // Chama a função de download apropriada com base no tipo (jpg ou pdf)
