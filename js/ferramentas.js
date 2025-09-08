@@ -6,7 +6,7 @@
  */
 import { postCalculatorData, fetchCalculatorData } from './api.js';
 // O CAMINHO FOI CORRIGIDO para apontar para a pasta e ficheiro corretos
-import { initDashboards, updateDashboards } from './scriptDashboards/initDashboards.js';
+import { initDashboards, updateDashboards } from './scriptDashboard/initDashboards.js';
 
 // Função para mostrar notificações (sem alterações)
 function showNotification(message, isSuccess = true) {
