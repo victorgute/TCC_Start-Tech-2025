@@ -1,17 +1,7 @@
 
-js/auth.js
 
 # Dependências
 back-end/node_modules
 
-# Arquivos de Segredos e Ambiente
-back-end/serviceAccountKey.json
+
 back-end/.env
-js/auth.js
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Arquivos de build (se houver)
