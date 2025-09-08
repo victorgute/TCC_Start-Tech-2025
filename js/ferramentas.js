@@ -81,7 +81,7 @@ async function initFerramentasPage() {
             const calculatorType = activeTab.dataset.tab;
             const data = getActiveCalculatorData(calculatorType);
             const year = yearInput.value;
-            // Corrigido para obter o valor correto do mês (índice + 1)
+            // Corrigido para obter o valor correto do mês (índice do select + 1)
             const month = parseInt(monthSelect.selectedIndex) + 1;
             
             if (!month || !year) {
@@ -116,7 +116,7 @@ async function initFerramentasPage() {
         updateDashboards(initialData); 
     } catch (error) {
         console.error("Erro ao carregar dados iniciais:", error);
-        // Não mostra uma notificação de erro aqui para não confundir com o erro do XML
+        showNotification("Não foi possível carregar os dados do dashboard.", false);
     }
 }
 

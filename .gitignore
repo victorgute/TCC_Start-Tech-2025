@@ -1,7 +1,23 @@
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0b28c828853ba10226cac15615172b4399bee8d0
 
 # Dependências
 back-end/node_modules
 
+<<<<<<< HEAD
 
 back-end/.env
+=======
+# Arquivos de Segredos e Ambiente
+back-end/serviceAccountKey.json
+back-end/.env
+
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+>>>>>>> 0b28c828853ba10226cac15615172b4399bee8d0
