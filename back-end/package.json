@@ -13,8 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.592.0",
-    "@aws-sdk/client-ssm": "^3.592.0",
-    "@aws-sdk/lib-dynamodb": "^3.592.0",
+    "@aws-sdk/client-ssm": "^3.883.0",
+    "@aws-sdk/lib-dynamodb": "^3.883.0",
+    "client-dynamodb": "github:aws-sdk/client-dynamodb",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "firebase-admin": "^13.5.0",
