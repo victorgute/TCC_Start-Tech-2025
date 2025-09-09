@@ -13,7 +13,7 @@ const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) =
     const options = {
         method,
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': token
         }
     };
 
