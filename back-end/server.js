@@ -12,7 +12,7 @@ const app = express();
 // ===============================================================
 
 // Substitua pelo URL exato do seu site no CloudFront
-const FRONTEND_URL = 'd28ugn74ji5sv7.cloudfront.net'; 
+const FRONTEND_URL = 'dch65665lgwqj.cloudfront.net'; 
 
 const corsOptions = {
   origin: FRONTEND_URL,
