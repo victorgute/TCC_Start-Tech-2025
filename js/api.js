@@ -1,5 +1,5 @@
 // A variável API_BASE_URL foi descomentada.
-const API_BASE_URL = ''; // Esta linha está correta para produção
+const API_BASE_URL = 'http://ecomanager-backend-alb-1193608533.us-east-2.elb.amazonaws.com'; // Esta linha está correta para produção
 
 const makeRequest = async (endpoint, method = 'GET', body = null) => {
     // A LÓGICA DO TOKEN FOI REMOVIDA PARA O TESTE
