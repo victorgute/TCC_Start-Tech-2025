@@ -1,8 +1,8 @@
-// O getUserToken já não é necessário aqui
-// const API_BASE_URL = ''; // Esta linha está correta
+// A variável API_BASE_URL foi descomentada.
+const API_BASE_URL = ''; // Esta linha está correta para produção
 
 const makeRequest = async (endpoint, method = 'GET', body = null) => {
-    // A LÓGICA DO TOKEN FOI REMOVIDA
+    // A LÓGICA DO TOKEN FOI REMOVIDA PARA O TESTE
     const options = {
         method,
         headers: {
