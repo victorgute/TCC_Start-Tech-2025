@@ -1,19 +1,12 @@
-import { getUserToken } from './auth.js';
+// O getUserToken já não é necessário aqui
+// const API_BASE_URL = ''; // Esta linha está correta
 
-const API_BASE_URL = ''; // Mantém-se vazio para usar o domínio do site
-
-const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) => {
-    const token = await getUserToken();
-    if (!token) {
-        console.error("Tentativa de fazer um pedido sem estar autenticado.");
-        window.location.href = '/html/login.html';
-        throw new Error("Utilizador não autenticado.");
-    }
-
+const makeRequest = async (endpoint, method = 'GET', body = null) => {
+    // A LÓGICA DO TOKEN FOI REMOVIDA
     const options = {
         method,
         headers: {
-            'Authorization': token
+            // Nenhum cabeçalho de autorização é enviado
         }
     };
 
@@ -25,34 +18,29 @@ const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) =
     try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
         if (!response.ok) {
-            // Tenta ler a resposta como texto, pois pode ser o erro XML
             const errorText = await response.text();
-            console.error("Resposta de erro da API (não-JSON):", errorText);
-            throw new Error('Erro na resposta da API. Verifique o console para mais detalhes.');
+            console.error("Resposta de erro da API:", errorText);
+            throw new Error('Erro na resposta da API.');
         }
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
             return response.json();
         }
-        return response; // Para o caso do download
+        return response;
     } catch (error) {
         console.error(`Erro no pedido para ${method} ${endpoint}:`, error);
         throw error;
     }
 };
 
-// ===============================================================
-// AS LINHAS ABAIXO FORAM CORRIGIDAS
-// ===============================================================
-export const fetchCalculatorData = () => makeAuthenticatedRequest('/api/calculator');
-export const postCalculatorData = (payload) => makeAuthenticatedRequest('/api/calculator', 'POST', payload);
-// ===============================================================
-
-export const saveDashboardConfig = (config) => makeAuthenticatedRequest('/api/dashboard/config', 'POST', { config });
-export const getDashboardConfig = () => makeAuthenticatedRequest('/api/dashboard/config');
+// As chamadas continuam a ser as mesmas, mas usarão a função sem autenticação
+export const fetchCalculatorData = () => makeRequest('/api/calculator');
+export const postCalculatorData = (payload) => makeRequest('/api/calculator', 'POST', payload);
+export const saveDashboardConfig = (config) => makeRequest('/api/dashboard/config', 'POST', { config });
+export const getDashboardConfig = () => makeRequest('/api/dashboard/config');
 export const downloadDashboard = async () => {
     try {
-        const response = await makeAuthenticatedRequest('/api/dashboard/download');
+        const response = await makeRequest('/api/dashboard/download');
         if (!response) return;
 
         const blob = await response.blob();
