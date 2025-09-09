@@ -808,6 +808,127 @@ RESPONSIVIDADE
             justify-content: center;
         }
 
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* ------------------------------
+ESG SHOWCASE CAROUSEL
+--------------------------------*/
+.esg-showcase {
+  padding: 5rem 2rem;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.esg-showcase-content {
+  flex: 1;
+  max-width: 500px;
+}
+
+.esg-showcase-content h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+.esg-showcase-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #374151;
+}
+
+.esg-showcase-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  color: #6b7280;
+}
+
+.btn-esg-showcase {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #10b981;
+  color: #fff;
+  transition: background 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-esg-showcase:hover {
+  background: #0f9f59;
+}
+
+.esg-showcase-swiper-container {
+  flex: 1;
+  max-width: 600px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.esg-swiper .swiper-slide img {
+  width: 100%;
+  height: 100%; /* Garante que a imagem ocupe toda a altura */
+  object-fit: cover;
+  display: block;
+}
+
+.esg-swiper .swiper-pagination {
+  position: absolute;
+  bottom: 15px !important;
+  left: 50% !important;
+  transform: translateX(-50%);
+  width: auto !important;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 6px 10px;
+  border-radius: 20px;
+}
+
+.esg-swiper .swiper-pagination-bullet {
+  background: #ffffff;
+  opacity: 0.6;
+  width: 8px;
+  height: 8px;
+}
+
+.esg-swiper .swiper-pagination-bullet-active {
+  background: #10b981;
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .esg-showcase {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .esg-showcase-content {
+    max-width: 100%;
+  }
+
+  .btn-esg-showcase {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .esg-swiper .swiper-slide img {
+    height: 300px;
+  }
+}
         .footer-bottom {
             flex-direction: column;
             gap: 1rem;

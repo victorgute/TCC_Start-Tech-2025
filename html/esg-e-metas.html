@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/esg-e-metas.css">
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -41,7 +43,7 @@
             </div>
         </section>
 
-                <!-- Indicadores -->
+        <!-- Indicadores -->
         <section class="indicators" id="indicadores">
             <div class="indicators-container">
                 <h2>Indicadores em Tempo Real</h2>
@@ -118,15 +120,42 @@
                 <div class="goals-header">
                     <h2>Nossas Metas ESG</h2>
                     <p>Compromissos mensuráveis e transparentes para um futuro sustentável.</p>
-                    <button id="add-goal-btn" class="btn-add-goal"><i class="fas fa-plus"></i> Adicionar Nova Meta</button>
+                    <button id="add-goal-btn" class="btn-add-goal"><i class="fas fa-plus"></i> Adicionar Nova
+                        Meta</button>
                 </div>
             </div>
         </section>
     </main>
-    
+
     <!-- Modals -->
-    <div id="goal-modal" class="modal"><div class="modal-content"><span class="close-btn">&times;</span><h2 id="modal-title"></h2><form id="goal-form"><input type="hidden" id="goal-id"><div class="form-group"><label for="goal-title">Título da Meta</label><input type="text" id="goal-title" required></div><div class="form-group"><label for="goal-description">Descrição</label><textarea id="goal-description" rows="3" required></textarea></div><div class="form-group"><label for="goal-progress">Meta (%)</label><input type="number" id="goal-progress" min="0" max="100" value="0" required></div><div class="form-group"><label for="goal-deadline">Prazo</label><input type="number" id="goal-deadline" placeholder="Ex: 2025" required></div><div class="form-group"><label for="goal-category">Categoria (Tag)</label><div class="category-input-wrapper"><select id="goal-category-select"></select><button type="button" id="manage-tags-btn">Gerenciar Tags</button></div></div><button type="submit" class="btn-primary">Salvar Meta</button></form></div></div>
-    <div id="tags-modal" class="modal"><div class="modal-content"><span class="close-btn">&times;</span><h2>Gerenciar Categorias</h2><div id="tags-list"></div><form id="add-tag-form" class="add-tag-form"><input type="text" id="new-tag-name" placeholder="Nome da nova categoria" required><button type="submit" class="btn-primary">Adicionar</button></form></div></div>
+    <div id="goal-modal" class="modal">
+        <div class="modal-content"><span class="close-btn">&times;</span>
+            <h2 id="modal-title"></h2>
+            <form id="goal-form"><input type="hidden" id="goal-id">
+                <div class="form-group"><label for="goal-title">Título da Meta</label><input type="text" id="goal-title"
+                        required></div>
+                <div class="form-group"><label for="goal-description">Descrição</label><textarea id="goal-description"
+                        rows="3" required></textarea></div>
+                <div class="form-group"><label for="goal-progress">Meta (%)</label><input type="number"
+                        id="goal-progress" min="0" max="100" value="0" required></div>
+                <div class="form-group"><label for="goal-deadline">Prazo</label><input type="number" id="goal-deadline"
+                        placeholder="Ex: 2025" required></div>
+                <div class="form-group"><label for="goal-category">Categoria (Tag)</label>
+                    <div class="category-input-wrapper"><select id="goal-category-select"></select><button type="button"
+                            id="manage-tags-btn">Gerenciar Tags</button></div>
+                </div><button type="submit" class="btn-primary">Salvar Meta</button>
+            </form>
+        </div>
+    </div>
+    <div id="tags-modal" class="modal">
+        <div class="modal-content"><span class="close-btn">&times;</span>
+            <h2>Gerenciar Categorias</h2>
+            <div id="tags-list"></div>
+            <form id="add-tag-form" class="add-tag-form"><input type="text" id="new-tag-name"
+                    placeholder="Nome da nova categoria" required><button type="submit"
+                    class="btn-primary">Adicionar</button></form>
+        </div>
+    </div>
 
     <!-- Chatbot -->
     <div class="chatbot-container" id="chatbot-container">
@@ -137,25 +166,89 @@
                     <div class="status"><span class="status-indicator"></span> Online</div>
                 </div>
                 <div class="chat-header-actions">
-                    <button class="chat-action-btn" id="chat-fullscreen-btn" title="Tela Cheia"><i class="fas fa-expand"></i></button>
-                    <button class="chat-action-btn" id="chat-minimize-btn" title="Minimizar"><i class="fas fa-minus"></i></button>
-                    <button class="chat-action-btn" id="chat-close-btn" title="Fechar"><i class="fas fa-times"></i></button>
+                    <button class="chat-action-btn" id="chat-fullscreen-btn" title="Tela Cheia"><i
+                            class="fas fa-expand"></i></button>
+                    <button class="chat-action-btn" id="chat-minimize-btn" title="Minimizar"><i
+                            class="fas fa-minus"></i></button>
+                    <button class="chat-action-btn" id="chat-close-btn" title="Fechar"><i
+                            class="fas fa-times"></i></button>
                 </div>
             </div>
             <div class="chat-messages" id="chat-messages"></div>
             <div class="chat-input-form-container">
                 <form class="chat-input-form" id="chat-form">
-                    <button type="button" id="attach-file-btn" title="Anexar arquivo"><i class="fas fa-paperclip"></i></button>
-                    <input type="file" id="file-input" accept=".png, .jpg, .jpeg, .pdf, .txt, .csv" style="display: none;">
+                    <button type="button" id="attach-file-btn" title="Anexar arquivo"><i
+                            class="fas fa-paperclip"></i></button>
+                    <input type="file" id="file-input" accept=".png, .jpg, .jpeg, .pdf, .txt, .csv"
+                        style="display: none;">
                     <textarea id="chat-input" placeholder="Digite seu pedido aqui..." rows="1"></textarea>
-                    <button type="button" id="speech-to-text-btn" title="Falar"><i class="fas fa-microphone"></i></button>
+                    <button type="button" id="speech-to-text-btn" title="Falar"><i
+                            class="fas fa-microphone"></i></button>
                     <button type="submit" class="send-btn" title="Enviar"><i class="fas fa-paper-plane"></i></button>
                 </form>
             </div>
-             <div class="chat-footer">Powered by EcoManager · Dados seguros e privados</div>
+            <div class="chat-footer">Powered by EcoManager · Dados seguros e privados</div>
         </div>
         <button class="chat-toggle-button" id="chat-toggle-btn"><i class="fas fa-robot"></i></button>
     </div>
+    <!-- Footer -->
+    <footer id="contato">
+        <div class="footer-container">
+            <div class="footer-col about">
+                <img src="../img/logo-nome.png" alt="SustainDash Logo" class="footer-logo">
+                <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um
+                    futuro sustentável.</p>
+
+                <div class="contact-info">
+                    <p><i class="fas fa-envelope"></i> contato@sustaindash.com</p>
+                    <p><i class="fas fa-phone"></i> +55 (11) 99999-9999</p>
+                    <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
+                </div>
+            </div>
+
+            <div class="footer-col links">
+                <h4>Plataforma</h4>
+                <ul>
+                    <li><a href="./ferramentas.html">Calculadoras</a></li>
+                    <li><a href="./ferramentas.html#dashboards">Dashboards</a></li>
+                    <li><a href="#impacto">Relatórios</a></li>
+                    <li><a href="#esg">ESG & Metas</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h4>Empresa</h4>
+                <ul>
+                    <li><a href="./sobre.html">Sobre Nós</a></li>
+                    <li><a href="#">Compromisso ESG</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="./contato.html">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="./politica.html">Política de Privacidade</a></li>
+                    <li><a href="./termos.html">Termos de Uso</a></li>
+                    <li><a href="./lgpd.html">LGPD</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 EcoManager. Todos os direitos reservados.</p>
+
+            <div class="certifications">
+                <span>Certificado ISO 14001</span>
+                <span>•</span>
+                <span>B Corp Certified</span>
+                <span>•</span>
+                <span>Carbon Neutral</span>
+            </div>
+        </div>
+    </footer>
     <script src="../js/esg-e-metas.js"></script>
     <script src="../js/chatbot.js"></script>
     <!-- Widget de Acessibilidade UserWay -->
@@ -172,4 +265,6 @@
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
 </body>
+
 </html>
+
