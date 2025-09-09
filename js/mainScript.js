@@ -12,6 +12,7 @@ import { initTICalculator } from './scriptCalculadoras/calcTI.js';
 import { initCalculatorTabs } from './scriptCalculadoras/tabs.js';
 import { initDashboards } from './scriptDashboard/initDashboards.js';
 import { initSaveDashboardButton } from './scriptDashboard/saveDashboard.js';
+import { initChartDownload } from './scriptDashboard/downloadChart.js';
 
 document.addEventListener("DOMContentLoaded", () => {
   initNavbar();
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initTICalculator();
     initDashboards();
     initSaveDashboardButton();
+    initChartDownload();
   }
   
   console.log("EcoManager scripts carregados e inicializados!");

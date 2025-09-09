@@ -367,7 +367,12 @@
   color: #1f2937;
 }
 
-.btn-download {
+.download-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-PDF, .btn-JPG {
   background: none;
   border: none;
   cursor: pointer;
