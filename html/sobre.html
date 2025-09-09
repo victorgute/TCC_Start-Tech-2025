@@ -27,10 +27,23 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-    // Script de Proteção de Rota
+    // Script de Lógica do Header
     firebase.auth().onAuthStateChanged(function (user) {
-      if (!user) {
-        window.location.href = '../login.html';
+      const protectedLinks = document.querySelectorAll('.protected-link');
+      const loginButton = document.getElementById('loginButton');
+      const profileCard = document.querySelector('.profile-card');
+
+      if (user) {
+        // --- USUÁRIO LOGADO ---
+        // Mostra os links protegidos e o ícone de perfil
+        protectedLinks.forEach(link => link.style.display = 'list-item');
+        profileCard.style.display = 'block';
+        if(loginButton) loginButton.style.display = 'none';
+      } else {
+        // --- USUÁRIO DESLOGADO ---
+        // Esconde os links protegidos e o ícone de perfil
+        protectedLinks.forEach(link => link.style.display = 'none');
+        if(loginButton) loginButton.style.display = 'inline-block';
       }
     });
   </script>
@@ -43,18 +56,19 @@
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a class="nav-link" href="../index.html">Início</a></li>
-                <li><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
-                <li><a class="nav-link" href="./esg-e-metas.html">ESG & Metas</a></li>
+                <li class="protected-link"><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
+                <li class="protected-link"><a class="nav-link" href="./esg-e-metas.html">ESG & Metas</a></li>
                 <li><a class="nav-link is-active" href="./sobre.html">Sobre</a></li>
                 <li><a class="nav-link" href="./contato.html">Contato</a></li>
             </ul>
-            <div class="profile-card">
+            <div class="profile-card protected-link">
                 <div class="profile-card-header">
                     <div class="avatar">
                         <a href="./profile.html"><i class="fas fa-user"></i></a>
                     </div>
                 </div>
             </div>
+            <a href="../login.html" id="loginButton" class="btn-login">Login</a>
         </nav>
     </header>
 
@@ -142,14 +156,14 @@
         <div class="team-member">
           <a href="https://www.linkedin.com/in/nadyla-rebecca-mousinho-lima/" target="_blank"><img src="../img/nadyla.jpeg" alt="Foto do Membro da Equipe 3"></a>
           <h3>Nadyla Mousinho</h3>
-          <p>Front-end</p>
+          <p>Frontend Engineer</p>
         </div>
 
         <!-- MEMBRO 4 -->
         <div class="team-member">
           <a href="https://www.linkedin.com/in/guilherme-felippe-7a5610296/" target="_blank"><img src="../img/guilherme.jpeg" alt="Foto do Membro da Equipe 4"></a>
           <h3>Guilherme Felippe</h3>
-          <p>Back-end</p>
+          <p>Fullstack & Data Engineer</p>
         </div>
 
       </div>
