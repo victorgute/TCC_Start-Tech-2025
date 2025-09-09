@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="../css/esg-e-metas.css">
   <!-- Biblioteca de Gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Biblioteca para gerar PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <title>Ferramentas - EcoManager</title>
 </head>
 
@@ -39,7 +41,6 @@
     const analytics = getAnalytics(app);
   </script>
 
-
   <!-- Header -->
   <header>
     <nav class="navbar" id="navbar">
@@ -60,6 +61,22 @@
           </div>
         </div>
       </div>
+    </nav>
+  </header>
+
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <a href="../index.html" class="logo">
+        <img src="../img/logo-nome.png" alt="EcoManager Logo">
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a class="nav-link" href="../index.html">Início</a></li>
+        <li><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
+        <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
+      </ul>
+      <button id="logout-btn" class="btn-navbar">Fazer Logout</button>
     </nav>
   </header>
 
@@ -406,9 +423,16 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Consumo de Energia</h4>
-              <button class="btn-download">
-                <i class="fas fa-download"></i>
-              </button>
+
+              <div class="download-buttons">
+                <button class="btn-JPG" data-type="jpg" title="Baixar JPG">
+                  <i class="fas fa-download"></i> JPG
+                </button>
+
+                <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
+                  <i class="fas fa-download"></i> PDF
+                </button>
+              </div>
             </div>
 
             <div class="chart-container">
@@ -419,9 +443,16 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Uso de Água</h4>
-              <button class="btn-download">
-                <i class="fas fa-download"></i>
-              </button>
+
+              <div class="download-buttons">
+                <button class="btn-JPG" data-type="jpg" title="Baixar JPG">
+                  <i class="fas fa-download"></i> JPG
+                </button>
+
+                <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
+                  <i class="fas fa-download"></i> PDF
+                </button>
+              </div>
             </div>
 
             <div class="chart-container">
@@ -431,9 +462,16 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Gestão de Resíduos</h4>
-              <button class="btn-download">
-                <i class="fas fa-download"></i>
-              </button>
+
+              <div class="download-buttons">
+                <button class="btn-JPG" data-type="jpg" title="Baixar JPG">
+                  <i class="fas fa-download"></i> JPG
+                </button>
+
+                <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
+                  <i class="fas fa-download"></i> PDF
+                </button>
+              </div>
             </div>
 
             <div class="chart-container">
@@ -443,9 +481,16 @@
           <div class="chart-card">
             <div class="chart-header">
               <h4>Reaproveitamento TI</h4>
-              <button class="btn-download">
-                <i class="fas fa-download"></i>
-              </button>
+
+              <div class="download-buttons">
+                <button class="btn-JPG" data-type="jpg" title="Baixar JPG">
+                  <i class="fas fa-download"></i> JPG
+                </button>
+
+                <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
+                  <i class="fas fa-download"></i> PDF
+                </button>
+              </div>
             </div>
 
             <div class="chart-container">
@@ -562,7 +607,20 @@
     </div>
   </footer>
 
-  <script type="module" src="../js/mainScript.js"></script>
+  <script type="module" src="../js/mainScript.js"></script>  
+  <!-- Widget de Acessibilidade UserWay -->
+  <script src="https://cdn.userway.org/widget.js" data-account="gVFXAs372E"></script>
+  <!-- VLibras Widget -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
 </body>
 
 </html>

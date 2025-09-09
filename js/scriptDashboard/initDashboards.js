@@ -139,7 +139,13 @@ export function initDashboards() {
       type: 'bar',
       data: {
         labels: ['Reaproveitados', 'Descartados'],
-        datasets: []
+        datasets: [{
+          label: 'Nenhum equipamento selecionado',
+          data: [0, 0],
+          backgroundColor: 'rgba(200, 200, 200, 0.5)',
+          borderColor: 'rgba(200, 200, 200, 1)',
+          borderWidth: 1
+        }]
       },
       options: {
         indexAxis: 'y',
@@ -153,9 +159,46 @@ export function initDashboards() {
             },
           }
         },
+        layout: {
+          padding: {
+            right: 10,
+            left: 10,
+          }
+        },
         plugins: {
           legend: {
-            position: 'right'
+            position: 'right',
+            labels: {
+              font: {
+                size: 11
+              },
+
+              generateLabels: function (chart) {
+                const originalLabels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+
+                originalLabels.forEach(label => {
+                  const text = label.text;
+                  const maxLength = 12; // Máximo de caracteres por linha antes de quebrar
+
+                  if (text.length > maxLength) {
+                    // Transforma a string em um array de strings, que é lido separadamente
+                    const words = text.split(' ');
+                    const newText = [];
+                    let currentLine = '';
+                    words.forEach(word => {
+                      if ((currentLine + word).length > maxLength && currentLine.length > 0) {
+                        newText.push(currentLine.trim());
+                        currentLine = '';
+                      }
+                      currentLine += word + ' ';
+                    });
+                    newText.push(currentLine.trim());
+                    label.text = newText;
+                  }
+                });
+                return originalLabels;
+              }
+            }
           },
           title: {
             display: true,
