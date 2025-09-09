@@ -9,8 +9,19 @@
   <link rel="stylesheet" href="../css/sobre-style.css">
   <link rel="shortcut icon" href="../img/ecomanager.png" type="image/x-icon">
   <title>Sobre Nós - EcoManager</title>
+  <style>
+    /* Esconde links protegidos por padrão para evitar que pisquem na tela */
+    .protected-link {
+      display: none;
+    }
+    /* Centraliza os links da navbar quando o usuário está deslogado */
+    .nav-links.logged-out {
+      flex-grow: 1;
+      justify-content: center;
+    }
+  </style>
+
 </head>
-  
 <body>
   <!-- Scripts do Firebase (necessários em todas as páginas protegidas) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -27,23 +38,33 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-    // Script de Lógica do Header
+    // Script de Lógica do Header para controlar visibilidade de links
     firebase.auth().onAuthStateChanged(function (user) {
       const protectedLinks = document.querySelectorAll('.protected-link');
       const loginButton = document.getElementById('loginButton');
-      const profileCard = document.querySelector('.profile-card');
+      const navLinks = document.getElementById('navLinks');
+
+      // let user = false
 
       if (user) {
         // --- USUÁRIO LOGADO ---
-        // Mostra os links protegidos e o ícone de perfil
-        protectedLinks.forEach(link => link.style.display = 'list-item');
-        profileCard.style.display = 'block';
-        if(loginButton) loginButton.style.display = 'none';
+        navLinks.classList.remove('logged-out');
+        // Mostra os links protegidos e o ícone de perfil.
+        protectedLinks.forEach(link => {
+          // Itens de lista (LI) devem ser 'list-item', outros (como a div do perfil) devem ser 'block'.
+          if (link.tagName === 'LI') {
+            link.style.display = 'list-item';
+          } else {
+            link.style.display = 'block';
+          }
+        });
+        if (loginButton) loginButton.style.display = 'none';
       } else {
         // --- USUÁRIO DESLOGADO ---
-        // Esconde os links protegidos e o ícone de perfil
+        navLinks.classList.add('logged-out');
+        // Garante que os links protegidos fiquem escondidos e mostra o botão de login.
         protectedLinks.forEach(link => link.style.display = 'none');
-        if(loginButton) loginButton.style.display = 'inline-block';
+        if (loginButton) loginButton.style.display = 'inline-block';
       }
     });
   </script>
@@ -68,7 +89,7 @@
                     </div>
                 </div>
             </div>
-            <a href="../login.html" id="loginButton" class="btn-login">Login</a>
+            <a href="./login.html" id="loginButton" class="btn-login">Login</a>
         </nav>
     </header>
 
