@@ -3,20 +3,13 @@ import { Parser } from 'json2csv';
 import { getUserCalculatorData, saveDashboardConfig, getDashboardConfig } from '../services/dynamodb_connection.js';
 
 const router = express.Router();
+// Adicionamos um ID de utilizador fixo para o nosso teste sem autenticação
+const MOCK_USER_ID_FOR_TESTING = 'TEST_USER_0123456789';
 
-/**
- * Rota para GUARDAR/ATUALIZAR a configuração do dashboard de um utilizador.
- * Método: POST
- * Endpoint: /api/dashboard/config
- * Corpo (Body) esperado: { "config": { ... } } // Um objeto JSON com as configurações
- */
 router.post('/config', async (req, res) => {
-    const userId = req.user?.uid;
+    const userId = MOCK_USER_ID_FOR_TESTING;
     const { config } = req.body;
 
-    if (!userId) {
-        return res.status(401).json({ message: 'Não autorizado.' });
-    }
     if (!config || typeof config !== 'object') {
         return res.status(400).json({ message: 'Objeto de configuração em falta ou mal formatado.' });
     }
@@ -30,17 +23,8 @@ router.post('/config', async (req, res) => {
     }
 });
 
-/**
- * Rota para OBTER a configuração do dashboard de um utilizador.
- * Método: GET
- * Endpoint: /api/dashboard/config
- */
 router.get('/config', async (req, res) => {
-    const userId = req.user?.uid;
-
-    if (!userId) {
-        return res.status(401).json({ message: 'Não autorizado.' });
-    }
+    const userId = MOCK_USER_ID_FOR_TESTING;
 
     try {
         const config = await getDashboardConfig(userId);
@@ -52,28 +36,14 @@ router.get('/config', async (req, res) => {
 });
 
 
-/**
- * Rota para FAZER DOWNLOAD de todos os dados do utilizador em formato CSV.
- * Método: GET
- * Endpoint: /api/dashboard/download
- */
 router.get('/download', async (req, res) => {
-    const userId = req.user?.uid;
-
-    if (!userId) {
-        return res.status(401).json({ message: 'Não autorizado.' });
-    }
+    const userId = MOCK_USER_ID_FOR_TESTING;
 
     try {
-        // 1. Obtenha todos os dados da calculadora para o utilizador
         const items = await getUserCalculatorData(userId);
-
         if (items.length === 0) {
             return res.status(404).json({ message: 'Nenhum dado encontrado para fazer o download.' });
         }
-
-        // 2. Converta os dados JSON para CSV
-        // Aplanamos a estrutura para que o objeto 'data' se torne colunas no CSV
         const flattenedData = items.map(item => ({
             user_uid: item.user_uid,
             record_id: item.record_id,
@@ -81,17 +51,14 @@ router.get('/download', async (req, res) => {
             year: item.year,
             month: item.month,
             created_at: item.created_at,
-            ...item.data // "Espalha" as chaves de 'data' como colunas
+            ...item.data
         }));
 
         const json2csvParser = new Parser();
         const csv = json2csvParser.parse(flattenedData);
 
-        // 3. Configure os cabeçalhos para forçar o download no browser
         res.header('Content-Type', 'text/csv');
-        res.attachment(`ecomanager_data_${userId}.csv`);
-        
-        // 4. Envie o ficheiro CSV
+        res.attachment(`ecomanager_data_test.csv`);
         res.status(200).send(csv);
 
     } catch (error) {
@@ -101,3 +68,4 @@ router.get('/download', async (req, res) => {
 });
 
 export default router;
+

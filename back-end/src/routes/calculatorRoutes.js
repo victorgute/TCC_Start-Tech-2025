@@ -2,7 +2,8 @@ import express from 'express';
 import { addCalculatorData, getUserCalculatorData } from '../services/dynamodb_connection.js';
 
 const router = express.Router();
-const MOCK_USER_ID_FOR_TESTING = 'TEST_USER_0123456789'; // ID de utilizador fixo para testes
+// Adicionamos um ID de utilizador fixo para o nosso teste sem autenticação
+const MOCK_USER_ID_FOR_TESTING = 'TEST_USER_0123456789'; 
 
 router.post('/', async (req, res) => {
     // Usa o ID de utilizador fixo em vez de req.user
