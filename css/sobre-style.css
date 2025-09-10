@@ -2,9 +2,28 @@
    Geral
 --------------------------------*/
 
-h2, h3 {
+h2,
+h3 {
   text-align: center;
 
+}
+
+/* Estilo para o novo botão de login */
+.btn-login {
+  padding: 8px 20px;
+  background-color: #10b981;
+  color: white !important;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 15px;
+  display: none;
+  /* O botão começa escondido e o JS controla sua exibição */
+}
+
+/* A classe .protected-link será usada pelo JS para esconder/mostrar itens */
+.nav-links .protected-link {
+  display: none;
 }
 
 /* ------------------------------
@@ -67,7 +86,7 @@ h2, h3 {
 
 .value-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .value-card i {
@@ -121,7 +140,7 @@ h2, h3 {
   max-width: 400px;
   width: 100%;
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .impact-title {
@@ -177,7 +196,7 @@ h2, h3 {
   height: auto;
   border-radius: 50%;
   margin-bottom: 1rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .team-member img {
@@ -204,11 +223,13 @@ h2, h3 {
    RESPONSIVIDADE (SOBRE)
 --------------------------------*/
 @media (max-width: 1200px) {
+
   .values-container,
   .team-container {
     max-width: 100%;
     gap: 1.5rem;
   }
+
   .container-social-impact {
     max-width: 100%;
     gap: 1.5rem;
@@ -216,20 +237,24 @@ h2, h3 {
 }
 
 @media (max-width: 900px) {
+
   .values-container,
   .team-container {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.2rem;
   }
+
   .container-social-impact {
     flex-direction: column;
     text-align: center;
     gap: 2rem;
   }
+
   .container-social-impact .value-card,
   .container-social-impact img {
     max-width: 100%;
   }
+
   .container-social-impact img {
     margin-top: 0;
     margin-bottom: 1.5rem;
@@ -240,53 +265,64 @@ h2, h3 {
   .about-hero {
     padding: 3rem 1rem;
   }
+
   .about-hero h1 {
     font-size: 2rem;
   }
+
   .about-hero p {
     font-size: 1rem;
   }
+
   .values {
     padding: 2.5rem 1rem;
   }
+
   .values h2,
   .team h2 {
     font-size: 1.5rem;
     margin-bottom: 2rem;
   }
+
   .values-container,
   .team-container {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+
   .value-card {
     padding: 1.5rem 1rem;
   }
+
   .container-social-impact {
     padding: 2rem 0.5rem;
     gap: 1rem;
   }
+
   .container-social-impact .value-card {
     padding: 1.2rem 0.7rem;
   }
 
-   .container-social-impact .value-card p {
+  .container-social-impact .value-card p {
     font-size: calc(1.3rem + 0.2vw);
-   }
-  
+  }
+
   .container-social-impact img {
     max-width: 100%;
     margin: 0 auto 1rem auto;
   }
+
   .team {
     padding: 2.5rem 1rem;
   }
+
   .team-member img {
     max-width: 120px;
   }
 }
 
 /* Ajuste para evitar overflow horizontal */
-body, html {
+body,
+html {
   overflow-x: hidden;
 }
