@@ -495,6 +495,28 @@
   }
 }
 
+/* --- MOBILE EXTRA PEQUENO (< 375px) --- */
+@media (max-width: 375px) {
+  .dashboard-section {
+    /* Reduz o padding lateral para dar mais espaço aos gráficos */
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .chart-card {
+    padding: 1rem;
+  }
+
+  .chart-container {
+    height: 220px;
+  }
+}
+
 /* Estilo para os controles de salvar dashboard */
 .save-dashboard-controls {
   width: 100%;
