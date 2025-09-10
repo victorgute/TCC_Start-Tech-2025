@@ -1,12 +1,24 @@
-// A variável API_BASE_URL foi descomentada.
-const API_BASE_URL = 'http://ecomanager-backend-alb-1193608533.us-east-2.elb.amazonaws.com'; // Esta linha está correta para produção
+import { getUserToken } from './auth.js';
 
-const makeRequest = async (endpoint, method = 'GET', body = null) => {
-    // A LÓGICA DO TOKEN FOI REMOVIDA PARA O TESTE
+// ==============================================================================
+//           ↓↓↓ O ENDEREÇO PÚBLICO FINAL DA SUA API ↓↓↓
+// ==============================================================================
+const API_BASE_URL = 'https://3zud7gljyi.execute-api.us-east-2.amazonaws.com/prod';
+// ==============================================================================
+
+
+const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) => {
+    const token = await getUserToken();
+    if (!token) {
+        console.error("Tentativa de fazer um pedido sem estar autenticado. A redirecionar para o login.");
+        window.location.href = '/html/login.html';
+        throw new Error("Utilizador não autenticado.");
+    }
+
     const options = {
         method,
         headers: {
-            // Nenhum cabeçalho de autorização é enviado
+            'Authorization': `Bearer ${token}`
         }
     };
 
@@ -20,27 +32,26 @@ const makeRequest = async (endpoint, method = 'GET', body = null) => {
         if (!response.ok) {
             const errorText = await response.text();
             console.error("Resposta de erro da API:", errorText);
-            throw new Error('Erro na resposta da API.');
+            throw new Error('Erro na resposta da API. Verifique o console para mais detalhes.');
         }
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
             return response.json();
         }
-        return response;
+        return response; // Para o caso do download
     } catch (error) {
         console.error(`Erro no pedido para ${method} ${endpoint}:`, error);
         throw error;
     }
 };
 
-// As chamadas continuam a ser as mesmas, mas usarão a função sem autenticação
-export const fetchCalculatorData = () => makeRequest('/api/calculator');
-export const postCalculatorData = (payload) => makeRequest('/api/calculator', 'POST', payload);
-export const saveDashboardConfig = (config) => makeRequest('/api/dashboard/config', 'POST', { config });
-export const getDashboardConfig = () => makeRequest('/api/dashboard/config');
+export const fetchCalculatorData = () => makeAuthenticatedRequest('/api/calculator');
+export const postCalculatorData = (payload) => makeAuthenticatedRequest('/api/calculator', 'POST', payload);
+export const saveDashboardConfig = (config) => makeAuthenticatedRequest('/api/dashboard/config', 'POST', { config });
+export const getDashboardConfig = () => makeAuthenticatedRequest('/api/dashboard/config');
 export const downloadDashboard = async () => {
     try {
-        const response = await makeRequest('/api/dashboard/download');
+        const response = await makeAuthenticatedRequest('/api/dashboard/download');
         if (!response) return;
 
         const blob = await response.blob();
@@ -56,4 +67,3 @@ export const downloadDashboard = async () => {
         alert(`Não foi possível fazer o download: ${error.message}`);
     }
 };
-
