@@ -19,14 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (document.querySelector(".mySwiper")) {
     initSwiper();
-  }
-  if (document.querySelector(".stat-item")) {
     initStatCounters();
-  }
-  if (document.querySelector(".features .card")) {
     initFeaturesAnimation();
-  }
-  if (document.querySelector(".indicators .card")) {
     initIndicatorsAnimation();
   }
 

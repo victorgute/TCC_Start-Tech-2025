@@ -88,16 +88,16 @@ body {
 
     
     /* ------------------------------
-       CARD DE PERFIL
+      CARD DE PERFIL
     --------------------------------*/
-    .profile-card {
+    .profile-container > .profile-card {
       background-color: #ffffff;
       border-radius: 16px;
       padding: 2rem;
       border: 1px solid #e5e7eb;
     }
 
-    .profile-card-header {
+    .profile-container .profile-card-header {
       display: flex;
       align-items: center;
       gap: 1.5rem;
