@@ -15,29 +15,44 @@
 
 <body>
 
-<!-- Header -->
-    <header>
-        <nav class="navbar" id="navbar">
-            <a href="../index.html" class="logo">
-                <img src="../img/logo-nome.png" alt="EcoManager Logo">
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a class="nav-link" href="../index.html">Início</a></li>
-                <li><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
-                <li><a class="nav-link is-active" href="./esg-e-metas.html">ESG & Metas</a></li>
-                <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
-                <li><a class="nav-link" href="./contato.html">Contato</a></li>
-            </ul>
-            <div class="profile-card">
-                <div class="profile-card-header">
-                    <div class="avatar">
-                        <a href="./profile.html"><i class="fas fa-user"></i></a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-    
+  <!-- Header -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <a href="../index.html" class="logo">
+        <img src="../img/logo-nome.png" alt="EcoManager Logo">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li>
+          <a class="nav-link" href="../index.html">Início</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./ferramentas.html">Ferramentas</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./esg-e-metas.html">ESG & Metas</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./sobre.html">Sobre</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./contato.html">Contato</a>
+        </li>
+      </ul>
+
+      <button class="hamburger" id="hamburger-btn" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <div class="avatar">
+            <a href="./profile.html"><i class="fas fa-user"></i></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
   <!-- Scripts do Firebase para proteção de rota -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
@@ -211,7 +226,8 @@
       </div>
     </div>
   </footer>
-  
+
+  <script type="module" src="../js/mainScript.js"></script>
   <!-- Widget de Acessibilidade UserWay -->
   <script src="https://cdn.userway.org/widget.js" data-account="gVFXAs372E"></script>
   <!-- VLibras Widget -->
