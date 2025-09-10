@@ -63,4 +63,3 @@ export const downloadDashboard = async () => {
         alert(`Não foi possível fazer o download: ${error.message}`);
     }
 };
-
