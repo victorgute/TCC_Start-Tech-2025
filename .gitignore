@@ -2,3 +2,12 @@
 frontend/node_modules
 backend/node_modules
 back-end/.env
+
+
+# Ficheiros do Node.js
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Pasta de build do front-end
+/frontend/dist
