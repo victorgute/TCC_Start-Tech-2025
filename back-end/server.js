@@ -1,11 +1,12 @@
 import express from 'express';
 import cors from 'cors';
-import serverless from 'serverless-http'; // A biblioteca chave para isto funcionar
 import calculatorRoutes from './src/routes/calculatorRoutes.js';
 import dashboardRoutes from './src/routes/dashboardRoutes.js';
 import { firebaseAuthMiddleware, initializeFirebase } from './src/middleware/authMiddleware.js';
 import { initializeDbConnection } from './src/services/dynamodb_connection.js';
-import { loadConfig } from './src/config/config.js';
+
+// Para a EC2, vamos ler as credenciais do Firebase a partir de um ficheiro local seguro
+import serviceAccount from './serviceAccountKey.json' with { type: 'json' };
 
 const app = express();
 
@@ -14,54 +15,29 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- Lógica de Inicialização ---
-// Esta lógica garante que a conexão à BD e ao Firebase só é feita uma vez
-let isInitialized = false;
-const initializeApp = async () => {
-    if (isInitialized) return;
-    try {
-        const config = await loadConfig();
-        initializeFirebase(config);
-        initializeDbConnection(config);
-        isInitialized = true;
-        console.log("Aplicação inicializada com sucesso.");
-    } catch (error) {
-        console.error("Falha crítica na inicialização:", error);
-        throw new Error("Falha na inicialização da aplicação.");
-    }
-};
+// --- Inicialização dos Serviços ---
+// A instância EC2 já tem as credenciais da AWS através da sua IAM Role
+initializeDbConnection(); 
+initializeFirebase(serviceAccount);
 
-// Middleware que garante que a app está inicializada antes de processar um pedido
-app.use(async (req, res, next) => {
-    // Para o nosso teste, vamos remover a autenticação temporariamente
-    // if (!isInitialized) {
-    //     await initializeApp();
-    // }
-    next();
-});
 
-// --- Rotas da Aplicação (Com Autenticação Reativada) ---
-// Vamos manter a autenticação, mas o API Gateway irá lidar com ela no futuro
+// --- Rotas da Aplicação ---
 app.use('/api/calculator', firebaseAuthMiddleware, calculatorRoutes);
 app.use('/api/dashboard', firebaseAuthMiddleware, dashboardRoutes);
 
-// Rota de "health check" para garantir que a API está a responder
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'ok' });
+// ===============================================================
+//         ROTA DE HEALTH CHECK (A PARTE MAIS IMPORTANTE)
+// ===============================================================
+// Esta rota responde ao "ping" do Load Balancer para dizer que a aplicação está viva.
+app.get('/', (req, res) => {
+  res.status(200).send('Servidor EcoManager está saudável e a funcionar!');
 });
+// ===============================================================
 
-// Tratamento de erros para rotas não encontradas
-app.use((req, res) => {
-  res.status(404).json({ message: 'Rota não encontrada.' });
+
+// --- Iniciar o Servidor ---
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor EcoManager a correr na porta ${PORT}`);
 });
-
-// --- Exportar o Handler para o Lambda ---
-// A biblioteca `serverless-http` "traduz" o seu servidor Express para um formato que o Lambda entende.
-export const handler = async (event, context) => {
-    if (!isInitialized) {
-        await initializeApp();
-    }
-    const result = await serverless(app)(event, context);
-    return result;
-};
 
