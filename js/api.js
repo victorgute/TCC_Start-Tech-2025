@@ -1,6 +1,6 @@
 import { getUserToken } from './auth.js';
 
-// A URL BASE fica vazia para que os pedidos sejam feitos para o mesmo domínio do site (o CloudFront)
+// A URL BASE volta a ficar vazia, para que os pedidos sejam feitos para o mesmo domínio do site (CloudFront)
 const API_BASE_URL = '';
 
 const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) => {
@@ -24,6 +24,7 @@ const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) =
     }
     
     try {
+        // O endpoint agora será algo como "/api/calculator", que o CloudFront irá capturar
         const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
         if (!response.ok) {
             const errorText = await response.text();
@@ -63,3 +64,4 @@ export const downloadDashboard = async () => {
         alert(`Não foi possível fazer o download: ${error.message}`);
     }
 };
+

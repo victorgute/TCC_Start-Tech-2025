@@ -1,9 +1,18 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv'; // Importa a biblioteca para ler ficheiros .env
+
 import calculatorRoutes from './src/routes/calculatorRoutes.js';
 import dashboardRoutes from './src/routes/dashboardRoutes.js';
 import { firebaseAuthMiddleware, initializeFirebase } from './src/middleware/authMiddleware.js';
 import { initializeDbConnection } from './src/services/dynamodb_connection.js';
+
+// --- Carregar Variáveis de Ambiente para Desenvolvimento Local ---
+// Esta linha verifica se estamos a correr localmente (onde NODE_ENV não é 'production')
+// e carrega as variáveis do ficheiro .env. Na sua VM, isto será ignorado.
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 
 // Para a EC2, vamos ler as credenciais do Firebase a partir de um ficheiro local seguro
 import serviceAccount from './serviceAccountKey.json' with { type: 'json' };
@@ -40,4 +49,3 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor EcoManager a correr na porta ${PORT}`);
 });
-
