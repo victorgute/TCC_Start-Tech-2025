@@ -12,68 +12,86 @@
 
 <body>
   <!-- Scripts do Firebase (necessários em todas as páginas protegidas) -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
-            authDomain: "ecomanager-tcc.firebaseapp.com",
-            projectId: "ecomanager-tcc",
-            storageBucket: "ecomanager-tcc.appspot.com",
-            messagingSenderId: "807838989383",
-            appId: "1:807838989383:web:21327d954d978d3f498562",
-        };
-        firebase.initializeApp(firebaseConfig);
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (!user) {
-                const path = window.location.pathname;
-                const newPath = path.substring(0, path.lastIndexOf('/')) + '/login.html';
-                window.location.href = window.location.origin + newPath;
-            }
-        });
-    </script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1OyAxSZWLQq_uaMQJzFxxactW-sMLZ4M",
+      authDomain: "ecomanager-tcc.firebaseapp.com",
+      projectId: "ecomanager-tcc",
+      storageBucket: "ecomanager-tcc.appspot.com",
+      messagingSenderId: "807838989383",
+      appId: "1:807838989383:web:21327d954d978d3f498562",
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (!user) {
+        const path = window.location.pathname;
+        const newPath = path.substring(0, path.lastIndexOf('/')) + '/login.html';
+        window.location.href = window.location.origin + newPath;
+      }
+    });
+  </script>
   <!-- Header -->
-    <header>
-        <nav class="navbar" id="navbar">
-            <a href="../index.html" class="logo">
-                <img src="../img/logo-nome.png" alt="EcoManager Logo">
-            </a>
-            <ul class="nav-links" id="navLinks">
-                <li><a class="nav-link" href="../index.html">Início</a></li>
-                <li><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
-                <li><a class="nav-link" href="./esg-e-metas.html">ESG & Metas</a></li>
-                <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
-                <li><a class="nav-link is-active" href="./contato.html">Contato</a></li>
-            </ul>
-            <div class="profile-card">
-                <div class="profile-card-header">
-                    <div class="avatar">
-                        <a href="./profile.html"><i class="fas fa-user"></i></a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+  <header>
+    <nav class="navbar" id="navbar">
+      <a href="../index.html" class="logo">
+        <img src="../img/logo-nome.png" alt="EcoManager Logo">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li>
+          <a class="nav-link" href="../index.html">Início</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./ferramentas.html">Ferramentas</a>
+        </li>
+        <li>
+          <a class="nav-link is-active" href="./esg-e-metas.html">ESG & Metas</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./sobre.html">Sobre</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./contato.html">Contato</a>
+        </li>
+      </ul>
 
-    <!-- Seção Hero -->
-    <section class="tools-hero">
-      <div class="tools-hero-content">
-        <h1><i class="fas fa-envelope"></i> Contato & Suporte</h1>
+      <button class="hamburger" id="hamburger-btn" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+      </button>
 
-        <p>Entre em contato conosco através do formulário caso tenha algum comentário, dúvida ou bug para relatar.</p>
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <div class="avatar">
+            <a href="./profile.html"><i class="fas fa-user"></i></a>
+          </div>
+        </div>
       </div>
-    </section>
+    </nav>
+  </header>
+
+  <div class="nav-overlay" id="nav-overlay"></div>
+
+  <!-- Seção Hero -->
+  <section class="tools-hero">
+    <div class="tools-hero-content">
+      <h1><i class="fas fa-envelope"></i> Contato & Suporte</h1>
+
+      <p>Entre em contato conosco através do formulário caso tenha algum comentário, dúvida ou bug para relatar.</p>
+    </div>
+  </section>
 
 
-<div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-  <div style="max-width: 500px;">
-    <script src="https://portal.hipporello.net/default/embed.js?formId=001e6367567e4a2b9d4a002ac4ad4c25&st_body-text-color=#333e63&st_button-text-color=#FFFFFF&st_primary-color=#00a36c&st_background-color=#fff&st_border-radius=10px&st_font-family=Oswald,Arial,sans-serif&st_button-background-color=#00a36c&st_input-background-color=#fff&st_input-border-color=#ccc&st_input-border-radius=6px"></script>
+  <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+    <div style="max-width: 500px;">
+      <script
+        src="https://portal.hipporello.net/default/embed.js?formId=001e6367567e4a2b9d4a002ac4ad4c25&st_body-text-color=#333e63&st_button-text-color=#FFFFFF&st_primary-color=#00a36c&st_background-color=#fff&st_border-radius=10px&st_font-family=Oswald,Arial,sans-serif&st_button-background-color=#00a36c&st_input-background-color=#fff&st_input-border-color=#ccc&st_input-border-radius=6px"></script>
+    </div>
   </div>
-</div>
 
   <div class="form-sidebar-wrapper">
     <div id="hipporello-form"></div>
-    <div class="sidebar"> 
+    <div class="sidebar">
       <section class="contact-cards">
         <div class="card">
           <div class="icon"><i class="fas fa-envelope"></i></div>
@@ -146,7 +164,8 @@
       </div>
     </div>
   </footer>
-  
+
+  <script type="module" src="../js/mainScript.js"></script>
   <!-- VLibras Widget -->
   <script src="https://cdn.userway.org/widget.js" data-account="gVFXAs372E"></script>
   <div vw class="enabled">

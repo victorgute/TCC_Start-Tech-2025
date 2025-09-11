@@ -17,15 +17,30 @@
   <header>
     <nav class="navbar" id="navbar">
       <a href="./index.html" class="logo">
-        <img src="../img/logo-nome.png" alt="EcoManager Logo">
+        <img src="./img/logo-nome.png" alt="EcoManager Logo">
       </a>
       <ul class="nav-links" id="navLinks">
-        <li><a class="nav-link" href="./index.html">Início</a></li>
-        <li><a class="nav-link" href="./html/ferramentas.html">Ferramentas</a></li>
-        <li><a class="nav-link is-active" href="./html/esg-e-metas.html">ESG & Metas</a></li>
-        <li><a class="nav-link" href="./html/sobre.html">Sobre</a></li>
-        <li><a class="nav-link" href="./html/contato.html">Contato</a></li>
+        <li>
+          <a class="nav-link" href="./index.html">Início</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./html/ferramentas.html">Ferramentas</a>
+        </li>
+        <li>
+          <a class="nav-link is-active" href="./html/esg-e-metas.html">ESG & Metas</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./html/sobre.html">Sobre</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./html/contato.html">Contato</a>
+        </li>
       </ul>
+
+      <button class="hamburger" id="hamburger-btn" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      
       <div class="profile-card">
         <div class="profile-card-header">
           <div class="avatar">
@@ -35,6 +50,8 @@
       </div>
     </nav>
   </header>
+
+  <div class="nav-overlay" id="nav-overlay"></div>
 
   <!-- Hero -->
   <section class="hero" id="inicio">
@@ -257,7 +274,7 @@
   </section>
 
   <!-- Inicialização dos Carrosséis -->
- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script type="module" src="js/mainScript.js" defer></script>
 
   <script src="./js/carrossel.js"></script> 

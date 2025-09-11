@@ -48,7 +48,7 @@ body.is-dragging-chatbot {
    background: #fff;
    position: sticky;
    top: 0;
-   z-index: 1000;
+   z-index: 4; /* Ordem de empilhamento: navbar */
    border-bottom: 1px solid var(--border-color);
 }
 
@@ -253,7 +253,7 @@ body.is-dragging-chatbot {
 .modal {
    display: none;
    position: fixed;
-   z-index: 2000;
+   z-index: 6; /* Acima da navbar e do chatbot */
    left: 0;
    top: 0;
    width: 100%;
@@ -361,7 +361,7 @@ body.is-dragging-chatbot {
    position: fixed;
    bottom: 20px;
    right: 20px;
-   z-index: 1001;
+   z-index: 5; /* Mesmo nível do botão hambúrguer */
    font-family: var(--font-secondary);
    transition: all 0.3s ease;
 }
@@ -662,4 +662,3 @@ body.is-dragging-chatbot {
    background-color: #FFFFFF;
    border-top: 1px solid var(--border-color);
 }
-
