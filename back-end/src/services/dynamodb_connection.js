@@ -1,7 +1,8 @@
+// src/services/dynamodb_connection.js - VERSÃO CORRIGIDA
+
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand, QueryCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
 
-// As variáveis serão povoadas na inicialização
 let docClient;
 let tableName;
 
@@ -10,15 +11,24 @@ let tableName;
  * @param {object} config - O objeto de configuração carregado do Parameter Store.
  */
 export function initializeDbConnection(config) {
-    if (!config || !config.AWS_REGION || !config.DYNAMODB_TABLE_NAME) {
-        throw new Error("Configuração do DynamoDB (região ou nome da tabela) em falta.");
-    }
-    const client = new DynamoDBClient({ region: config.AWS_REGION });
-    docClient = DynamoDBDocumentClient.from(client);
-    tableName = config.DYNAMODB_TABLE_NAME;
-    console.log(`[DynamoDB Service] Conexão inicializada com a tabela: ${tableName}`);
+  if (!config.AWS_REGION || !config.DYNAMODB_TABLE_NAME) {
+    throw new Error("Configuração do DynamoDB em falta no objeto de configuração.");
+  }
+  
+  // 1. Cria o cliente base do DynamoDB
+  const ddbClient = new DynamoDBClient({ region: config.AWS_REGION });
+  
+  // 2. Cria o DocumentClient, que simplifica o trabalho com JSON
+  docClient = DynamoDBDocumentClient.from(ddbClient);
+  
+  // 3. Armazena o nome da tabela para ser usado pelas outras funções
+  tableName = config.DYNAMODB_TABLE_NAME;
+
+  console.log(`[DynamoDB] Conexão inicializada com a tabela: ${tableName}`);
 }
 
+// O resto das suas funções permanece igual, pois elas já usam 'docClient' e 'tableName'
+// que agora serão inicializadas corretamente.
 
 /**
  * Função para ADICIONAR dados de uma calculadora com validação.
@@ -45,13 +55,9 @@ export const addCalculatorData = async (userId, calculatorType, year, month, dat
     created_at: new Date().toISOString(),
   };
 
-  const params = {
-    TableName: tableName,
-    Item: item,
-  };
+  const command = new PutCommand({ TableName: tableName, Item: item });
 
   try {
-    const command = new PutCommand(params);
     await docClient.send(command);
     console.log(`[DynamoDB Service] Item guardado com sucesso para o user: ${item.user_uid}`);
     return { success: true, message: 'Dados guardados com sucesso no DynamoDB.', item: item };
