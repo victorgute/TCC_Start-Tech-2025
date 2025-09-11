@@ -48,12 +48,27 @@
         <img src="../img/logo-nome.png" alt="EcoManager Logo">
       </a>
       <ul class="nav-links" id="navLinks">
-        <li><a class="nav-link" href="../index.html">Início</a></li>
-        <li><a class="nav-link" href="./ferramentas.html">Ferramentas</a></li>
-        <li><a class="nav-link is-active" href="./esg-e-metas.html">ESG & Metas</a></li>
-        <li><a class="nav-link" href="./sobre.html">Sobre</a></li>
-        <li><a class="nav-link" href="./contato.html">Contato</a></li>
+        <li>
+          <a class="nav-link" href="../index.html">Início</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./ferramentas.html">Ferramentas</a>
+        </li>
+        <li>
+          <a class="nav-link is-active" href="./esg-e-metas.html">ESG & Metas</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./sobre.html">Sobre</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./contato.html">Contato</a>
+        </li>
       </ul>
+
+      <button class="hamburger" id="hamburger-btn" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+      </button>
+
       <div class="profile-card">
         <div class="profile-card-header">
           <div class="avatar">
@@ -63,6 +78,8 @@
       </div>
     </nav>
   </header>
+
+  <div class="nav-overlay" id="nav-overlay"></div>
 
   <main>
     <!-- Seção Hero -->
@@ -87,13 +104,17 @@
         <div class="tabs-container">
           <div class="tabs">
 
-            <button class="tab-button active" data-tab="energia"><i class="fas fa-bolt"></i> Energia</button>
+            <button class="tab-button active" data-tab="energia"><i class="fas fa-bolt"></i><span
+                class="tab-button-text"> Energia</span></button>
 
-            <button class="tab-button" data-tab="agua"><i class="fas fa-tint"></i> Água</button>
+            <button class="tab-button" data-tab="agua"><i class="fas fa-tint"></i><span class="tab-button-text">
+                Água</span></button>
 
-            <button class="tab-button" data-tab="residuos"><i class="fas fa-recycle"></i> Resíduos</button>
+            <button class="tab-button" data-tab="residuos"><i class="fas fa-recycle"></i><span class="tab-button-text">
+                Resíduos</span></button>
 
-            <button class="tab-button" data-tab="ti"><i class="fas fa-desktop"></i> TI</button>
+            <button class="tab-button" data-tab="ti"><i class="fas fa-desktop"></i><span class="tab-button-text">
+                TI</span></button>
 
           </div>
           <!-- Calculadoras aqui... -->
@@ -591,7 +612,7 @@
     </div>
   </footer>
 
-  <script type="module" src="../js/mainScript.js"></script>  
+  <script type="module" src="../js/mainScript.js"></script>
   <!-- Widget de Acessibilidade UserWay -->
   <script src="https://cdn.userway.org/widget.js" data-account="gVFXAs372E"></script>
   <!-- VLibras Widget -->

@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
             appendMessage(`Anexei o arquivo: ${attachedFile.name}`, 'user');
         }
         if (messageText) {
-             appendMessage(messageText, 'user');
+            appendMessage(messageText, 'user');
         }
 
         await getAIResponse(messageText, attachedFile);

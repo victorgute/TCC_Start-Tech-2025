@@ -1,5 +1,5 @@
 /* ------------------------------
-   PÁGINA DE FERRAMENTAS - HERO
+  PÁGINA DE FERRAMENTAS - HERO
 --------------------------------*/
 .tools-hero {
   background: linear-gradient(90deg, #0f9f59, #10b981);
@@ -27,9 +27,13 @@
   max-width: 800px;
 }
 
+/* Span para esconder texto em telas menores */
+.tab-button-text {
+  transition: all 0.2s ease-in-out;
+}
 
 /* ------------------------------
-   SEÇÃO DA CALCULADORA
+  SEÇÃO DA CALCULADORA
 --------------------------------*/
 .calculator-section {
   padding: 5rem 2rem;
@@ -57,7 +61,7 @@
 
 
 /* ------------------------------
-   ABAS (TABS)
+  ABAS (TABS)
 --------------------------------*/
 .tabs {
   display: flex;
@@ -118,7 +122,7 @@
 
 
 /* ------------------------------
-   FORMULÁRIO DA CALCULADORA
+  FORMULÁRIO DA CALCULADORA
 --------------------------------*/
 .calculator-form {
   display: flex;
@@ -131,7 +135,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  min-width: 300px;
+  flex-basis: 0;
 }
 
 .results-box {
@@ -139,7 +143,7 @@
   background-color: #f9fafb;
   padding: 1.5rem;
   border-radius: 12px;
-  min-width: 280px;
+  flex-basis: 0;
 }
 
 .form-group {
@@ -192,7 +196,7 @@
 
 
 /* ------------------------------
-   CONTROLES PARA SALVAR
+  CONTROLES PARA SALVAR
 --------------------------------*/
 .dashboard-section {
   padding: 5rem 2rem;
@@ -429,26 +433,85 @@
 }
 
 /* Responsividade */
-@media (max-width: 900px) {
+
+/* --- TABLET (768px - 1200px) --- */
+@media (max-width: 1200px) {
+  .calculator-form {
+    flex-direction: column;
+  }
+
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   .filters-grid,
-  .summary-cards,
   .charts-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:1fr;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
   }
 }
 
-@media (max-width: 600px) {
+/* --- MOBILE (< 768px) --- */
+@media (max-width: 767px) {
+  .tools-hero {
+    padding: 3rem 1rem;
+  }
 
+  .calculator-section,
+  .dashboard-section {
+    padding: 3rem 1rem;
+  }
+
+  /* Esconde o texto das abas, deixando só o ícone */
+  .tab-button .tab-button-text {
+    display: none;
+  }
+
+  .tab-button {
+    padding: 0.75rem;
+  }
+
+  .tab-button i {
+    font-size: 1.2rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Grids com 1 coluna */
   .filters-grid,
   .summary-cards,
   .charts-grid {
     grid-template-columns: 1fr;
   }
+}
 
-  .dashboard-header {
-    text-align: center;
-    justify-content: center;
+/* --- MOBILE EXTRA PEQUENO (< 375px) --- */
+@media (max-width: 375px) {
+  .dashboard-section {
+    /* Reduz o padding lateral para dar mais espaço aos gráficos */
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .chart-card {
+    padding: 1rem;
+  }
+
+  .chart-container {
+    height: 220px;
   }
 }
 
