@@ -17,7 +17,6 @@ export default defineConfig({
         politica: resolve(__dirname, 'html/politica.html'),
         termos: resolve(__dirname, 'html/termos.html'),
         lgpd: resolve(__dirname, 'html/lgpd.html'),
-        checkout: resolve(__dirname, 'html/checkout.html'),
       }
     }
   },
