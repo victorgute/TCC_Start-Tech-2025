@@ -18,6 +18,38 @@ export function initSaveDashboardButton() {
     yearInput.value = today.getFullYear();
     currentYear = yearInput.value;
 
+    // Função para atualizar os títulos dos gráficos dinamicamente
+    function updateChartTitles() {
+        const monthIndex = parseInt(monthSelect.value);
+        const year = yearInput.value;
+        const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+        const monthlyTitle = `${monthNames[monthIndex]} ${year}`;
+        const annualTitle = `Uso de Água Anual - ${year}`;
+
+        // Atualiza gráficos mensais
+        if (charts.energy) {
+            charts.energy.options.plugins.title.text = monthlyTitle;
+            charts.energy.update();
+        }
+        if (charts.waste) {
+            charts.waste.options.plugins.title.text = monthlyTitle;
+            charts.waste.update();
+        }
+        if (charts.ti) {
+            charts.ti.options.plugins.title.text = monthlyTitle;
+            charts.ti.update();
+        }
+        // Atualiza gráfico anual (apenas o ano)
+        if (charts.water) {
+            charts.water.options.plugins.title.text = annualTitle;
+            charts.water.update();
+        }
+    }
+
+    // Adiciona listeners para atualizar os títulos ao mudar a data
+    monthSelect.addEventListener('change', updateChartTitles);
+    yearInput.addEventListener('change', updateChartTitles);
+
     saveBtn.addEventListener('click', () => {
         const monthIndex = parseInt(monthSelect.value);
         const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
@@ -76,6 +108,11 @@ export function initSaveDashboardButton() {
                     charts.water.data.datasets[1].data[monthIndex] = waterConsumption;
                     charts.water.data.datasets[2].data[monthIndex] = waterConsumption * tarifaAgua;
                     charts.water.data.datasets[3].data[monthIndex] = waterEconomy * tarifaAgua;
+                    
+                    if (currentYear !== year) {
+                        charts.water.options.plugins.title.text = `Uso de Água Anual - ${year}`;
+                    }
+
                     charts.water.update();
                 }
                 break;
@@ -93,11 +130,12 @@ export function initSaveDashboardButton() {
                 if (charts.waste) {
                     // Se o mês mudou, reseta os dados e atualiza o título
                     if (currentWasteMonth !== monthIndex || currentYear !== year) {
-                        charts.waste.data.datasets[0].data = [0, 0, 0];
+                        charts.waste.data.datasets[0].data = [0, 0, 0]; // Limpa os dados do gráfico
                         currentWasteMonth = monthIndex;
                         currentYear = year;
-                        charts.waste.options.plugins.title.text = chartTitleWithYear;
                     }
+                    // Atualiza o título sempre que salvar
+                    charts.waste.options.plugins.title.text = chartTitleWithYear;
                     // Atualiza o gráfico com os novos dados do mês
                     charts.waste.data.datasets[0].data = [reciclavel, organico, rejeito];
                     charts.waste.update();
@@ -122,9 +160,9 @@ export function initSaveDashboardButton() {
                         charts.ti.data.datasets = [];
                         currentTiMonth = monthIndex;
                         currentYear = year;
-                        charts.ti.options.plugins.title.text = chartTitleWithYear;
                     }
 
+                    charts.ti.options.plugins.title.text = chartTitleWithYear;
                     const existingDatasetIndex = charts.ti.data.datasets.findIndex(dataset => dataset.label === nomeEquipamento);
 
                     if (existingDatasetIndex !== -1) {

@@ -3,6 +3,14 @@ export let charts = {};
 export function initDashboards() {
   const labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
+  // Pega a data atual para definir os títulos iniciais
+  const today = new Date();
+  const currentMonthIndex = today.getMonth();
+  const currentYear = today.getFullYear();
+  const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  const initialMonthlyTitle = `${monthNames[currentMonthIndex]} ${currentYear}`;
+  const initialAnnualTitle = `Uso de Água Anual - ${currentYear}`;
+
   const energyCtx = document.getElementById('energyChart')?.getContext('2d');
   if (energyCtx) {
     charts.energy = new Chart(energyCtx, {
@@ -37,7 +45,7 @@ export function initDashboards() {
           },
           title: {
             display: true,
-            text: '',
+            text: initialMonthlyTitle,
           }
         },
         scales: {
@@ -101,6 +109,13 @@ export function initDashboards() {
           intersect: false,
           mode: 'index',
         },
+        plugins: {
+          title: {
+            display: true,
+            text: initialAnnualTitle,
+            font: { size: 16 }
+          }
+        }
       }
     });
   }
@@ -123,7 +138,7 @@ export function initDashboards() {
         plugins: {
           title: {
             display: true,
-            text: '',
+            text: initialMonthlyTitle,
             font: {
               size: 16
             }
@@ -176,7 +191,7 @@ export function initDashboards() {
           },
           title: {
             display: true,
-            text: '',
+            text: initialMonthlyTitle,
             font: {
               size: 16
             }

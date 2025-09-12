@@ -315,7 +315,7 @@
         <div class="save-dashboard-controls">
           <div class="date-selector">
             <select id="month-select">
-              <option placeholder="0">Janeiro</option>
+              <option value="0">Janeiro</option>
               <option value="1">Fevereiro</option>
               <option value="2">Março</option>
               <option value="3">Abril</option>
@@ -433,6 +433,10 @@
                 <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
                   <i class="fas fa-download"></i> PDF
                 </button>
+
+                <button class="btn-delete" data-chart="energyChart" title="Apagar dados do gráfico">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
               </div>
             </div>
 
@@ -453,6 +457,14 @@
                 <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
                   <i class="fas fa-download"></i> PDF
                 </button>
+
+                <button class="btn-delete-month" data-chart="waterChart" title="Apagar dado mensal">
+                  <i class="fas fa-trash-alt"></i> Mês
+                </button>
+
+                <button class="btn-delete-year" data-chart="waterChart" title="Apagar dados do ano">
+                  <i class="fas fa-trash-alt"></i> Ano
+                </button>
               </div>
             </div>
 
@@ -472,6 +484,10 @@
                 <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
                   <i class="fas fa-download"></i> PDF
                 </button>
+
+                <button class="btn-delete" data-chart="wasteChart" title="Apagar dados do gráfico">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
               </div>
             </div>
 
@@ -490,6 +506,10 @@
 
                 <button class="btn-PDF" data-type="pdf" title="Baixar PDF">
                   <i class="fas fa-download"></i> PDF
+                </button>
+
+                <button class="btn-delete" data-chart="tiChart" title="Apagar dados do gráfico">
+                  <i class="fas fa-trash-alt"></i>
                 </button>
               </div>
             </div>
@@ -511,8 +531,8 @@
             <strong>Atenção</strong>
             <p>O consumo de energia da Filial RJ está 15% acima da média. Considere uma auditoria energética.</p>
           </div>
-        </div>
-      </div> -->
+        </div> -->
+      </div>
     </section>
 
   </main>

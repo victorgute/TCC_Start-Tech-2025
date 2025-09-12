@@ -201,14 +201,8 @@ body.is-dragging-chatbot {
 .goal-card-description {
    color: var(--text-medium);
    font-size: 0.95rem;
-   margin-bottom: 1rem;
+   margin-bottom: 1.5rem; /* Aumenta o espaço antes da barra de progresso */
    flex-grow: 1;
-   display: -webkit-box;
-   -webkit-line-clamp: 3; /* Limita o texto dos cards em 3 linhas */
-   -webkit-box-orient: vertical;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   min-height: 54px; /* Garante uma altura mínima (ex: 3 * 18px de line-height) */
 }
 
 .progress-bar-container {
@@ -232,7 +226,9 @@ body.is-dragging-chatbot {
    align-items: center;
    font-size: 0.9rem;
    color: var(--text-medium);
-   margin-top: 1rem;
+   margin-top: 1.25rem; /* Aumenta o espaço acima do rodapé */
+   padding-top: 1.25rem; /* Adiciona mais espaço com uma linha divisória */
+   border-top: 1px solid var(--border-color); /* Linha para separar o rodapé */
 }
 
 .goal-status {
@@ -667,4 +663,31 @@ body.is-dragging-chatbot {
    color: var(--text-medium);
    background-color: #FFFFFF;
    border-top: 1px solid var(--border-color);
+}
+
+/* --- RESPONSIVIDADE PARA METAS --- */
+@media (max-width: 767px) {
+   .esg-goals-section {
+      padding: 3rem 1rem; /* Reduz o padding lateral para aumentar a largura dos cards */
+   }
+
+   #goals-container {
+      padding: 3rem 1rem;
+   }
+
+   .goals-grid {
+      /* Altera o grid para flexbox em telas pequenas */
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centraliza os cards horizontalmente */
+   }
+   .goal-card {
+      width: 100%; /* Garante que o card ocupe o espaço disponível */
+   }
+
+   .goal-card-footer {
+      flex-direction: column; /* Empilha o status e a data */
+      align-items: flex-start; /* Alinha os itens à esquerda */
+      gap: 0.5rem; /* Adiciona um espaço entre eles */
+   }
 }
