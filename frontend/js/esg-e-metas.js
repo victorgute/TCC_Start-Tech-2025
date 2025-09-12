@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderGoals() {
         const existingHeader = goalsContainer.querySelector('.goals-header');
         goalsContainer.innerHTML = '';
-        if (existingHeader) goalsContainer.appendChild(existingHeader);
+        if(existingHeader) goalsContainer.appendChild(existingHeader);
 
         // Agrupa as metas pela propriedade 'category'
         const groupedGoals = goals.reduce((acc, goal) => {
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryGroup.innerHTML = `<h3 class="goal-category-title">${tag}</h3><div class="goals-grid"></div>`;
             const grid = categoryGroup.querySelector('.goals-grid');
             const goalsForTag = groupedGoals[tag] || [];
-
+            
             // Se não houver metas para a categoria, exibe uma mensagem
             if (goalsForTag.length === 0) {
                 grid.innerHTML = '<p style="font-family: var(--font-secondary); color: var(--text-medium);">Nenhuma meta definida para esta categoria ainda.</p>';
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     goalCard.dataset.id = goal.id;
                     goalCard.innerHTML = `
                         <div class="goal-card-header"><h3>${goal.title}</h3><div class="goal-card-actions"><button class="edit-btn"><i class="fas fa-pencil-alt"></i></button><button class="delete-btn"><i class="fas fa-trash-alt"></i></button></div></div>
-                        <p class="goal-card-description">${goal.description.replace(/\n/g, '<br>')}</p>
+                        <p class="goal-card-description">${goal.description}</p>
                         <div class="progress-bar-container"><div class="progress-bar" style="width: ${goal.progress}%;"></div></div>
                         <div class="goal-card-footer"><span class="goal-status ${statusClass}">${statusText}</span><span>Meta: ${goal.progress}%</span><span><i class="fas fa-calendar-alt"></i> Meta: ${goal.deadline}</span></div>`;
                     grid.appendChild(goalCard);
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
         goalForm.reset();
         editingGoalId = goal ? goal.id : null;
         modalTitle.textContent = goal ? 'Editar Meta' : 'Adicionar Nova Meta';
-        if (goal) {
+        if(goal) {
             // Preenche o formulário com os dados da meta existente
             document.getElementById('goal-id').value = goal.id;
             document.getElementById('goal-title').value = goal.title;
@@ -134,21 +134,21 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     goalForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const goalData = {
-            id: editingGoalId || Date.now(),
-            title: document.getElementById('goal-title').value,
-            description: document.getElementById('goal-description').value,
-            progress: parseInt(document.getElementById('goal-progress').value),
-            deadline: parseInt(document.getElementById('goal-deadline').value),
-            category: categorySelect.value
+        const goalData = { 
+            id: editingGoalId || Date.now(), 
+            title: document.getElementById('goal-title').value, 
+            description: document.getElementById('goal-description').value, 
+            progress: parseInt(document.getElementById('goal-progress').value), 
+            deadline: parseInt(document.getElementById('goal-deadline').value), 
+            category: categorySelect.value 
         };
-        if (editingGoalId) {
+        if (editingGoalId) { 
             // Atualiza a meta existente
-            goals = goals.map(g => g.id === editingGoalId ? goalData : g);
+            goals = goals.map(g => g.id === editingGoalId ? goalData : g); 
         }
-        else {
+        else { 
             // Adiciona a nova meta
-            goals.push(goalData);
+            goals.push(goalData); 
         }
         saveGoals(); renderGoals(); closeModal(goalModal);
     });
@@ -158,19 +158,19 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     goalsContainer.addEventListener('click', (e) => {
         const editBtn = e.target.closest('.edit-btn');
-        if (editBtn) {
-            const goalId = Number(editBtn.closest('.goal-card').dataset.id);
+        if(editBtn) { 
+            const goalId = parseInt(editBtn.closest('.goal-card').dataset.id);
             const goalToEdit = goals.find(g => g.id === goalId);
-            openGoalModal(goalToEdit);
+            openGoalModal(goalToEdit); 
         }
         const deleteBtn = e.target.closest('.delete-btn');
-        if (deleteBtn && confirm('Tem certeza que deseja excluir esta meta?')) {
-            const goalId = Number(deleteBtn.closest('.goal-card').dataset.id);
+        if(deleteBtn && confirm('Tem certeza que deseja excluir esta meta?')) {
+            const goalId = parseInt(deleteBtn.closest('.goal-card').dataset.id);
             goals = goals.filter(g => g.id !== goalId);
             saveGoals(); renderGoals();
         }
     });
-
+    
     /**
      * Manipula o envio do formulário para adicionar uma nova categoria (tag).
      */
@@ -207,11 +207,11 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Sincroniza as metas entre abas/janelas do navegador.
      */
-    window.addEventListener('storage', (e) => {
-        if (e.key === 'esgGoals') {
-            goals = JSON.parse(e.newValue);
-            renderGoals();
-        }
+    window.addEventListener('storage', (e) => { 
+        if (e.key === 'esgGoals') { 
+            goals = JSON.parse(e.newValue); 
+            renderGoals(); 
+        } 
     });
 
     // --- INTEGRAÇÃO COM CHATBOT ---
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         category: newGoal.category
                     });
                 } else {
-                    console.error('Dados da meta recebidos do chatbot são inválidos:', newGoal);
+                     console.error('Dados da meta recebidos do chatbot são inválidos:', newGoal);
                 }
             });
 

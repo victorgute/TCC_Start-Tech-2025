@@ -394,21 +394,21 @@ document.addEventListener('DOMContentLoaded', () => {
               "sugestaoMetas": [
                 {
                   "title": "Título Conciso da Meta 1",
-                  "description": "Plano de ação detalhado com passos claros. Use quebras de linha para listas.\\n1. Mapear todas as fontes de consumo.\\n2. Instalar dispositivos economizadores.",
+                  "description": "Plano de ação detalhado e passo a passo para implementar a meta. Seja bem descritivo aqui, não economize nos detalhes.",
                   "category": "Ambiental",
                   "deadline": 2027,
                   "progress": 0
                 },
                 {
                   "title": "Título Conciso da Meta 2",
-                  "description": "Plano de ação detalhado com passos claros. Use quebras de linha para listas.",
+                  "description": "Plano de ação detalhado...",
                   "category": "Social",
                   "deadline": 2028,
                   "progress": 0
                 },
                 {
                   "title": "Título Conciso da Meta 3",
-                  "description": "Plano de ação detalhado com passos claros. Use quebras de linha para listas.",
+                  "description": "Plano de ação detalhado para a meta de governança...",
                   "category": "Governança",
                   "deadline": 2029,
                   "progress": 0
@@ -416,7 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
               ]
             }
             \`\`\`
-        5.  **Plano de Ação Detalhado:** A "description" de cada meta DEVE ser um plano de ação completo. Use quebras de linha (representadas por \\n no JSON) para separar os passos e criar listas. Ex: "1. Primeiro passo.\\n2. Segundo passo.".
+        5.  **Plano de Ação Detalhado:** A "description" de cada meta DEVE ser um plano de ação completo, com passos claros e práticos de como a empresa pode atingir o objetivo.
         6.  **Tom Amigável:** Mantenha um tom profissional, mas amigável e prestativo.
         7.  **Pós-Confirmação:** Após o usuário confirmar a adição de uma meta, ofereça proativamente mais sugestões com a mensagem: "Quer mais algumas sugestões de metas? Selecione nos botões abaixo a categoria e eu vou te propor mais 3 metas com base no seu negócio." e forneça botões para "Ambiental", "Social" e "Governança".`;
 

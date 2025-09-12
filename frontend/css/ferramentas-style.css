@@ -446,7 +446,9 @@
 
   .filters-grid,
   .charts-grid {
-    grid-template-columns:1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .dashboard-header {
@@ -465,6 +467,7 @@
 
   .calculator-section,
   .dashboard-section {
+    padding: 3rem 1.5rem;
     padding: 3rem 1rem;
   }
 
