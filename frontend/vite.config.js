@@ -2,24 +2,27 @@ import { defineConfig } from 'vite';
 import { resolve } from 'path';
 
 export default defineConfig({
-  // A nova configuração de build para múltiplas páginas
+  // Configuração de build para múltiplas páginas
   build: {
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
         ferramentas: resolve(__dirname, 'html/ferramentas.html'),
+        esg: resolve(__dirname, 'html/esg-e-metas.html'),
         sobre: resolve(__dirname, 'html/sobre.html'),
         contato: resolve(__dirname, 'html/contato.html'),
         login: resolve(__dirname, 'html/login.html'),
+        signup: resolve(__dirname, 'html/signup.html'),
+        profile: resolve(__dirname, 'html/profile.html'),
         politica: resolve(__dirname, 'html/politica.html'),
-        // Adicione aqui qualquer outra página .
-        // Adicione aqui qualquer outra página .html que você tenha
-        // Exemplo: politica: resolve(__dirname, 'html/politica.html'),
+        termos: resolve(__dirname, 'html/termos.html'),
+        lgpd: resolve(__dirname, 'html/lgpd.html'),
+        checkout: resolve(__dirname, 'html/checkout.html'),
       }
     }
   },
 
-  // A configuração do proxy que você já tinha (para o ambiente local)
+  // Proxy para o ambiente de desenvolvimento local
   server: {
     proxy: {
       '/api': {
