@@ -2,13 +2,17 @@ import express from 'express';
 import { addCalculatorData, getUserCalculatorData } from '../services/dynamodb_connection.js';
 
 const router = express.Router();
-// Adicionamos um ID de utilizador fixo para o nosso teste sem autenticação
-const MOCK_USER_ID_FOR_TESTING = 'TEST_USER_0123456789'; 
 
 router.post('/', async (req, res) => {
-    // Usa o ID de utilizador fixo em vez de req.user
-    const userId = MOCK_USER_ID_FOR_TESTING;
+    // A MUDANÇA ESTÁ AQUI:
+    // Em vez de um ID fixo, pegamos o UID do utilizador que o middleware de autenticação validou.
+    const userId = req.user?.uid;
     const { calculatorType, year, month, data } = req.body;
+
+    // Esta verificação garante que a rota só funciona se o utilizador estiver autenticado.
+    if (!userId) {
+        return res.status(401).send({ message: 'Não autorizado. O token de utilizador é inválido ou está em falta.' });
+    }
 
     if (!calculatorType || !year || !month || !data) {
         return res.status(400).send({ message: 'Dados incompletos.' });
@@ -24,8 +28,13 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-    // Usa o ID de utilizador fixo em vez de req.user
-    const userId = MOCK_USER_ID_FOR_TESTING;
+    // A MESMA MUDANÇA AQUI:
+    // Usamos o ID do utilizador autenticado para garantir que ele só possa ver os seus próprios dados.
+    const userId = req.user?.uid;
+
+    if (!userId) {
+        return res.status(401).send({ message: 'Não autorizado. O token de utilizador é inválido ou está em falta.' });
+    }
 
     try {
         const items = await getUserCalculatorData(userId);

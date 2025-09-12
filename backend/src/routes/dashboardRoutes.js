@@ -3,12 +3,15 @@ import { Parser } from 'json2csv';
 import { getUserCalculatorData, saveDashboardConfig, getDashboardConfig } from '../services/dynamodb_connection.js';
 
 const router = express.Router();
-// Adicionamos um ID de utilizador fixo para o nosso teste sem autenticação
-const MOCK_USER_ID_FOR_TESTING = 'TEST_USER_0123456789';
 
 router.post('/config', async (req, res) => {
-    const userId = MOCK_USER_ID_FOR_TESTING;
+    // MUDANÇA: Usa o utilizador real
+    const userId = req.user?.uid;
     const { config } = req.body;
+
+    if (!userId) {
+        return res.status(401).json({ message: 'Não autorizado.' });
+    }
 
     if (!config || typeof config !== 'object') {
         return res.status(400).json({ message: 'Objeto de configuração em falta ou mal formatado.' });
@@ -24,24 +27,36 @@ router.post('/config', async (req, res) => {
 });
 
 router.get('/config', async (req, res) => {
-    const userId = MOCK_USER_ID_FOR_TESTING;
+    // MUDANÇA: Usa o utilizador real
+    const userId = req.user?.uid;
+
+    if (!userId) {
+        return res.status(401).json({ message: 'Não autorizado.' });
+    }
 
     try {
         const config = await getDashboardConfig(userId);
-        res.status(200).json(config);
+        // AÇÃO: Modificámos a resposta para incluir uma chave 'config'.
+        // Se o front-end receber isto por engano, ele pode verificar a existência de `data.config`
+        // em vez de tentar fazer um filter num objeto.
+        res.status(200).json({ config: config || {} });
     } catch (error) {
         console.error("Erro ao obter configuração do dashboard:", error);
         res.status(500).json({ message: 'Erro no servidor ao obter a configuração.' });
     }
 });
 
-
 router.get('/download', async (req, res) => {
-    const userId = MOCK_USER_ID_FOR_TESTING;
+    // MUDANÇA: Usa o utilizador real
+    const userId = req.user?.uid;
+
+    if (!userId) {
+        return res.status(401).json({ message: 'Não autorizado.' });
+    }
 
     try {
         const items = await getUserCalculatorData(userId);
-        if (items.length === 0) {
+        if (!items || items.length === 0) { // AÇÃO: Adicionada verificação para 'items' nulo.
             return res.status(404).json({ message: 'Nenhum dado encontrado para fazer o download.' });
         }
         const flattenedData = items.map(item => ({
@@ -58,7 +73,7 @@ router.get('/download', async (req, res) => {
         const csv = json2csvParser.parse(flattenedData);
 
         res.header('Content-Type', 'text/csv');
-        res.attachment(`ecomanager_data_test.csv`);
+        res.attachment(`ecomanager_data_${userId}.csv`);
         res.status(200).send(csv);
 
     } catch (error) {

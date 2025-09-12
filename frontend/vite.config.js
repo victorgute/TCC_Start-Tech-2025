@@ -11,6 +11,8 @@ export default defineConfig({
         sobre: resolve(__dirname, 'html/sobre.html'),
         contato: resolve(__dirname, 'html/contato.html'),
         login: resolve(__dirname, 'html/login.html'),
+        politica: resolve(__dirname, 'html/politica.html'),
+        // Adicione aqui qualquer outra página .
         // Adicione aqui qualquer outra página .html que você tenha
         // Exemplo: politica: resolve(__dirname, 'html/politica.html'),
       }
