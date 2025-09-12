@@ -48,7 +48,7 @@ body.is-dragging-chatbot {
    background: #fff;
    position: sticky;
    top: 0;
-   z-index: 1000;
+   z-index: 4; /* Ordem de empilhamento: navbar */
    border-bottom: 1px solid var(--border-color);
 }
 
@@ -203,6 +203,12 @@ body.is-dragging-chatbot {
    font-size: 0.95rem;
    margin-bottom: 1rem;
    flex-grow: 1;
+   display: -webkit-box;
+   -webkit-line-clamp: 3; /* Limita o texto dos cards em 3 linhas */
+   -webkit-box-orient: vertical;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   min-height: 54px; /* Garante uma altura mínima (ex: 3 * 18px de line-height) */
 }
 
 .progress-bar-container {
@@ -253,7 +259,7 @@ body.is-dragging-chatbot {
 .modal {
    display: none;
    position: fixed;
-   z-index: 2000;
+   z-index: 6; /* Acima da navbar e do chatbot */
    left: 0;
    top: 0;
    width: 100%;
@@ -361,7 +367,7 @@ body.is-dragging-chatbot {
    position: fixed;
    bottom: 20px;
    right: 20px;
-   z-index: 1001;
+   z-index: 5; /* Mesmo nível do botão hambúrguer */
    font-family: var(--font-secondary);
    transition: all 0.3s ease;
 }
@@ -527,6 +533,7 @@ body.is-dragging-chatbot {
 .message.bot-options {
    background-color: transparent;
    padding: 0.5rem 0;
+   max-width: 100%;
 }
 
 .bot-options-container {
@@ -549,6 +556,7 @@ body.is-dragging-chatbot {
 
 .bot-options-container button:hover {
    background-color: #eefcf6;
+   border-color: var(--primary-color);
 }
 
 .message img {
@@ -595,32 +603,42 @@ body.is-dragging-chatbot {
 
 .chat-input-form-container {
    background-color: #FFFFFF;
-   padding: 0.75rem;
+   padding: 0.5rem;
    border-top: 1px solid var(--border-color);
+   display: flex;
+   align-items: center;
 }
 
 .chat-input-form {
    display: flex;
-   align-items: center;
+   align-items: flex-end;
+   flex-grow: 1;
+   background-color: #f3f4f6;
+   border-radius: 20px;
+   padding: 5px;
 }
 
 #attach-file-btn,
 #speech-to-text-btn {
    background: none;
    border: none;
-   font-size: 1.5rem;
+   font-size: 1.2rem;
    cursor: pointer;
    color: var(--text-medium);
-   padding: 0 0.5rem;
+   padding: 8px;
 }
 
 #chat-input {
    flex-grow: 1;
    border: none;
-   padding: 0.75rem;
+   padding: 8px;
    font-size: 1rem;
    font-family: var(--font-secondary);
    background: transparent;
+   resize: none; /* Impede o redimensionamento manual */
+   overflow-y: auto; /* Adiciona scroll se o texto for muito grande */
+   max-height: 100px; /* Limita a altura máxima do textarea */
+   line-height: 1.4;
 }
 
 #chat-input:focus {
@@ -639,6 +657,7 @@ body.is-dragging-chatbot {
    display: flex;
    align-items: center;
    justify-content: center;
+   flex-shrink: 0; /* Impede que o botão encolha */
 }
 
 .chat-footer {

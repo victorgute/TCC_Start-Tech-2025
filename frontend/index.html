@@ -1,404 +1,410 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="shortcut icon" href="img/ecomanager.png" type="image/x-icon" />
-    <title>EcoManager</title>
-  </head>
 
-  <body>
-    <!-- Navbar -->
-    <header>
-      <nav class="navbar" id="navbar">
-        <a href="index.html" class="logo">
-          <img
-            src="img/logo-nome.png"
-            alt="EcoManager Logo"
-            onerror="this.onerror=null;this.src='https://placehold.co/150x45/ffffff/000000?text=EcoManager';"
-          />
-        </a>
-        <ul class="nav-links" id="navLinks">
-          <li><a class="nav-link" href="index.html">Início</a></li>
-          <li>
-            <a class="nav-link" href="html/ferramentas.html">Ferramentas</a>
-          </li>
-          <li><a class="nav-link" href="html/sobre.html">Sobre</a></li>
-        </ul>
-        <button id="logout-btn" class="btn-navbar">Fazer Logout</button>
-      </nav>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="shortcut icon" href="./img/ecomanager.png" type="image/x-icon">
+  <title>EcoManager</title>
+</head>
 
-    <!-- Hero -->
-    <section class="hero" id="inicio">
-      <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-          <!-- Slide 1 -->
-          <div class="swiper-slide">
-            <img
-              src="img/foto-dashboard.png"
-              alt="Dashboard de sustentabilidade"
-              onerror="this.onerror=null;this.src='https://placehold.co/1920x700/cccccc/000000?text=Imagem+1';"
-            />
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-              <h1>Transforme a sua Gestão ESG</h1>
-              <p>
-                Monitore, analise e otimize os indicadores de sustentabilidade
-                da sua empresa com a nossa plataforma completa.
-              </p>
-              <div class="hero-buttons">
-                <a href="html/ferramentas.html" class="btn-hero-primary"
-                  >Começar Agora</a
-                >
-                <a href="html/contato.html" class="btn-hero-secondary"
-                  >Fale Conosco</a
-                >
-              </div>
-            </div>
-          </div>
-          <!-- Slide 2 -->
-          <div class="swiper-slide">
-            <img
-              src="img/grafico-sustentavel.png"
-              alt="Gráfico de crescimento sustentável"
-              onerror="this.onerror=null;this.src='https://placehold.co/1920x700/bbbbbb/000000?text=Imagem+2';"
-            />
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-              <h1>Decisões Baseadas em Dados</h1>
-              <p>
-                Visualize o seu impacto ambiental em tempo real e tome decisões
-                estratégicas para um futuro mais verde.
-              </p>
-              <div class="hero-buttons">
-                <a href="html/ferramentas.html" class="btn-hero-primary"
-                  >Ver Dashboards</a
-                >
-                <a href="html/sobre.html" class="btn-hero-secondary"
-                  >Saber Mais</a
-                >
-              </div>
-            </div>
-          </div>
-          <!-- Slide 3 -->
-          <div class="swiper-slide">
-            <img
-              src="img/grafico-tecnologico.png"
-              alt="Tecnologia e sustentabilidade"
-              onerror="this.onerror=null;this.src='https://placehold.co/1920x700/aaaaaa/000000?text=Imagem+3';"
-            />
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-              <h1>Relatórios Completos e Intuitivos</h1>
-              <p>
-                Gere relatórios ESG detalhados com apenas alguns cliques e
-                alinhe a sua empresa às melhores práticas de mercado.
-              </p>
-              <div class="hero-buttons">
-                <a href="html/ferramentas.html" class="btn-hero-primary"
-                  >Gerar Relatório</a
-                >
-                <a href="html/contato.html" class="btn-hero-secondary"
-                  >Fale Conosco</a
-                >
-              </div>
-            </div>
-          </div>
-          <!-- Slide 4 -->
-          <div class="swiper-slide">
-            <img
-              src="img/reuniao-sustentavel.png"
-              alt="Reunião de equipa sobre sustentabilidade"
-              onerror="this.onerror=null;this.src='https://placehold.co/1920x700/999999/000000?text=Imagem+4';"
-            />
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-              <h1>Inovação para o Planeta</h1>
-              <p>
-                Junte-se a nós e faça parte da transformação para um mundo
-                corporativo mais responsável e sustentável.
-              </p>
-              <div class="hero-buttons">
-                <a href="html/sobre.html" class="btn-hero-primary"
-                  >Nossa Missão</a
-                >
-                <a href="html/contato.html" class="btn-hero-secondary"
-                  >Fale Conosco</a
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-      </div>
-    </section>
+<body>
 
-    <!-- Indicadores -->
-    <section class="indicators" id="indicadores">
-      <div class="indicators-container">
-        <h2>Indicadores em Tempo Real</h2>
-        <p class="subtitle">
-          Acompanhe os principais KPIs de sustentabilidade da sua empresa e tome
-          decisões baseadas em dados.
-        </p>
-        <div class="cards">
-          <div class="card">
-            <div class="indicator-icon-wrapper">
-              <i class="fas fa-bolt"></i>
-            </div>
-            <h3>Consumo Energético</h3>
-            <p class="indicator-value"><strong>1,248</strong> kWh</p>
-            <div class="indicator-change">
-              <span class="positive"><i class="fas fa-arrow-up"></i> +5.2%</span
-              ><span class="period">vs. mês anterior</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="indicator-icon-wrapper">
-              <i class="fas fa-tint"></i>
-            </div>
-            <h3>Uso de Água</h3>
-            <p class="indicator-value"><strong>3,542</strong> m³</p>
-            <div class="indicator-change">
-              <span class="negative"
-                ><i class="fas fa-arrow-down"></i> -8.1%</span
-              ><span class="period">economia este mês</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="indicator-icon-wrapper">
-              <i class="fas fa-recycle"></i>
-            </div>
-            <h3>Material Reciclado</h3>
-            <p class="indicator-value"><strong>847</strong> kg</p>
-            <div class="indicator-change">
-              <span class="positive"
-                ><i class="fas fa-arrow-up"></i> +12.4%</span
-              ><span class="period">vs. trimestre anterior</span>
-            </div>
-          </div>
-          <div class="card">
-            <div class="indicator-icon-wrapper">
-              <i class="fas fa-desktop"></i>
-            </div>
-            <h3>TI Reaproveitada</h3>
-            <p class="indicator-value"><strong>156</strong> equipamentos</p>
-            <div class="indicator-change">
-              <span class="positive"
-                ><i class="fas fa-arrow-up"></i> +28.6%</span
-              ><span class="period">novos equipamentos</span>
-            </div>
+  <!-- Header -->
+  <header>
+    <nav class="navbar" id="navbar">
+      <a href="./index.html" class="logo">
+        <img src="./img/logo-nome.png" alt="EcoManager Logo">
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li>
+          <a class="nav-link" href="./index.html">Início</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./html/ferramentas.html">Ferramentas</a>
+        </li>
+        <li>
+          <a class="nav-link is-active" href="./html/esg-e-metas.html">ESG & Metas</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./html/sobre.html">Sobre</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./html/contato.html">Contato</a>
+        </li>
+      </ul>
+
+      <button class="hamburger" id="hamburger-btn" aria-label="Abrir menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <div class="avatar">
+            <a href="./html/profile.html"><i class="fas fa-user"></i></a>
           </div>
         </div>
       </div>
-    </section>
+    </nav>
+  </header>
 
-    <!-- Como Funciona -->
-    <section class="features" id="funcionalidades">
-      <div class="features-container">
-        <h2>Como Funciona</h2>
-        <p class="subtitle">
-          Transforme dados de sustentabilidade em insights acionáveis com nossa
-          plataforma completa.
-        </p>
-        <div class="cards">
-          <div class="card">
-            <div class="feature-icon-wrapper">
-              <i class="fas fa-calculator"></i>
+  <div class="nav-overlay" id="nav-overlay"></div>
+
+  <!-- Hero -->
+  <section class="hero" id="inicio">
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper">
+        <!-- Slide 1 -->
+        <div class="swiper-slide">
+          <img src="img/foto-dashboard.png" alt="Dashboard de sustentabilidade"
+            onerror="this.onerror=null;this.src='https://placehold.co/1920x700/cccccc/000000?text=Imagem+1';">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <h1>Transforme a sua Gestão ESG</h1>
+            <p>Monitore, analise e otimize os indicadores de sustentabilidade da sua empresa com a nossa plataforma
+              completa.</p>
+            <div class="hero-buttons">
+              <a href="html/ferramentas.html" class="btn-hero-primary">Começar Agora</a>
+              <a href="html/contato.html" class="btn-hero-secondary">Fale Conosco</a>
             </div>
-            <h3>Calculadoras Inteligentes</h3>
-            <p>
-              Calcule consumo de energia, água, resíduos e reaproveitamento de
-              TI com precisão.
+          </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="swiper-slide">
+          <img src="img/grafico-sustentavel.png" alt="Gráfico de crescimento sustentável"
+            onerror="this.onerror=null;this.src='https://placehold.co/1920x700/bbbbbb/000000?text=Imagem+2';">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <h1>Decisões Baseadas em Dados</h1>
+            <p>Visualize o seu impacto ambiental em tempo real e tome decisões estratégicas para um futuro mais verde.
             </p>
-            <a href="html/ferramentas.html" class="explore-link"
-              >Explorar <i class="fas fa-arrow-right"></i
-            ></a>
-          </div>
-          <div class="card">
-            <div class="feature-icon-wrapper">
-              <i class="fas fa-chart-pie"></i>
+            <div class="hero-buttons">
+              <a href="html/ferramentas.html" class="btn-hero-primary">Ver Dashboards</a>
+              <a href="html/sobre.html" class="btn-hero-secondary">Saber Mais</a>
             </div>
-            <h3>Dashboards Interativos</h3>
-            <p>
-              Visualize dados por unidade, período e categoria com filtros
-              avançados.
-            </p>
-            <a href="html/ferramentas.html" class="explore-link"
-              >Explorar <i class="fas fa-arrow-right"></i
-            ></a>
-          </div>
-          <div class="card">
-            <div class="feature-icon-wrapper">
-              <i class="fas fa-file-alt"></i>
-            </div>
-            <h3>Relatórios ESG</h3>
-            <p>
-              Gere relatórios executivos e detalhados com exportação em PDF.
-            </p>
-            <a href="html/ferramentas.html" class="explore-link"
-              >Explorar <i class="fas fa-arrow-right"></i
-            ></a>
-          </div>
-          <div class="card">
-            <div class="feature-icon-wrapper">
-              <i class="fas fa-bullseye"></i>
-            </div>
-            <h3>Metas & ODS</h3>
-            <p>
-              Defina metas anuais e acompanhe progresso alinhado aos ODS da ONU.
-            </p>
-            <a href="#" class="explore-link"
-              >Explorar <i class="fas fa-arrow-right"></i
-            ></a>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Impacto -->
-    <section class="impact" id="impacto">
-      <div class="impact-container">
-        <h2>Impacto Real, Resultados Mensuráveis</h2>
-        <p>
-          Empresas que usam nossa plataforma alcançam resultados significativos
-          em sustentabilidade.
-        </p>
-        <div class="stats-container">
-          <div class="stat-item">
-            <div class="stat-icon-wrapper"><i class="fas fa-bolt"></i></div>
-            <div class="stat-content">
-              <strong data-target="25" data-suffix="%">0%</strong
-              ><span>redução no consumo<br /><strong>Energia</strong></span>
+        <!-- Slide 3 -->
+        <div class="swiper-slide">
+          <img src="img/grafico-tecnologico.png" alt="Tecnologia e sustentabilidade"
+            onerror="this.onerror=null;this.src='https://placehold.co/1920x700/aaaaaa/000000?text=Imagem+3';">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <h1>Relatórios Completos e Intuitivos</h1>
+            <p>Gere relatórios ESG detalhados com apenas alguns cliques e alinhe a sua empresa às melhores práticas de
+              mercado.</p>
+            <div class="hero-buttons">
+              <a href="html/ferramentas.html" class="btn-hero-primary">Gerar Relatório</a>
+              <a href="html/contato.html" class="btn-hero-secondary">Fale Conosco</a>
             </div>
           </div>
-          <div class="stat-item">
-            <div class="stat-icon-wrapper"><i class="fas fa-tint"></i></div>
-            <div class="stat-content">
-              <strong data-target="18" data-suffix="%">0%</strong
-              ><span>economia mensal<br /><strong>Água</strong></span>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon-wrapper"><i class="fas fa-recycle"></i></div>
-            <div class="stat-content">
-              <strong data-target="67" data-suffix="%">0%</strong
-              ><span>taxa de reciclagem<br /><strong>Resíduos</strong></span>
-            </div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-icon-wrapper"><i class="fas fa-desktop"></i></div>
-            <div class="stat-content">
-              <strong data-target="234">0</strong
-              ><span
-                >equipamentos reaproveitados<br /><strong
-                  >TI Circular</strong
-                ></span
-              >
+        </div>
+        <!-- Slide 4 -->
+        <div class="swiper-slide">
+          <img src="img/reuniao-sustentavel.png" alt="Reunião de equipa sobre sustentabilidade"
+            onerror="this.onerror=null;this.src='https://placehold.co/1920x700/999999/000000?text=Imagem+4';">
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <h1>Inovação para o Planeta</h1>
+            <p>Junte-se a nós e faça parte da transformação para um mundo corporativo mais responsável e sustentável.
+            </p>
+            <div class="hero-buttons">
+              <a href="html/sobre.html" class="btn-hero-primary">Nossa Missão</a>
+              <a href="html/contato.html" class="btn-hero-secondary">Fale Conosco</a>
             </div>
           </div>
         </div>
       </div>
-    </section>
+      <div class="swiper-button-next"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-pagination"></div>
+    </div>
+  </section>
 
-    <!-- CTA Final -->
-    <section class="cta" id="cta">
-      <div class="cta-container">
-        <h2>Pronto para Transformar sua Gestão ESG?</h2>
-        <p>
-          Comece hoje mesmo a monitorar e otimizar os indicadores de
-          sustentabilidade da sua empresa.
-        </p>
-
-        <div class="cta-buttons">
-          <a href="html/ferramentas.html" class="btn-cta-primary"
-            >Começar Agora</a
-          >
-          <a href="#" class="btn-cta-secondary">Falar com Especialista</a>
+  <!-- Indicadores -->
+  <!-- <section class="indicators" id="indicadores">
+    <div class="indicators-container">
+      <h2>Indicadores em Tempo Real</h2>
+      <p class="subtitle">Acompanhe os principais KPIs de sustentabilidade da sua empresa e tome decisões baseadas em
+        dados.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="indicator-icon-wrapper"><i class="fas fa-bolt"></i></div>
+          <h3>Consumo Energético</h3>
+          <p class="indicator-value"><strong>1,248</strong> kWh</p>
+          <div class="indicator-change"><span class="positive"><i class="fas fa-arrow-up"></i> +5.2%</span><span
+              class="period">vs. mês anterior</span></div>
+        </div>
+        <div class="card">
+          <div class="indicator-icon-wrapper"><i class="fas fa-tint"></i></div>
+          <h3>Uso de Água</h3>
+          <p class="indicator-value"><strong>3,542</strong> m³</p>
+          <div class="indicator-change"><span class="negative"><i class="fas fa-arrow-down"></i> -8.1%</span><span
+              class="period">economia este mês</span></div>
+        </div>
+        <div class="card">
+          <div class="indicator-icon-wrapper"><i class="fas fa-recycle"></i></div>
+          <h3>Material Reciclado</h3>
+          <p class="indicator-value"><strong>847</strong> kg</p>
+          <div class="indicator-change"><span class="positive"><i class="fas fa-arrow-up"></i> +12.4%</span><span
+              class="period">vs. trimestre anterior</span></div>
+        </div>
+        <div class="card">
+          <div class="indicator-icon-wrapper"><i class="fas fa-desktop"></i></div>
+          <h3>TI Reaproveitada</h3>
+          <p class="indicator-value"><strong>156</strong> equipamentos</p>
+          <div class="indicator-change"><span class="positive"><i class="fas fa-arrow-up"></i> +28.6%</span><span
+              class="period">novos equipamentos</span></div>
         </div>
       </div>
-    </section>
+    </div>
+  </section> -->
 
-    <!-- Footer -->
-    <footer id="contato">
-      <div class="footer-container">
-        <div class="footer-col about">
-          <img
-            src="img/logo-nome.png"
-            alt="EcoManager Logo"
-            class="footer-logo"
-            onerror="this.onerror=null;this.src='https://placehold.co/150x40/111827/ffffff?text=EcoManager';"
-          />
-          <p>
-            Plataforma completa para monitoramento e gestão de indicadores ESG.
-            Dados que viram ação para um futuro sustentável.
+  <!-- Como Funciona -->
+  <section class="features" id="funcionalidades">
+    <div class="features-container">
+      <h2>Como Funciona</h2>
+      <p class="subtitle">Transforme dados de sustentabilidade em insights acionáveis com nossa plataforma completa.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="feature-icon-wrapper"><i class="fas fa-calculator"></i></div>
+          <h3>Calculadoras Inteligentes</h3>
+          <p>Calcule consumo de energia, água, resíduos e reaproveitamento de TI com precisão.</p>
+          <!-- <a href="html/ferramentas.html" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a> -->
+        </div>
+        <div class="card">
+          <div class="feature-icon-wrapper"><i class="fas fa-chart-pie"></i></div>
+          <h3>Dashboards Interativos</h3>
+          <p>Visualize dados por unidade, período e categoria com filtros avançados.</p>
+          <!-- <a href="html/ferramentas.html" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a> -->
+        </div>
+        <div class="card">
+          <div class="feature-icon-wrapper"><i class="fas fa-robot"></i></div>
+          <h3>Assistente ESG</h3>
+          <p>Utilize nosso chatbot assistente para analisar dashboards, métricas e criar metas ESG para o seu negócio.
           </p>
+          <!-- <a href="html/ferramentas.html" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a> -->
+        </div>
+        <div class="card">
+          <div class="feature-icon-wrapper"><i class="fas fa-bullseye"></i></div>
+          <h3>Metas ESG</h3>
+          <p>Defina metas anuais e acompanhe progresso, utilizando indicadores ESG como base de comparação.</p>
+          <!-- <a href="#" class="explore-link">Explorar <i class="fas fa-arrow-right"></i></a> -->
+        </div>
+      </div>
+    </div>
+  </section>
 
-          <div class="contact-info">
-            <p><i class="fas fa-envelope"></i> contato@ecomanager.com</p>
-            <p><i class="fas fa-phone"></i> +55 (11) 99999-9990</p>
-            <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
+  <!-- Impacto -->
+  <!-- <section class="impact" id="impacto">
+    <div class="impact-container">
+      <h2>Impacto Real, Resultados Mensuráveis</h2>
+      <p>Empresas que usam nossa plataforma alcançam resultados significativos em sustentabilidade.</p>
+      <div class="stats-container">
+        <div class="stat-item">
+          <div class="stat-icon-wrapper"><i class="fas fa-bolt"></i></div>
+          <div class="stat-content"><strong data-target="25" data-suffix="%">0%</strong><span>redução no
+              consumo<br><strong>Energia</strong></span></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon-wrapper"><i class="fas fa-tint"></i></div>
+          <div class="stat-content"><strong data-target="18" data-suffix="%">0%</strong><span>economia
+              mensal<br><strong>Água</strong></span></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon-wrapper"><i class="fas fa-recycle"></i></div>
+          <div class="stat-content"><strong data-target="67" data-suffix="%">0%</strong><span>taxa de
+              reciclagem<br><strong>Resíduos</strong></span></div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-icon-wrapper"><i class="fas fa-desktop"></i></div>
+          <div class="stat-content"><strong data-target="234">0</strong><span>equipamentos reaproveitados<br><strong>TI
+                Circular</strong></span></div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- CTA Final -->
+  <section class="cta" id="cta">
+    <div class="cta-container">
+      <h2>Pronto para Transformar sua Gestão ESG?</h2>
+      <p>Comece hoje mesmo a monitorar e otimizar os indicadores de sustentabilidade da sua empresa.</p>
+
+      <div class="cta-buttons">
+        <a href="html/ferramentas.html" class="btn-cta-primary">Começar Agora</a>
+        <a href="#" class="btn-cta-secondary">Falar com Especialista</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESG Showcase Section -->
+  <section class="esg-showcase">
+    <div class="esg-showcase-content">
+      <h2>Acesse aonde estiver</h2>
+      <h3>Dúvidas na sua jornada ESG?</h3>
+      <p>
+        Nossa aplicação web funciona no celular, tablet e computador. Você tem acesso aonde estiver. Comece hoje mesmo a utilizar plataforma completa para monitoramento e gestão de metas ESG!
+      </p>
+      <a href="html/contato.html" class="btn-esg-showcase">Fale com um especialista</a>
+    </div>
+    <div class="esg-showcase-swiper-container">
+      <!-- Swiper -->
+      <div class="swiper esg-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="./img/img-responsividade-3.png" alt="Consultoria ESG">
           </div>
+          <div class="swiper-slide">
+            <img src="./img/img-responsividade-2.png" alt="Soluções ESG">
+          </div>
+          <div class="swiper-slide">
+            <img src="./img/img-responsividade-1.png" alt="Futuro ESG">
+          </div>
+          <!-- <div class="swiper-slide">
+            <img src="https://source.unsplash.com/600x450/?team,collaboration" alt="Equipe ESG">
+          </div> -->
         </div>
+        <div class="swiper-pagination esg-swiper-pagination"></div>
+      </div>
+    </div>
+  </section>
 
-        <div class="footer-col links">
-          <h4>Plataforma</h4>
-          <ul>
-            <li><a href="html/ferramentas.html">Calculadoras</a></li>
-            <li><a href="html/ferramentas.html#dashboards">Dashboards</a></li>
-            <li><a href="#">Relatórios</a></li>
-            <li><a href="#">ESG & Metas</a></li>
+  <!-- Inicialização dos Carrosséis -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script type="module" src="js/mainScript.js" defer></script>
+
+  <script src="./js/carrossel.js"></script> 
+
+<!-- Seção de Preços -->
+  <section class="pricing" id="precos">
+    <div class="pricing-container">
+      <h2>Planos e Preços</h2>
+      <p class="subtitle">Escolha o plano ideal para transformar a gestão de sustentabilidade da sua empresa.</p>
+      <div class="pricing-cards-wrapper">
+        <!-- Plano Mensal -->
+        <div class="pricing-card">
+          <div class="pricing-header">
+            <h3>Licença Mensal</h3>
+            <p>Flexibilidade para começar agora, sem compromisso anual.</p>
+          </div>
+          <div class="price">
+            R$ 120,00<span>/mês</span>
+          </div>
+          <div class="payment-options">
+            <p>&nbsp;</p> <!-- Espaço para alinhar com o outro card -->
+          </div>
+          <ul class="features-list">
+            <li><i class="fas fa-check"></i> Calculadoras de Impacto</li>
+            <li><i class="fas fa-check"></i> Dashboards Interativos</li>
+            <li><i class="fas fa-check"></i> Relatórios ESG Completos</li>
+            <li><i class="fas fa-check"></i> Assistente com IA</li>
+            <li><i class="fas fa-check"></i> Definição de Metas</li>
+            <li><i class="fas fa-check"></i> Suporte via e-mail</li>
           </ul>
+          <a href="html/checkout.html" class="btn-pricing">Adquirir Licença</a>
         </div>
-
-        <div class="footer-col links">
-          <h4>Empresa</h4>
-          <ul>
-            <li><a href="html/sobre.html">Sobre Nós</a></li>
-            <li><a href="#">Compromisso ESG</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="html/contato.html">Contato</a></li>
+        <!-- Plano Anual (Recomendado) -->
+        <div class="pricing-card recommended">
+          <div class="badge">Mais Popular</div>
+          <div class="pricing-header">
+            <h3>Licença Anual</h3>
+            <p>Economize 20% com nosso plano mais completo e vantagens exclusivas.</p>
+          </div>
+          <div class="price">
+            R$ 1.200,00<span>/ano</span>
+          </div>
+          <div class="payment-options">
+            <p>Equivalente a <strong>R$ 100,00/mês</strong></p>
+          </div>
+          <ul class="features-list">
+            <li><i class="fas fa-check"></i> Tudo do plano Mensal, e mais:</li>
+            <li><i class="fas fa-check"></i> Suporte Prioritário</li>
+            <li><i class="fas fa-check"></i> Acesso antecipado a novos recursos</li>
           </ul>
+          <a href="html/checkout.html" class="btn-pricing">Adquirir Licença</a>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="footer-col links">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="html/politica.html">Política de Privacidade</a></li>
-            <li><a href="html/termos.html">Termos de Uso</a></li>
-            <li><a href="html/lgpd.html">LGPD</a></li>
-            <li><a href="#">Cookies</a></li>
-          </ul>
+  <!-- Footer -->
+  <footer id="contato">
+    <div class="footer-container">
+      <div class="footer-col about">
+        <img src="img/logo-nome.png" alt="EcoManager Logo" class="footer-logo"
+          onerror="this.onerror=null;this.src='https://placehold.co/150x40/111827/ffffff?text=EcoManager';">
+        <p>Plataforma completa para monitoramento e gestão de indicadores ESG. Dados que viram ação para um futuro
+          sustentável.</p>
+
+        <div class="contact-info">
+          <p><i class="fas fa-envelope"></i> contato@ecomanager.com</p>
+          <p><i class="fas fa-phone"></i> +55 (11) 99999-9990</p>
+          <p><i class="fas fa-map-marker-alt"></i> São Paulo, Brasil</p>
         </div>
       </div>
 
-      <div class="footer-bottom">
-        <p>© 2025 EcoManager. Todos os direitos reservados.</p>
-        <div class="certifications">
-          <span>Certificado ISO 14001</span>
-          <span>•</span>
-          <span>B Corp Certified</span>
-          <span>•</span>
-          <span>Carbon Neutral</span>
-        </div>
+      <div class="footer-col links">
+        <h4>Plataforma</h4>
+        <ul>
+          <li><a href="html/ferramentas.html">Calculadoras</a></li>
+          <li><a href="html/ferramentas.html#dashboards">Dashboards</a></li>
+          <li><a href="#">Relatórios</a></li>
+          <li><a href="#">ESG & Metas</a></li>
+        </ul>
       </div>
-    </footer>
+
+      <div class="footer-col links">
+        <h4>Empresa</h4>
+        <ul>
+          <li><a href="html/sobre.html">Sobre Nós</a></li>
+          <li><a href="#">Compromisso ESG</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="html/contato.html">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="html/politica.html">Política de Privacidade</a></li>
+          <li><a href="html/termos.html">Termos de Uso</a></li>
+          <li><a href="html/lgpd.html">LGPD</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 EcoManager. Todos os direitos reservados.</p>
+      <div class="certifications">
+        <span>Certificado ISO 14001</span>
+        <span>•</span>
+        <span>B Corp Certified</span>
+        <span>•</span>
+        <span>Carbon Neutral</span>
+      </div>
+    </div>
+  </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="module" src="js/mainScript.js"></script>
     <script type="module" src="js/app.js"></script>
-  </body>
+  <!-- Widget de Acessibilidade UserWay -->
+  <script src="https://cdn.userway.org/widget.js" data-account="gVFXAs372E"></script>
+  <!-- VLibras Widget -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+  </script>
+</body>
+
 </html>
-<!-- Teste para acionar a pipeline -->
