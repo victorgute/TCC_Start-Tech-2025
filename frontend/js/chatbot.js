@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function transcribeAudio(audioBlob) {
         // ATENÇÃO: Substitua "SUA_CHAVE_DA_API_DA_OPENAI_AQUI" pela sua chave de API real.
-        const apiKey = "SUA_CHAVE_DA_API_DA_OPENAI_AQUI"; 
+        const apiKey = 'import.meta.env.VITE_OPENAI_API_KEY'; 
         const apiUrl = "https://api.openai.com/v1/audio/transcriptions";
         
         const formData = new FormData();
