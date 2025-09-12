@@ -63,3 +63,63 @@ function initNavbar() {
   });
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.getElementById('hamburger-btn');
+  const navLinks = document.getElementById('navLinks');
+  const navOverlay = document.getElementById('nav-overlay');
+  const navLinkItems = document.querySelectorAll('.nav-link');
+
+  // Função para fechar o menu ao rolar a página
+  const closeMenuOnScroll = () => {
+    // Verifica se o menu está ativo antes de tentar fechá-lo
+    if (navLinks.classList.contains('active')) {
+      hamburger.click(); // Simula um clique no botão para fechar o menu e o overlay
+    }
+  };
+
+  if (hamburger && navLinks) {
+    const toggleMenu = () => {
+      navLinks.classList.toggle('active');
+      navOverlay?.classList.toggle('active');
+
+      // Troca o ícone para 'X' quando o menu está ativo
+      const icon = hamburger.querySelector('i');
+      if (navLinks.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+        hamburger.setAttribute('aria-label', 'Fechar menu');
+        window.addEventListener('scroll', closeMenuOnScroll, { once: true });
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+        hamburger.setAttribute('aria-label', 'Abrir menu');
+      }
+    };
+
+    hamburger.addEventListener('click', toggleMenu);
+    // Fecha o menu se clicar no overlay
+    navOverlay?.addEventListener('click', toggleMenu);
+  }
+
+  // Fecha o menu ao clicar em um link
+  navLinkItems.forEach(link => {
+    link.addEventListener('click', () => {
+      if (navLinks.classList.contains('active')) {
+        // Reutiliza a função de toggle para fechar tudo
+        hamburger.click();
+      }
+    });
+  });
+
+  // Lógica para o scroll da navbar (já existente, mantida para contexto)
+  const navbar = document.getElementById('navbar');
+  if (navbar) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('is-scrolled');
+      } else {
+        navbar.classList.remove('is-scrolled');
+      }
+    });
+  }
+});
