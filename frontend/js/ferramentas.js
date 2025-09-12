@@ -1,14 +1,11 @@
 /**
- * Este ficheiro contém a lógica específica da página de ferramentas:
- * 1. Recolha de dados dos formulários.
- * 2. Envio dos dados para o back-end através do `api.js`.
- * 3. Carregamento dos dados existentes e atualização dos dashboards.
+ * Este ficheiro contém a lógica específica da página de ferramentas.
  */
 import { postCalculatorData, fetchCalculatorData } from './api.js';
-// O CAMINHO FOI CORRIGIDO para apontar para a pasta e ficheiro corretos
 import { initDashboards, updateDashboards } from './scriptDashboard/initDashboards.js';
+import { initChartDownload } from './scriptDashboard/downloadChart.js'; // <-- 1. IMPORTA A FUNÇÃO DE DOWNLOAD
 
-// Função para mostrar notificações (sem alterações)
+// Função para mostrar notificações
 function showNotification(message, isSuccess = true) {
     const notification = document.createElement('div');
     notification.className = `notification ${isSuccess ? 'success' : 'error'}`;
@@ -19,7 +16,7 @@ function showNotification(message, isSuccess = true) {
     }, 4000);
 }
 
-// Função para recolher os dados do formulário da calculadora ativa (sem alterações)
+// Função para recolher os dados do formulário da calculadora ativa
 function getActiveCalculatorData(activeTabId) {
     const form = document.getElementById(activeTabId);
     if (!form) return null;
@@ -63,9 +60,9 @@ function getActiveCalculatorData(activeTabId) {
 
 // Função principal que é executada quando a página de ferramentas carrega
 async function initFerramentasPage() {
-    // 1. CRIA os gráficos vazios, apenas uma vez.
     initDashboards(); 
-    
+    initChartDownload(); // <-- 2. CHAMA A FUNÇÃO PARA ATIVAR OS BOTÕES
+
     const saveBtn = document.querySelector('.save-dashboard-btn');
     const monthSelect = document.getElementById('month-select');
     const yearInput = document.getElementById('year-input');
@@ -81,7 +78,6 @@ async function initFerramentasPage() {
             const calculatorType = activeTab.dataset.tab;
             const data = getActiveCalculatorData(calculatorType);
             const year = yearInput.value;
-            // Corrigido para obter o valor correto do mês (índice do select + 1)
             const month = parseInt(monthSelect.selectedIndex) + 1;
             
             if (!month || !year) {
@@ -97,7 +93,6 @@ async function initFerramentasPage() {
                 await postCalculatorData(payload);
                 showNotification("Dados guardados com sucesso!", true);
                 
-                // 3. Busca todos os dados e ATUALIZA os gráficos existentes
                 const allData = await fetchCalculatorData();
                 updateDashboards(allData); 
 
@@ -110,7 +105,6 @@ async function initFerramentasPage() {
         });
     }
 
-    // 2. Carrega os dados iniciais e ATUALIZA os gráficos pela primeira vez
     try {
         const initialData = await fetchCalculatorData();
         updateDashboards(initialData); 
@@ -120,8 +114,6 @@ async function initFerramentasPage() {
     }
 }
 
-// Inicia a lógica da página se o container das calculadoras existir
 if (document.querySelector('.calculator-section')) {
     initFerramentasPage();
 }
-
