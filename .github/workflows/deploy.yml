@@ -14,13 +14,17 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
+        # ...
         script: |
           cd /home/ec2-user/TCC_Start-Tech-2025
           git pull
+          echo "Instalando dependências do backend..."
           cd backend
           npm install
+          echo "Instalando e fazendo build do frontend..."
           cd ../frontend
           npm install
-          npm run build
+          VITE_OPENAI_API_KEY=${{ secrets.VITE_OPENAI_API_KEY }} npm run build
+          echo
           cd ../backend
           pm2 restart ecosystem.config.cjs

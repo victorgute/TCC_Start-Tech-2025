@@ -8,7 +8,7 @@ const client = new SSMClient({ region: REGION });
 const PARAMETER_NAMES = [
     '/ecomanager/DYNAMODB_TABLE_NAME',
     '/ecomanager/AWS_REGION',
-    '/ecomanager/FIREBASE_SERVICE_ACCOUNT'
+    '/ecomanager/FIREBASE_SERVICE_ACCOUNT',
 ];
 
 let config = null;
