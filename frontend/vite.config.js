@@ -13,6 +13,8 @@ export default defineConfig({
         contato: resolve(__dirname, 'html/contato.html'),
         login: resolve(__dirname, 'html/login.html'),
         signup: resolve(__dirname, 'html/signup.html'),
+        login: resolve(__dirname, 'html/login.html'),
+        profile: resolve(__dirname, 'html/profile.html'),
         profile: resolve(__dirname, 'html/profile.html'),
         politica: resolve(__dirname, 'html/politica.html'),
         termos: resolve(__dirname, 'html/termos.html'),

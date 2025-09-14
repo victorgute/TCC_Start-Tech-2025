@@ -44,8 +44,10 @@ const makeAuthenticatedRequest = async (endpoint, method = 'GET', body = null) =
 
 export const fetchCalculatorData = () => makeAuthenticatedRequest('/api/calculator');
 export const postCalculatorData = (payload) => makeAuthenticatedRequest('/api/calculator', 'POST', payload);
+export const updateUserProfile = (payload) => makeAuthenticatedRequest('/api/profile', 'POST', payload);
 export const saveDashboardConfig = (config) => makeAuthenticatedRequest('/api/dashboard/config', 'POST', { config });
 export const getDashboardConfig = () => makeAuthenticatedRequest('/api/dashboard/config');
+
 export const downloadDashboard = async () => {
     try {
         const response = await makeAuthenticatedRequest('/api/dashboard/download');
