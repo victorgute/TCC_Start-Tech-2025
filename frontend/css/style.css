@@ -206,35 +206,9 @@ NAVBAR
     align-items: center;
 }
 
-.avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background-color: #10b981;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-}
-.avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background-color: #10b981;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-}
 
-.avatar i {
-    color: #fff;
-}
-.avatar i {
-    color: #fff;
-}
+
+
 
 /* ------------------------------
 HAMBURGER MENU
@@ -1876,4 +1850,31 @@ ESG SHOWCASE CAROUSEL
 .btn-pricing:hover {
   background: #0f9f59;
   transform: translateY(-3px);
+}
+
+/* Faz o botão de Logout parecer um link na navbar */
+button.nav-link {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
+  display: inline;
+  text-align: left;
+  line-height: normal;
+}
+
+button.nav-link:hover {
+  color: #10b981; /* Cor de hover dos outros links */
+}
+
+/* Estiliza a imagem do avatar no cabeçalho */
+.header-avatar {
+  width: 60%;
+  height: 70%;
+  border-radius: 50%;
+  object-fit: cover; /* Garante que a imagem não fique distorcida */
 }
