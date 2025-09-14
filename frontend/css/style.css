@@ -1878,3 +1878,104 @@ button.nav-link:hover {
   border-radius: 50%;
   object-fit: cover; /* Garante que a imagem não fique distorcida */
 }
+
+/* ==========================================================================
+   ESTILOS ADICIONAIS PARA OS BOTÕES E LAYOUT DOS DASHBOARDS
+   ========================================================================== */
+
+/* --- Estilos Gerais de Botões de Ação --- */
+.btn-primary,
+.btn-secondary {
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.btn-primary {
+    background-color: #10b981;
+    color: #ffffff;
+    border-color: #10b981;
+}
+
+.btn-primary:hover {
+    background-color: #0f9f59;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.btn-secondary {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border-color: #d1d5db;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+/* --- Ajustes no Cabeçalho do Dashboard --- */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Permite que os itens quebrem para a linha de baixo em telas menores */
+    gap: 1.5rem; /* Espaçamento entre todos os elementos */
+    margin-bottom: 2rem;
+}
+
+.dashboard-title {
+    flex-grow: 1; /* Permite que o título ocupe o espaço disponível */
+}
+
+.workspace-selector-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: #f9fafb;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.workspace-selector-container label {
+    font-weight: 500;
+    color: #4b5563;
+    font-size: 0.9rem;
+}
+
+.workspace-selector-container select {
+    border: none;
+    background: transparent;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.25rem;
+    border-radius: 6px;
+}
+
+.workspace-selector-container select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* --- Melhoria nos Botões de Download dos Gráficos --- */
+.chart-header .download-buttons button {
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.chart-header .download-buttons button:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
