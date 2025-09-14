@@ -167,3 +167,34 @@ export function initDashboards() {
         });
     }
 }
+
+
+// Adicione esta função ao final de initDashboards.js
+
+export function clearCharts() {
+    if (charts.energy) {
+        charts.energy.data.labels = [];
+        charts.energy.data.datasets[0].data = [];
+        charts.energy.update();
+    }
+    if (charts.water) {
+        charts.water.data.datasets.forEach(dataset => {
+            dataset.data = Array(12).fill(0);
+        });
+        charts.water.update();
+    }
+    if (charts.waste) {
+        charts.waste.data.datasets[0].data = [0, 0, 0];
+        charts.waste.update();
+    }
+    if (charts.ti) {
+        charts.ti.data.datasets = [{
+            label: 'Nenhum equipamento selecionado',
+            data: [0, 0],
+            backgroundColor: 'rgba(200, 200, 200, 0.5)',
+            borderWidth: 1
+        }];
+        charts.ti.update();
+    }
+    console.log("Gráficos limpos.");
+}

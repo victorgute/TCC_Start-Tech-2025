@@ -33,56 +33,44 @@ export function initializeDbConnection(config) {
 /**
  * Função para ADICIONAR dados de uma calculadora com validação.
  */
-export const addCalculatorData = async (userId, calculatorType, year, month, data) => {
+// --- FUNÇÕES DE DADOS (MODIFICADAS) ---
+export const addCalculatorData = async (userId, workspaceId, calculatorType, year, month, data) => {
   if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
-    
-  const sanitizedData = {};
-  for (const key in data) {
-    if (typeof data[key] === 'number' && isNaN(data[key])) {
-      sanitizedData[key] = 0;
-    } else {
-      sanitizedData[key] = data[key];
-    }
-  }
-
   const item = {
     user_uid: userId,
-    record_id: `${calculatorType.toUpperCase()}#${year}#${month}`,
+    record_id: `${workspaceId}#${calculatorType.toUpperCase()}#${year}#${month}`,
+    workspace_id: workspaceId,
     calculator_type: calculatorType,
-    year: parseInt(year, 10) || new Date().getFullYear(),
-    month: parseInt(month, 10) || (new Date().getMonth() + 1),
-    data: sanitizedData,
+    year: parseInt(year, 10),
+    month: parseInt(month, 10),
+    data: data,
     created_at: new Date().toISOString(),
   };
-
   const command = new PutCommand({ TableName: tableName, Item: item });
-
   try {
     await docClient.send(command);
-    console.log(`[DynamoDB Service] Item guardado com sucesso para o user: ${item.user_uid}`);
-    return { success: true, message: 'Dados guardados com sucesso no DynamoDB.', item: item };
+    return { success: true };
   } catch (error) {
     console.error(`[DynamoDB Service] Erro ao guardar item:`, error);
     throw new Error('Erro ao comunicar com o DynamoDB.');
   }
 };
 
+
+
 /**
  * Função para OBTER todos os dados de um utilizador.
  */
-export const getUserCalculatorData = async (user_uid) => {
+export const getUserCalculatorData = async (user_uid, workspaceId) => {
   if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
-  
+  if (!workspaceId) throw new Error("Workspace ID é necessário para buscar dados.");
   const params = {
     TableName: tableName,
-    KeyConditionExpression: "user_uid = :uid",
-    ExpressionAttributeValues: { ":uid": user_uid },
+    KeyConditionExpression: "user_uid = :uid AND begins_with(record_id, :workspace)",
+    ExpressionAttributeValues: { ":uid": user_uid, ":workspace": `${workspaceId}#` },
   };
-
   try {
-    const command = new QueryCommand(params);
-    const { Items } = await docClient.send(command);
-    console.log(`[DynamoDB Service] Encontrados ${Items.length} itens para o user: ${user_uid}`);
+    const { Items } = await docClient.send(new QueryCommand(params));
     return Items;
   } catch (error) {
     console.error(`[DynamoDB Service] Erro ao obter itens:`, error);
@@ -138,6 +126,68 @@ export const getDashboardConfig = async (userId) => {
     return {};
   } catch (error) {
     console.error(`[DynamoDB Service] Erro ao obter config:`, error);
+    throw new Error('Erro ao comunicar com o DynamoDB.');
+  }
+};
+
+// Adicione esta função ao final de dynamodb_connection.js
+export const saveDashboardSnapshotData = async (userId, name, snapshotData) => {
+  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
+    
+  const item = {
+    user_uid: userId,
+    record_id: `${workspaceId}#${calculatorType.toUpperCase()}#${year}#${month}`,
+    workspace_id: workspaceId, // Adicionamos o ID para facilitar futuras consultas
+    calculator_type: calculatorType,
+    record_id: `SNAPSHOT#${new Date().toISOString()}`, // Cria um ID único para o snapshot
+    snapshot_name: name,
+    data: snapshotData,
+    created_at: new Date().toISOString()
+  };
+
+  const command = new PutCommand({ TableName: tableName, Item: item });
+  try {
+    await docClient.send(command);
+    console.log(`[DynamoDB Service] Snapshot salvo para o user: ${userId}`);
+    return { success: true };
+  } catch (error) {
+    console.error(`[DynamoDB Service] Erro ao salvar snapshot:`, error);
+    throw new Error('Erro ao comunicar com o DynamoDB.');
+  }
+}; 
+
+
+export const getWorkspaces = async (userId) => {
+  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
+  const params = {
+    TableName: tableName,
+    KeyConditionExpression: "user_uid = :uid AND begins_with(record_id, :prefix)",
+    ExpressionAttributeValues: { ":uid": userId, ":prefix": "WORKSPACE#" },
+  };
+  try {
+    const { Items } = await docClient.send(new QueryCommand(params));
+    return Items;
+  } catch (error) {
+    console.error(`[DynamoDB Service] Erro ao obter workspaces:`, error);
+    throw new Error('Erro ao comunicar com o DynamoDB.');
+  }
+};
+
+export const createWorkspace = async (userId, workspaceName) => {
+  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
+  const workspaceId = `WKS-${Date.now()}`; // Cria um ID único
+  const item = {
+    user_uid: userId,
+    record_id: `WORKSPACE#${workspaceId}`,
+    workspace_name: workspaceName,
+    created_at: new Date().toISOString()
+  };
+  const command = new PutCommand({ TableName: tableName, Item: item });
+  try {
+    await docClient.send(command);
+    return item;
+  } catch (error) {
+    console.error(`[DynamoDB Service] Erro ao criar workspace:`, error);
     throw new Error('Erro ao comunicar com o DynamoDB.');
   }
 };

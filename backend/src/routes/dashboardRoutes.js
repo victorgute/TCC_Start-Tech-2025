@@ -1,6 +1,6 @@
 import express from 'express';
 import { Parser } from 'json2csv';
-import { getUserCalculatorData, saveDashboardConfig, getDashboardConfig } from '../services/dynamodb_connection.js';
+import { getUserCalculatorData, saveDashboardConfig, getDashboardConfig, saveDashboardSnapshotData } from '../services/dynamodb_connection.js'; // <-- ADICIONE 'saveDashboardSnapshotData' AQUI
 
 const router = express.Router();
 
@@ -25,6 +25,24 @@ router.post('/config', async (req, res) => {
         res.status(500).json({ message: 'Erro no servidor ao guardar a configuração.' });
     }
 });
+
+// Nova rota para salvar snapshots
+router.post('/snapshot', async (req, res) => {
+    const userId = req.user.uid;
+    const { name, snapshotData } = req.body;
+
+    if (!name || !snapshotData) {
+        return res.status(400).json({ message: 'Nome e dados do snapshot são obrigatórios.' });
+    }
+
+    try {
+        await saveDashboardSnapshotData(userId, name, snapshotData);
+        res.status(201).json({ message: 'Snapshot do dashboard salvo com sucesso!' });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro no servidor ao salvar o snapshot.' });
+    }
+});
+
 
 router.get('/config', async (req, res) => {
     // MUDANÇA: Usa o utilizador real

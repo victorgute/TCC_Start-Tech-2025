@@ -293,7 +293,7 @@
         <div class="save-dashboard-controls">
           <div class="date-selector">
             <select id="month-select">
-              <option placeholder="0">Janeiro</option>
+              <option value="0">Janeiro</option>
               <option value="1">Fevereiro</option>
               <option value="2">Março</option>
               <option value="3">Abril</option>
@@ -312,6 +312,8 @@
           <button class="save-dashboard-btn"><i class="fas fa-save"></i> Salvar para o Mês</button>
         </div>
 
+        
+
       </div>
     </section>
 
@@ -324,10 +326,20 @@
             <p>Visualize dados de sustentabilidade com gráficos interativos e insights em tempo real.</p>
           </div>
 
+          
+
           <div class="dashboard-actions">
+            <button class="btn-primary" id="save-snapshot-btn"><i class="fas fa-save"></i> Salvar Análise</button>
+            <button class="btn-secondary" id="clear-charts-btn"><i class="fas fa-eraser"></i> Limpar Gráficos</button>
             <button class="btn-export"><i class="fas fa-upload"></i> Exportar</button>
             <button class="btn-schedule"><i class="fas fa-calendar-alt"></i> Agendar Relatório</button>
           </div>
+
+          <div class="workspace-selector-container">
+    <label for="workspace-select">Área de Trabalho:</label>
+    <select id="workspace-select"></select>
+    <button id="new-workspace-btn" class="btn-secondary"><i class="fas fa-plus"></i> Nova</button>
+</div>
         </div>
 
         <!-- <div class="filters-box">
