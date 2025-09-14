@@ -10,7 +10,6 @@ import { initWaterCalculator } from './scriptCalculadoras/calcAgua.js';
 import { initWasteCalculator } from './scriptCalculadoras/calcResiduo.js';
 import { initTICalculator } from './scriptCalculadoras/calcTI.js';
 import { initCalculatorTabs } from './scriptCalculadoras/tabs.js';
-// A LINHA QUE INICIAVA OS DASHBOARDS FOI REMOVIDA DAQUI
 
 document.addEventListener("DOMContentLoaded", () => {
   initNavbar();

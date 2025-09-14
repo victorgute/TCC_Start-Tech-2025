@@ -3,6 +3,7 @@ import cors from 'cors';
 import path from 'path'; // ---> MÓDULO NECESSÁRIO PARA CAMINHOS
 import { fileURLToPath } from 'url'; // ---> MÓDULO NECESSÁRIO PARA CAMINHOS
 import profileRoutes from './src/routes/profileRoutes.js';
+import workspacesRoutes from './src/routes/workspacesRoutes.js';
 
 import { loadConfig } from './config.js';
 import calculatorRoutes from './src/routes/calculatorRoutes.js';
@@ -44,6 +45,7 @@ async function startServer() {
     app.use('/api/calculator', firebaseAuthMiddleware, calculatorRoutes);
     app.use('/api/dashboard', firebaseAuthMiddleware, dashboardRoutes);
     app.use('/api/profile', firebaseAuthMiddleware, profileRoutes);
+    app.use('/api/workspaces', firebaseAuthMiddleware, workspacesRoutes);
 
     // ---> ROTA FINAL: Se nenhum arquivo estático ou rota de API corresponder, envia o index.html
     // Isso é crucial para que o roteamento do front-end (ex: ir para /html/ferramentas.html) funcione.
