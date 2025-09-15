@@ -138,8 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
             id: editingGoalId || Date.now(),
             title: document.getElementById('goal-title').value,
             description: document.getElementById('goal-description').value,
-            progress: parseInt(document.getElementById('goal-progress').value),
-            deadline: parseInt(document.getElementById('goal-deadline').value),
+            progress: Number(document.getElementById('goal-progress').value),
+            deadline: Number(document.getElementById('goal-deadline').value),
             category: categorySelect.value
         };
         if (editingGoalId) {
