@@ -14,7 +14,6 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
-        # ...
         script: |
           cd /home/ec2-user/TCC_Start-Tech-2025
           git pull
