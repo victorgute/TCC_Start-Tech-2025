@@ -46,7 +46,6 @@ async function startServer() {
     app.use('/api/dashboard', firebaseAuthMiddleware, dashboardRoutes);
     app.use('/api/profile', firebaseAuthMiddleware, profileRoutes);
     app.use('/api/workspaces', firebaseAuthMiddleware, workspacesRoutes);
-    app.use('/api/workspaces', firebaseAuthMiddleware, workspacesRoutes);
     app.use('/api/goals', firebaseAuthMiddleware, goalsRoutes);
 
     // ---> ROTA FINAL: Se nenhum arquivo estático ou rota de API corresponder, envia o index.html

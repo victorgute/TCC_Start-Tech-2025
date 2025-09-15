@@ -1,7 +1,5 @@
-// src/services/dynamodb_connection.js - VERSÃO CORRIGIDA
-
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand, QueryCommand, GetCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, PutCommand, QueryCommand, GetCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 
 let docClient;
 let tableName;
@@ -33,12 +31,11 @@ export function initializeDbConnection(config) {
 /**
  * Função para ADICIONAR dados de uma calculadora com validação.
  */
-// --- FUNÇÕES DE DADOS (MODIFICADAS) ---
+// --- FUNÇÕES CRUD PARA DADOS DA CALCULADORA ---
 export const addCalculatorData = async (userId, workspaceId, calculatorType, year, month, data) => {
-  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
   const item = {
     user_uid: userId,
-    record_id: `${workspaceId}#${calculatorType.toUpperCase()}#${year}#${month}`,
+    record_id: `${workspaceId}#${calculatorType.toUpperCase()}#${year}#${month}#${Date.now()}`, // Adicionado timestamp para ID único
     workspace_id: workspaceId,
     calculator_type: calculatorType,
     year: parseInt(year, 10),
@@ -47,16 +44,9 @@ export const addCalculatorData = async (userId, workspaceId, calculatorType, yea
     created_at: new Date().toISOString(),
   };
   const command = new PutCommand({ TableName: tableName, Item: item });
-  try {
-    await docClient.send(command);
-    return { success: true };
-  } catch (error) {
-    console.error(`[DynamoDB Service] Erro ao guardar item:`, error);
-    throw new Error('Erro ao comunicar com o DynamoDB.');
-  }
+  await docClient.send(command);
+  return item;
 };
-
-
 
 /**
  * Função para OBTER todos os dados de um utilizador.
@@ -131,29 +121,18 @@ export const getDashboardConfig = async (userId) => {
 };
 
 // Adicione esta função ao final de dynamodb_connection.js
+// --- FUNÇÕES DE SNAPSHOT E CONFIG DO DASHBOARD ---
 export const saveDashboardSnapshotData = async (userId, name, snapshotData) => {
-  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
-    
   const item = {
     user_uid: userId,
-    record_id: `${workspaceId}#${calculatorType.toUpperCase()}#${year}#${month}`,
-    workspace_id: workspaceId, // Adicionamos o ID para facilitar futuras consultas
-    calculator_type: calculatorType,
-    record_id: `SNAPSHOT#${new Date().toISOString()}`, // Cria um ID único para o snapshot
+    record_id: `SNAPSHOT#${new Date().toISOString()}`,
     snapshot_name: name,
     data: snapshotData,
     created_at: new Date().toISOString()
   };
-
   const command = new PutCommand({ TableName: tableName, Item: item });
-  try {
-    await docClient.send(command);
-    console.log(`[DynamoDB Service] Snapshot salvo para o user: ${userId}`);
-    return { success: true };
-  } catch (error) {
-    console.error(`[DynamoDB Service] Erro ao salvar snapshot:`, error);
-    throw new Error('Erro ao comunicar com o DynamoDB.');
-  }
+  await docClient.send(command);
+  return { success: true };
 }; 
 
 
@@ -210,7 +189,7 @@ export const createGoal = async (userId, goalData) => {
   const item = {
     user_uid: userId,
     record_id: `GOAL#${goalId}`,
-    ...goalData, // title, description, category, etc.
+    ...goalData,
     created_at: new Date().toISOString()
   };
   const command = new PutCommand({ TableName: tableName, Item: item });
@@ -219,18 +198,16 @@ export const createGoal = async (userId, goalData) => {
 };
 
 export const updateGoal = async (userId, recordId, goalData) => {
-  const command = new PutCommand({
-    TableName: tableName,
-    Item: {
-      user_uid: userId,
-      record_id: recordId,
-      ...goalData,
-      updated_at: new Date().toISOString()
+    const getCommand = new GetCommand({ TableName: tableName, Key: { user_uid: userId, record_id: recordId } });
+    const { Item: existingItem } = await docClient.send(getCommand);
+    if (!existingItem) {
+        throw new Error("Meta não encontrada para atualizar.");
     }
-  });
-  await docClient.send(command);
-  return { user_uid: userId, record_id: recordId, ...goalData };
-};
+    const updatedItem = { ...existingItem, ...goalData, updated_at: new Date().toISOString() };
+    const command = new PutCommand({ TableName: tableName, Item: updatedItem });
+    await docClient.send(command);
+    return updatedItem;
+}
 
 export const deleteGoal = async (userId, recordId) => {
   const command = new DeleteCommand({

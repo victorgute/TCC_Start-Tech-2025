@@ -14,8 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const categorySelect = document.getElementById('goal-category-select');
 
     // --- ESTADO DA APLICAÇÃO ---
-    let goals = []; // Agora começa vazio e é preenchido pela API
-    let tags = JSON.parse(localStorage.getItem('esgTags')) || ['Ambiental', 'Social', 'Governança']; // Tags podem continuar locais por enquanto
+    let goals = []; // A lista de metas agora é preenchida pela API
+    let tags = JSON.parse(localStorage.getItem('esgTags')) || ['Ambiental', 'Social', 'Governança'];
     let editingGoalId = null;
 
     // --- LÓGICA DE DADOS E CÁLCULOS ---
@@ -30,6 +30,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalTIReused = allData.filter(d => d.calculator_type === 'ti').reduce((sum, item) => sum + (item.data.EquipamentosReaproveitados || 0), 0);
         return { totalEnergy, totalWater, totalReciclavel, recyclingRate, totalTIReused };
     }
+
+
+    // Alvo: frontend/js/esg-e-metas.js
+
+// Adicione este código junto com os outros `addEventListener`
+document.addEventListener('add-goal-from-chat', async (e) => {
+    console.log("Evento 'add-goal-from-chat' recebido!", e.detail);
+    
+    // Pega os dados da meta enviados pelo chatbot
+    const newGoalData = e.detail;
+    
+    try {
+        // Usa a nossa função da API para criar a meta no banco de dados
+        await createGoal(newGoalData);
+        
+        // Mostra uma notificação de sucesso
+        showNotification(`Nova meta "${newGoalData.title}" adicionada pelo assistente!`, true);
+        
+        // Recarrega todos os dados da página para mostrar a nova meta
+        await loadPageData();
+
+    } catch (error) {
+        console.error("Erro ao adicionar meta a partir do chatbot:", error);
+        alert("Ocorreu um erro ao tentar salvar a meta sugerida pelo assistente.");
+    }
+});
 
     function updateIndicators(metrics) {
         document.getElementById('indicator-energy').textContent = metrics.totalEnergy.toFixed(0);
@@ -56,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LÓGICA DE RENDERIZAÇÃO E MODAIS ---
     function renderGoals(goalsToRender) {
+        if (!goalsContainer) return;
         const existingHeader = goalsContainer.querySelector('.goals-header');
         goalsContainer.innerHTML = '';
         if(existingHeader) goalsContainer.appendChild(existingHeader);
@@ -73,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const goalsForTag = groupedGoals[tag] || [];
             
             if (goalsForTag.length === 0) {
-                grid.innerHTML = '<p class="no-goals-message">Nenhuma meta definida para esta categoria ainda.</p>';
+                grid.innerHTML = '<p class="no-goals-message">Nenhuma meta definida para esta categoria.</p>';
             } else {
                 goalsForTag.forEach(goal => {
                     let statusClass, statusText;
@@ -83,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const goalCard = document.createElement('div');
                     goalCard.className = 'goal-card';
-                    goalCard.dataset.id = goal.record_id; // Usa o record_id do DynamoDB
+                    goalCard.dataset.id = goal.record_id;
                     goalCard.innerHTML = `
                         <div class="goal-card-header"><h3>${goal.title}</h3><div class="goal-card-actions"><button class="edit-btn"><i class="fas fa-pencil-alt"></i></button><button class="delete-btn"><i class="fas fa-trash-alt"></i></button></div></div>
                         <p class="goal-card-description">${goal.description}</p>
@@ -114,77 +141,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function renderTags() {
+        if(!tagsList || !categorySelect) return;
         tagsList.innerHTML = tags.map(tag => `<div class="tag-item"><span>${tag}</span><button class="delete-tag-btn" data-tag="${tag}">&times;</button></div>`).join('');
         categorySelect.innerHTML = tags.map(tag => `<option value="${tag}">${tag}</option>`).join('');
     }
 
-    // --- EVENT LISTENERS ---
-    goalForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const goalData = { 
-            title: document.getElementById('goal-title').value, 
-            description: document.getElementById('goal-description').value, 
-            progress: parseInt(document.getElementById('goal-progress').value),
-            deadline: parseInt(document.getElementById('goal-deadline').value), 
-            category: categorySelect.value,
-            metric: 'manual', target: 0, type: 'greaterThan' // Valores padrão para metas manuais
-        };
-        try {
-            if (editingGoalId) {
-                const goalToUpdate = goals.find(g => g.record_id === editingGoalId);
-                const payload = { ...goalToUpdate, ...goalData }; // Junta dados antigos com novos
-                await updateGoal(editingGoalId, payload);
-            } else { 
-                await createGoal(goalData); 
-            }
-            closeModal(goalModal);
-            loadPageData();
-        } catch (error) {
-            alert('Erro ao salvar a meta.');
-        }
-    });
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.remove();
+        }, 4000);
+    }
 
-    goalsContainer.addEventListener('click', (e) => {
-        const editBtn = e.target.closest('.edit-btn');
-        if(editBtn) { 
-            const goalId = editBtn.closest('.goal-card').dataset.id;
-            const goalToEdit = goals.find(g => g.record_id === goalId);
-            openGoalModal(goalToEdit); 
-        }
-        const deleteBtn = e.target.closest('.delete-btn');
-        if(deleteBtn && confirm('Tem certeza que deseja excluir esta meta?')) {
-            const goalId = deleteBtn.closest('.goal-card').dataset.id;
-            deleteGoal(goalId).then(() => loadPageData());
-        }
-    });
+    // --- EVENT LISTENERS ---
+    if(goalForm) {
+        goalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const goalData = { 
+                title: document.getElementById('goal-title').value, 
+                description: document.getElementById('goal-description').value, 
+                progress: parseInt(document.getElementById('goal-progress').value),
+                deadline: parseInt(document.getElementById('goal-deadline').value), 
+                category: categorySelect.value,
+                metric: 'manual', target: 0, type: 'greaterThan'
+            };
+            try {
+                if (editingGoalId) {
+                    await updateGoal(editingGoalId, goalData);
+                } else { 
+                    await createGoal(goalData); 
+                }
+                closeModal(goalModal);
+                await loadPageData();
+            } catch (error) {
+                alert('Erro ao salvar a meta.');
+            }
+        });
+    }
+
+    if(goalsContainer) {
+        goalsContainer.addEventListener('click', async (e) => {
+            const editBtn = e.target.closest('.edit-btn');
+            if(editBtn) { 
+                const goalId = editBtn.closest('.goal-card').dataset.id;
+                const goalToEdit = goals.find(g => g.record_id === goalId);
+                openGoalModal(goalToEdit); 
+            }
+
+            const deleteBtn = e.target.closest('.delete-btn');
+            if(deleteBtn && confirm('Tem certeza que deseja excluir esta meta?')) {
+                const goalId = deleteBtn.closest('.goal-card').dataset.id;
+                try {
+                    console.log(`A tentar apagar a meta com ID: ${goalId}`);
+                    await deleteGoal(goalId);
+                    showNotification("Meta apagada com sucesso!", true);
+                    await loadPageData(); // Recarrega os dados da página
+                } catch (error) {
+                    console.error("Falha ao apagar a meta:", error);
+                    showNotification("Ocorreu um erro ao apagar a meta. Verifique o console.", false);
+                }
+            }
+        });
+    }
     
-    addGoalBtn.addEventListener('click', () => openGoalModal());
-    manageTagsBtn.addEventListener('click', () => openModal(tagsModal));
+    if(addGoalBtn) addGoalBtn.addEventListener('click', () => openGoalModal());
+    if(manageTagsBtn) manageTagsBtn.addEventListener('click', () => openModal(tagsModal));
     document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', (e) => closeModal(e.target.closest('.modal'))));
     
-    // A gestão de tags continua a usar localStorage por simplicidade
-    addTagForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const newTagName = document.getElementById('new-tag-name').value.trim();
-        if (newTagName && !tags.includes(newTagName)) {
-             tags.push(newTagName); 
-             localStorage.setItem('esgTags', JSON.stringify(tags));
-             renderTags(); 
-        }
-        addTagForm.reset();
-    });
-
-    tagsList.addEventListener('click', (e) => {
-        if (e.target.classList.contains('delete-tag-btn')) {
-            const tagToDelete = e.target.dataset.tag;
-            tags = tags.filter(t => t !== tagToDelete);
-            localStorage.setItem('esgTags', JSON.stringify(tags));
-            renderTags();
-            renderGoals(goals); // Re-renderiza as metas para remover a categoria
-        }
-    });
-
-
     // --- FUNÇÃO PRINCIPAL DE INICIALIZAÇÃO ---
     async function loadPageData() {
         try {
@@ -201,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } catch (error) {
             console.error("Erro ao carregar dados para a página ESG:", error);
-            renderGoals(goals);
+            renderGoals(goals); 
         }
     }
     
