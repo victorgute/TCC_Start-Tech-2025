@@ -191,3 +191,52 @@ export const createWorkspace = async (userId, workspaceName) => {
     throw new Error('Erro ao comunicar com o DynamoDB.');
   }
 };
+
+// --- FUNÇÕES CRUD PARA METAS ESG ---
+
+export const getGoals = async (userId) => {
+  if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
+  const params = {
+    TableName: tableName,
+    KeyConditionExpression: "user_uid = :uid AND begins_with(record_id, :prefix)",
+    ExpressionAttributeValues: { ":uid": userId, ":prefix": "GOAL#" },
+  };
+  const { Items } = await docClient.send(new QueryCommand(params));
+  return Items;
+};
+
+export const createGoal = async (userId, goalData) => {
+  const goalId = `G-${Date.now()}`;
+  const item = {
+    user_uid: userId,
+    record_id: `GOAL#${goalId}`,
+    ...goalData, // title, description, category, etc.
+    created_at: new Date().toISOString()
+  };
+  const command = new PutCommand({ TableName: tableName, Item: item });
+  await docClient.send(command);
+  return item;
+};
+
+export const updateGoal = async (userId, recordId, goalData) => {
+  const command = new PutCommand({
+    TableName: tableName,
+    Item: {
+      user_uid: userId,
+      record_id: recordId,
+      ...goalData,
+      updated_at: new Date().toISOString()
+    }
+  });
+  await docClient.send(command);
+  return { user_uid: userId, record_id: recordId, ...goalData };
+};
+
+export const deleteGoal = async (userId, recordId) => {
+  const command = new DeleteCommand({
+    TableName: tableName,
+    Key: { user_uid: userId, record_id: recordId },
+  });
+  await docClient.send(command);
+  return { success: true };
+};
