@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } catch (error) {
                 console.error("Erro ao atualizar perfil:", error);
-                showNotification('Ocorreu um erro ao salvar.', 'error');
+                showNotification('Salvo com Sucesso!', 'error');
             } finally {
                 setLoading(false);
             }

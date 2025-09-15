@@ -50,6 +50,10 @@ export const saveDashboardConfig = (config) => makeAuthenticatedRequest('/api/da
 export const getDashboardConfig = () => makeAuthenticatedRequest('/api/dashboard/config');
 export const fetchWorkspaces = () => makeAuthenticatedRequest('/api/workspaces');
 export const createWorkspace = (name) => makeAuthenticatedRequest('/api/workspaces', 'POST', { name });
+export const fetchGoals = () => makeAuthenticatedRequest('/api/goals');
+export const createGoal = (payload) => makeAuthenticatedRequest('/api/goals', 'POST', payload);
+export const updateGoal = (recordId, payload) => makeAuthenticatedRequest(`/api/goals/${recordId}`, 'PUT', payload);
+export const deleteGoal = (recordId) => makeAuthenticatedRequest(`/api/goals/${recordId}`, 'DELETE');
 
 export const downloadDashboard = async () => {
     try {
