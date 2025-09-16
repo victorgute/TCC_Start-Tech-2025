@@ -6,10 +6,10 @@ const client = new SSMClient({ region: REGION });
 
 // Nomes dos parâmetros que criamos no Parameter Store
 const PARAMETER_NAMES = [
-    "/ecomanager/DYNAMODB_TABLE_NAME",
-    "/ecomanager/AWS_REGION",
-    "/ecomanager/FIREBASE_SERVICE_ACCOUNT",
-    "/ecomanager/OPENAI_API_KEY", // 👈 adicionado
+    '/ecomanager/DYNAMODB_TABLE_NAME',
+    '/ecomanager/AWS_REGION',
+    '/ecomanager/FIREBASE_SERVICE_ACCOUNT',
+    '/ecomanager/OPENAI_API_KEY'
 ];
 
 let config = null;
