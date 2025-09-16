@@ -1,6 +1,6 @@
 /**
  * @file Gerencia toda a lógica do Chatbot Assistente ESG, incluindo a interface,
- * interações do usuário, comunicação com API (simulada) e funcionalidades
+ * interações do usuário, comunicação com a API e funcionalidades
  * como anexar arquivos e reconhecimento de voz.
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -21,28 +21,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file-input');
     const speechToTextBtn = document.getElementById('speech-to-text-btn');
 
+
     // Variáveis de estado do chatbot
     let mediaRecorder;
     let audioChunks = [];
     let isRecording = false;
     let chatHistory = [];
-    let pendingGoal = null;
+    let pendingGoals = []; // Armazena metas sugeridas pelo bot
     let attachedFile = null;
+
+    // Variáveis para a funcionalidade de arrastar o chat
     let isDragging = false;
     let offsetX, offsetY;
 
+    // Perguntas frequentes para exibição como respostas rápidas
     const frequentQuestions = [
-        "Quais metas usar para o meu nicho?",
-        "Como criar metas de gasto de água?",
-        "Analisar meu dashboard",
-        "O que é ESG?"
+        "Analise meu dashboard e me ajude a criar metas ESG",
+        "Quais metas de diminuição de gastos de água posso criar?",
+        "Quais metas de diminuição de gastos de energia posso criar?",
+        "Quais metas de diminuição posso utilizar no meu negócio?"
     ];
 
+    /**
+     * Inicia o chat com uma mensagem de boas-vindas e opções de perguntas frequentes.
+     */
     function initChat() {
         appendMessage("Olá! Sou o Assistente ESG da EcoManager. Como posso ajudá-lo hoje?", 'bot');
         showQuickReplies();
     }
 
+    /**
+     * Exibe os botões de perguntas frequentes no chat.
+     */
     function showQuickReplies() {
         let buttonsHTML = '<div class="bot-options-container">';
         frequentQuestions.forEach(q => {
@@ -52,48 +62,122 @@ document.addEventListener('DOMContentLoaded', () => {
         appendMessage(buttonsHTML, 'bot bot-options', true);
     }
 
+    /**
+     * Manipula o clique em um botão de resposta rápida ou de sugestão de categoria.
+     * @param {Event} e - O evento de clique.
+     */
     function handleQuickReply(e) {
-        if (e.target.classList.contains('quick-reply-btn')) {
-            const question = e.target.textContent;
-            e.target.closest('.bot-options')?.remove();
+        const target = e.target;
+        let question = '';
+        let isButtonClick = false;
+
+        if (target.classList.contains('quick-reply-btn')) {
+            question = target.textContent;
+            isButtonClick = true;
+        } else if (target.classList.contains('category-suggestion-btn')) {
+            const category = target.dataset.category;
+            question = `Sugira mais 3 metas na categoria ${category}`;
+            isButtonClick = true;
+        }
+        
+        if(isButtonClick){
+            const optionsContainer = target.closest('.bot-options');
+            if (optionsContainer) optionsContainer.remove();
+
             appendMessage(question, 'user');
             getAIResponse(question, null);
         }
     }
-
+    
+    /**
+     * Manipula a confirmação do usuário para adicionar uma ou mais metas.
+     * @param {Event} e - O evento de clique.
+     */
     function handleConfirmation(e) {
-        if (e.target.classList.contains('confirm-btn') && pendingGoal) {
-            const confirmation = e.target.dataset.confirm === 'yes';
-            e.target.closest('.bot-options').remove();
-            if (confirmation) {
-                const addGoalEvent = new CustomEvent('add-goal-from-chat', { detail: pendingGoal });
-                document.dispatchEvent(addGoalEvent);
-                appendMessage(`Certo! Adicionei a meta "${pendingGoal.title}" na sua página de Metas.`, 'bot');
-            } else {
-                appendMessage('Entendido. A meta não foi adicionada.', 'bot');
+        const target = e.target;
+        if (target.classList.contains('confirm-btn') && pendingGoals.length > 0) {
+            const action = target.dataset.action;
+            const goalsToAdd = [];
+
+            if (action === 'all') {
+                goalsToAdd.push(...pendingGoals);
+            } else if (action.startsWith('meta-')) {
+                const index = parseInt(action.split('-')[1], 10) - 1;
+                if (pendingGoals[index]) {
+                    goalsToAdd.push(pendingGoals[index]);
+                }
             }
-            pendingGoal = null;
+
+            if (goalsToAdd.length > 0) {
+                // Dispara um evento personalizado para que o script de metas possa adicionar a(s) nova(s) meta(s).
+                const addGoalEvent = new CustomEvent('add-goal-from-chat', {
+                    detail: goalsToAdd
+                });
+                document.dispatchEvent(addGoalEvent);
+
+                const titles = goalsToAdd.map(g => `"${g.title}"`).join(', ');
+                appendMessage(`Certo! Adicionei a(s) meta(s): ${titles}.`, 'bot');
+
+                // Adiciona a mensagem com os botões de categoria
+                const suggestionHTML = `<p>Quer mais algumas sugestões de metas? Selecione nos botões abaixo a categoria e eu vou te propor mais 3 metas com base no seu negócio.</p>
+                <div class="bot-options-container">
+                    <button class="category-suggestion-btn" data-category="Ambiental">Ambiental</button>
+                    <button class="category-suggestion-btn" data-category="Social">Social</button>
+                    <button class="category-suggestion-btn" data-category="Governança">Governança</button>
+                </div>`;
+                appendMessage(suggestionHTML, 'bot bot-options', true);
+            }
+            
+            // Limpa as metas pendentes e remove os botões de confirmação
+            pendingGoals = [];
+             const optionsContainer = target.closest('.bot-options');
+            if (optionsContainer) {
+                optionsContainer.remove();
+            }
+
+        } else if (target.classList.contains('more-goals-btn')) {
+             const optionsContainer = target.closest('.bot-options');
+            if (optionsContainer) {
+                optionsContainer.remove();
+            }
+            appendMessage("Ok, me diga qual o seu nicho para eu criar mais 3 metas.", 'user');
+            getAIResponse("Crie mais 3 metas de diminuição, por favor.", null);
         }
     }
 
+
+    // Listener de eventos no container de mensagens
     chatMessages.addEventListener('click', (e) => {
         handleQuickReply(e);
         handleConfirmation(e);
     });
-    
+
+    // Abre o seletor de arquivos ao clicar no botão de anexo
     attachFileBtn.addEventListener('click', () => fileInput.click());
 
+    /**
+     * Manipula a seleção de um arquivo para anexo.
+     */
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
         attachedFile = file;
         const reader = new FileReader();
+
         reader.onload = (event) => {
-            const filePreviewHTML = file.type.startsWith('image/')
-                ? `<img src="${event.target.result}" alt="${file.name}">`
-                : `<div class="file-preview"><i class="fas fa-file-alt"></i> ${file.name}</div>`;
-            appendMessage(`Anexei o seguinte arquivo:<br>${filePreviewHTML}`, 'user', true, `[Arquivo Anexado: ${file.name}]`);
+            let filePreviewHTML;
+            const historyText = `[Arquivo Anexado: ${file.name}]`;
+
+            if (file.type.startsWith('image/')) {
+                filePreviewHTML = `<img src="${event.target.result}" alt="${file.name}" style="max-width: 100%; border-radius: 8px;">`;
+            } else {
+                filePreviewHTML = `<div class="file-preview" style="padding: 10px; background-color: #f0f0f0; border-radius: 8px;"><i class="fas fa-file-alt"></i> ${file.name}</div>`;
+            }
+            const displayHTML = `Anexei o seguinte arquivo:<br>${filePreviewHTML}`;
+            appendMessage(displayHTML, 'user', true, historyText);
         };
+
         reader.readAsDataURL(file);
         fileInput.value = '';
     });
@@ -101,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function openChat() {
         chatWidget.classList.add('open');
         chatToggleButton.classList.add('hidden');
-        if (chatMessages.children.length < 2) {
+        if (chatMessages.children.length === 0) {
             initChat();
         }
     }
@@ -116,8 +200,11 @@ document.addEventListener('DOMContentLoaded', () => {
         chatbotContainer.style.top = '';
         chatbotContainer.style.right = '20px';
         chatbotContainer.style.bottom = '20px';
+        if (chatHistory.length > 0) {
+            console.log("Histórico da Conversa:", JSON.stringify(chatHistory, null, 2));
+        }
     }
-    
+
     function toggleFullscreen() {
         const isFullscreen = chatbotContainer.classList.toggle('fullscreen');
         chatWidget.classList.toggle('fullscreen');
@@ -136,15 +223,24 @@ document.addEventListener('DOMContentLoaded', () => {
             chatFullscreenButton.title = "Tela Cheia";
         }
     }
-
+    
+    // Lógica para expandir textarea
+    chatInput.addEventListener('input', () => {
+        chatInput.style.height = 'auto';
+        chatInput.style.height = (chatInput.scrollHeight) + 'px';
+    });
+    
+    // Lógica de arrastar
     function onDragStart(event) {
-        if (chatWidget.classList.contains('fullscreen') || event.target !== chatHeader) return;
+        if (chatbotContainer.classList.contains('fullscreen') || event.target.closest('.chat-header-actions')) return;
         isDragging = true;
+        chatHeader.style.cursor = 'grabbing';
+        document.body.classList.add('is-dragging-chatbot');
         const rect = chatbotContainer.getBoundingClientRect();
         offsetX = event.clientX - rect.left;
         offsetY = event.clientY - rect.top;
         document.addEventListener('mousemove', onDragging);
-        document.addEventListener('mouseup', onDragEnd);
+        document.addEventListener('mouseup', onDragEnd, { once: true });
     }
 
     function onDragging(event) {
@@ -152,6 +248,12 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         let newX = event.clientX - offsetX;
         let newY = event.clientY - offsetY;
+        const containerWidth = chatbotContainer.offsetWidth;
+        const containerHeight = chatbotContainer.offsetHeight;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        newX = Math.max(0, Math.min(newX, viewportWidth - containerWidth));
+        newY = Math.max(0, Math.min(newY, viewportHeight - containerHeight));
         chatbotContainer.style.left = `${newX}px`;
         chatbotContainer.style.top = `${newY}px`;
         chatbotContainer.style.right = 'auto';
@@ -160,16 +262,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function onDragEnd() {
         isDragging = false;
+        chatHeader.style.cursor = 'move';
+        document.body.classList.remove('is-dragging-chatbot');
         document.removeEventListener('mousemove', onDragging);
-        document.removeEventListener('mouseup', onDragEnd);
     }
+    
 
     chatHeader.addEventListener('mousedown', onDragStart);
     chatToggleButton.addEventListener('click', openChat);
     chatCloseButton.addEventListener('click', closeChat);
     chatMinimizeButton.addEventListener('click', closeChat);
     chatFullscreenButton.addEventListener('click', toggleFullscreen);
-    
+
     speechToTextBtn.addEventListener('click', async () => {
         if (!isRecording) {
             try {
@@ -184,38 +288,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 mediaRecorder.start();
                 isRecording = true;
                 speechToTextBtn.innerHTML = '<i class="fas fa-stop-circle"></i>';
-                speechToTextBtn.classList.add('is-recording');
+                speechToTextBtn.style.color = '#ef4444';
             } catch (error) {
-                alert("Não foi possível acessar seu microfone.");
+                console.error("Erro ao acessar o microfone:", error);
+                appendMessage("Não consegui acessar seu microfone. Por favor, verifique as permissões do navegador.", 'bot');
             }
         } else {
             mediaRecorder.stop();
             isRecording = false;
             speechToTextBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-            speechToTextBtn.classList.remove('is-recording');
+            speechToTextBtn.style.color = 'var(--text-medium)';
         }
     });
 
     async function transcribeAudio(audioBlob) {
-        const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+        const apiKey = "";
         const apiUrl = "https://api.openai.com/v1/audio/transcriptions";
         const formData = new FormData();
         formData.append('file', audioBlob, 'recording.webm');
         formData.append('model', 'whisper-1');
         formData.append('language', 'pt');
-
         chatInput.placeholder = "Transcrevendo áudio...";
         try {
-            const response = await fetch(apiUrl, { 
-                method: 'POST', 
-                headers: { 'Authorization': `Bearer ${apiKey}` }, 
-                body: formData 
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${apiKey}` },
+                body: formData
             });
-            if (!response.ok) throw new Error('Erro da API da OpenAI.');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Erro da API: ${errorData.error.message}`);
+            }
             const data = await response.json();
             chatInput.value = data.text;
+            chatInput.dispatchEvent(new Event('input')); // Dispara o evento de input para ajustar a altura
         } catch (error) {
-            alert("Ocorreu um erro ao transcrever o áudio.");
+            console.error("Erro ao transcrever o áudio:", error);
+            appendMessage("Ocorreu um erro ao tentar transcrever o áudio. Tente novamente.", 'bot');
         } finally {
             chatInput.placeholder = "Digite sua pergunta sobre ESG...";
         }
@@ -225,11 +334,28 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const messageText = chatInput.value.trim();
         if (!messageText && !attachedFile) return;
-        if (messageText) appendMessage(messageText, 'user');
+
         chatInput.value = '';
+        chatInput.style.height = 'auto'; // Reseta a altura
+
+        if (attachedFile) {
+            appendMessage(`Anexei o arquivo: ${attachedFile.name}`, 'user');
+        }
+        if (messageText) {
+            appendMessage(messageText, 'user');
+        }
+
         await getAIResponse(messageText, attachedFile);
         attachedFile = null;
     });
+    
+    chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            chatForm.dispatchEvent(new Event('submit'));
+        }
+    });
+
 
     function appendMessage(content, sender, isHtml = false, historyContent = null) {
         const messageElement = document.createElement('div');
@@ -237,35 +363,104 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isHtml) {
             messageElement.innerHTML = content;
         } else {
-            messageElement.textContent = content;
+            messageElement.innerHTML = content.replace(/\n/g, '<br>'); // Substitui quebras de linha por <br>
         }
         chatMessages.appendChild(messageElement);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
         if (!sender.includes('bot-options') && !sender.includes('typing-indicator')) {
-            chatHistory.push({ 
-                role: sender.includes('user') ? 'user' : 'bot', 
-                content: historyContent || content, 
-            });
+            const contentToSave = historyContent !== null ? historyContent : content;
+            const role = sender.includes('user') ? 'user' : 'assistant';
+            chatHistory.push({ role: role, content: contentToSave });
         }
     }
-    
+
     async function getAIResponse(userInput, file) {
         appendMessage('<div class="typing-indicator"><span></span><span></span><span></span></div>', 'bot typing-indicator', true);
         const typingIndicator = chatMessages.lastChild;
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        typingIndicator.remove();
 
-        if (file || userInput.toLowerCase().includes('analis')) {
-            pendingGoal = { title: `Redução do Consumo de Água`, description: `Reduzir em 15% o consumo de água.`, progress: 0, deadline: 2026, category: 'Ambiental' };
-            const response = `<p>Analisei seu dashboard. Sugiro uma meta de redução de 15% no consumo de água. Posso adicioná-la?</p>
-            <div class="bot-options-container"><button class="confirm-btn" data-confirm="yes">Sim</button><button class="confirm-btn" data-confirm="no">Não</button></div>`;
-            appendMessage(response, 'bot bot-options', true);
-        } else if (userInput.toLowerCase().includes('o que é esg')) {
-            appendMessage("ESG significa Environmental, Social, and Governance (Ambiental, Social e Governança).", 'bot');
-        } else {
-            appendMessage("Não tenho certeza de como ajudar. Tente uma das opções abaixo.", 'bot');
-            showQuickReplies();
+        const apiKey = "";
+        const apiUrl = "https://api.openai.com/v1/chat/completions";
+        
+        const systemPrompt = `Você é um Consultor especialista em ESG da empresa EcoManager. Sua função é analisar dados de dashboards de sustentabilidade (luz, água, resíduos, etc.) e ajudar os usuários a criar metas ESG.
+
+**Instruções Principais:**
+1. **Seja Proativo:** Se o usuário não fornecer informações suficientes (...).
+2. **Analise Dashboards:** ...
+3. **Crie Metas Múltiplas:** ...
+4. **Formato de Saída (JSON Obrigatório):** ...
+5. **Plano de Ação Detalhado:** ...
+6. **Tom Amigável:** ...
+7. **Pós-Confirmação:** ...
+`;
+
+
+
+        let messages = [{ role: "system", content: systemPrompt }, ...chatHistory];
+
+        if (file) {
+            try {
+                // Para simplificar, vamos apenas informar a IA sobre o arquivo.
+                // A análise de imagem/PDF real precisaria de um modelo multimodal (GPT-4o, etc.)
+                userInput += `\n\n[ANÁLISE DE ARQUIVO: O usuário anexou o arquivo '${file.name}'. Por favor, analise os dados contidos nele e sugira metas ESG relevantes.]`;
+            } catch (e) {
+                console.error("Erro ao processar o arquivo:", e);
+                appendMessage("Desculpe, tive um problema ao analisar o arquivo.", 'bot');
+                typingIndicator.remove();
+                return;
+            }
+        }
+
+        messages.push({ role: "user", content: userInput });
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({ model: "gpt-4", messages: messages })
+            });
+
+            if (!response.ok) throw new Error(`Erro da API: ${response.statusText}`);
+
+            const data = await response.json();
+            const botResponse = data.choices[0].message.content;
+
+            typingIndicator.remove();
+
+            const jsonMatch = botResponse.match(/```json\s*(\{[\s\S]*?\})\s*```/);
+            if (jsonMatch) {
+                const jsonString = jsonMatch[1];
+                let cleanResponse = botResponse.replace(jsonMatch[0], '').trim();
+
+                appendMessage(cleanResponse, 'bot');
+
+                const parsedJson = JSON.parse(jsonString);
+                if (parsedJson.sugestaoMetas && parsedJson.sugestaoMetas.length > 0) {
+                    pendingGoals = parsedJson.sugestaoMetas;
+
+                    let confirmationHTML = `<p>Posso adicionar essa(s) meta(s) na sua página? Quer que eu adicione qual?</p>
+                                            <div class="bot-options-container">`;
+
+                    pendingGoals.forEach((goal, index) => {
+                        confirmationHTML += `<button class="confirm-btn" data-action="meta-${index + 1}">Meta ${index + 1}: ${goal.title}</button>`;
+                    });
+                    
+                    if(pendingGoals.length > 1) {
+                         confirmationHTML += `<button class="confirm-btn" data-action="all">Todas as Metas</button>`;
+                    }
+                   
+                    confirmationHTML += `<button class="more-goals-btn">Ver mais metas</button></div>`;
+                    appendMessage(confirmationHTML, 'bot bot-options', true);
+                }
+            } else {
+                appendMessage(botResponse, 'bot');
+            }
+             chatHistory.push({ role: 'assistant', content: botResponse });
+
+        } catch (error) {
+            console.error("Erro na API da OpenAI:", error);
+            typingIndicator.remove();
+            appendMessage("Desculpe, estou com problemas no momento. Tente novamente mais tarde.", 'bot');
         }
     }
 });

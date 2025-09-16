@@ -1,6 +1,7 @@
 import { postCalculatorData, fetchCalculatorData, downloadDashboard, saveDashboardSnapshot, fetchWorkspaces, createWorkspace } from './api.js';
 import { initDashboards, updateDashboards, clearCharts } from './scriptDashboard/initDashboards.js';
 import { initChartDownload } from './scriptDashboard/downloadChart.js';
+import { dashboardState } from './dashboardState.js';
 
 // ===================================================================================
 // ESTADO DA PÁGINA
