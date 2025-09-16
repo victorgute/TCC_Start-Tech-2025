@@ -438,15 +438,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         messages.push({ role: "user", content: userInput });
 
-         try {
-        const response = await fetch("/api/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                model: "gpt-4",
-                messages: messages
-            })
-        });
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+                body: JSON.stringify({ model: "gpt-4", messages: messages })
+            });
 
             if (!response.ok) throw new Error(`Erro da API: ${response.statusText}`);
 
