@@ -171,8 +171,7 @@ export const createWorkspace = async (userId, workspaceName) => {
   }
 };
 
-// --- FUNÇÕES CRUD PARA METAS ESG ---
-
+// --- FUNÇÕES CRUD PARA METAS ESG (CORRIGIDAS) ---
 export const getGoals = async (userId) => {
   if (!docClient) throw new Error("A conexão com o DynamoDB não foi inicializada.");
   const params = {
@@ -200,7 +199,6 @@ export const createGoal = async (userId, goalData) => {
 export const updateGoal = async (userId, recordId, goalData) => {
     const getCommand = new GetCommand({ TableName: tableName, Key: { user_uid: userId, record_id: recordId } });
     const { Item: existingItem } = await docClient.send(getCommand);
-
     if (!existingItem) {
         throw new Error("Meta não encontrada para atualizar.");
     }

@@ -31,6 +31,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return { totalEnergy, totalWater, totalReciclavel, recyclingRate, totalTIReused };
     }
 
+
+    // Alvo: frontend/js/esg-e-metas.js
+
+// Adicione este código junto com os outros `addEventListener`
+document.addEventListener('add-goal-from-chat', async (e) => {
+    console.log("Evento 'add-goal-from-chat' recebido!", e.detail);
+    
+    // Pega os dados da meta enviados pelo chatbot
+    const newGoalData = e.detail;
+    
+    try {
+        // Usa a nossa função da API para criar a meta no banco de dados
+        await createGoal(newGoalData);
+        
+        // Mostra uma notificação de sucesso
+        showNotification(`Nova meta "${newGoalData.title}" adicionada pelo assistente!`, true);
+        
+        // Recarrega todos os dados da página para mostrar a nova meta
+        await loadPageData();
+
+    } catch (error) {
+        console.error("Erro ao adicionar meta a partir do chatbot:", error);
+        alert("Ocorreu um erro ao tentar salvar a meta sugerida pelo assistente.");
+    }
+});
+
     function updateIndicators(metrics) {
         document.getElementById('indicator-energy').textContent = metrics.totalEnergy.toFixed(0);
         document.getElementById('indicator-water').textContent = metrics.totalWater.toLocaleString('pt-BR');
@@ -131,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- EVENT LISTENERS ---
-    if(goalForm) {
+     if(goalForm) {
         goalForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const goalData = { 
@@ -139,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 description: document.getElementById('goal-description').value, 
                 progress: parseInt(document.getElementById('goal-progress').value),
                 deadline: parseInt(document.getElementById('goal-deadline').value), 
-                category: categorySelect.value,
+                category: document.getElementById('goal-category-select').value,
                 metric: 'manual', target: 0, type: 'greaterThan'
             };
             try {
@@ -168,33 +194,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const deleteBtn = e.target.closest('.delete-btn');
             if(deleteBtn && confirm('Tem certeza que deseja excluir esta meta?')) {
                 const goalId = deleteBtn.closest('.goal-card').dataset.id;
+                
+                // LÓGICA DE APAGAR CORRIGIDA COM TRY...CATCH
                 try {
+                    console.log(`A tentar apagar a meta com ID: ${goalId}`);
                     await deleteGoal(goalId);
                     showNotification("Meta apagada com sucesso!", true);
-                    await loadPageData();
+                    await loadPageData(); // Recarrega os dados da página
                 } catch (error) {
                     console.error("Falha ao apagar a meta:", error);
-                    showNotification("Ocorreu um erro ao apagar a meta.", false);
+                    showNotification("Ocorreu um erro ao apagar a meta. Verifique o console.", false);
                 }
             }
         });
     }
-
-    // --- LIGAÇÃO COM O CHATBOT ---
-    document.addEventListener('add-goal-from-chat', async (e) => {
-        const goalsToAdd = e.detail;
-        if (Array.isArray(goalsToAdd) && goalsToAdd.length > 0) {
-            try {
-                // Cria todas as metas recebidas do chatbot
-                await Promise.all(goalsToAdd.map(goal => createGoal(goal)));
-                showNotification(`${goalsToAdd.length} meta(s) adicionada(s) pelo assistente!`, true);
-                await loadPageData();
-            } catch (error) {
-                console.error("Erro ao adicionar meta a partir do chatbot:", error);
-                alert("Ocorreu um erro ao tentar salvar a meta sugerida pelo assistente.");
-            }
-        }
-    });
     
     if(addGoalBtn) addGoalBtn.addEventListener('click', () => openGoalModal());
     if(manageTagsBtn) manageTagsBtn.addEventListener('click', () => openModal(tagsModal));
@@ -212,15 +225,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateIndicators(metrics);
                 calculateAndUpdateGoals(goals, metrics);
             } else {
-                renderGoals(goals); // Mostra metas mesmo se não houver dados de calculadora
+                renderGoals(goals);
             }
         } catch (error) {
             console.error("Erro ao carregar dados para a página ESG:", error);
-            renderGoals(goals); // Em caso de erro, mostra as metas com progresso padrão
+            renderGoals(goals); 
         }
     }
     
     // --- PONTO DE ENTRADA DO SCRIPT ---
     loadPageData();
-    renderTags(); // A gestão de tags continua a ser local por simplicidade.
+    renderTags(); 
 });
