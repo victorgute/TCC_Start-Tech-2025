@@ -1,14 +1,15 @@
 import { SSMClient, GetParametersCommand } from "@aws-sdk/client-ssm";
 
-// Ação: Forçámos a região para 'us-east-2' para corresponder onde os seus recursos estão.
+// Região onde os seus recursos estão
 const REGION = "us-east-2";
 const client = new SSMClient({ region: REGION });
 
 // Nomes dos parâmetros que criamos no Parameter Store
 const PARAMETER_NAMES = [
-    '/ecomanager/DYNAMODB_TABLE_NAME',
-    '/ecomanager/AWS_REGION',
-    '/ecomanager/FIREBASE_SERVICE_ACCOUNT',
+    "/ecomanager/DYNAMODB_TABLE_NAME",
+    "/ecomanager/AWS_REGION",
+    "/ecomanager/FIREBASE_SERVICE_ACCOUNT",
+    "/ecomanager/OPENAI_API_KEY", // 👈 adicionado
 ];
 
 let config = null;
@@ -23,37 +24,36 @@ async function loadConfig() {
     }
 
     try {
-        console.log(`A carregar configuração do AWS Parameter Store na região: ${REGION}...`);
+        console.log(`🔑 Carregando configuração do AWS Parameter Store na região: ${REGION}...`);
         const command = new GetParametersCommand({
             Names: PARAMETER_NAMES,
-            WithDecryption: true // Essencial para desencriptar o segredo do Firebase
+            WithDecryption: true, // Essencial para segredos
         });
 
         const { Parameters, InvalidParameters } = await client.send(command);
 
         if (InvalidParameters && InvalidParameters.length > 0) {
-            throw new Error(`Parâmetros inválidos ou não encontrados: ${InvalidParameters.join(', ')}`);
+            throw new Error(`Parâmetros inválidos ou não encontrados: ${InvalidParameters.join(", ")}`);
         }
 
         const loadedConfig = {};
-        Parameters.forEach(p => {
-            const key = p.Name.split('/').pop();
+        Parameters.forEach((p) => {
+            const key = p.Name.split("/").pop();
             loadedConfig[key] = p.Value;
         });
 
+        // Converter JSON da conta de serviço Firebase
         if (loadedConfig.FIREBASE_SERVICE_ACCOUNT) {
             loadedConfig.FIREBASE_SERVICE_ACCOUNT = JSON.parse(loadedConfig.FIREBASE_SERVICE_ACCOUNT);
         }
 
-        console.log("Configuração carregada com sucesso do Parameter Store.");
+        console.log("✅ Configuração carregada com sucesso do Parameter Store.");
         config = loadedConfig;
         return config;
-
     } catch (error) {
-        console.error("ERRO CRÍTICO: Não foi possível carregar a configuração do AWS Parameter Store.", error);
+        console.error("❌ ERRO CRÍTICO: Não foi possível carregar a configuração do AWS Parameter Store.", error);
         process.exit(1);
     }
 }
 
-export { loadConfig }; 
-
+export { loadConfig };
