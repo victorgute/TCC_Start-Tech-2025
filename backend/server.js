@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import fetch from "node-fetch";
 import path from 'path'; // ---> MÓDULO NECESSÁRIO PARA CAMINHOS
 import { fileURLToPath } from 'url'; // ---> MÓDULO NECESSÁRIO PARA CAMINHOS
 import profileRoutes from './src/routes/profileRoutes.js';
@@ -18,6 +19,33 @@ function delay(ms) {
 // ---> LÓGICA PARA ENCONTRAR O CAMINHO CORRETO DOS ARQUIVOS
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+
+let cachedConfig = null;
+async function getConfig() {
+  if (!cachedConfig) cachedConfig = await loadConfig();
+  return cachedConfig;
+}
+
+app.post("/api/chat", async (req, res) => {
+  try {
+    const { OPENAI_API_KEY } = await getConfig();
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${OPENAI_API_KEY}`
+      },
+      body: JSON.stringify(req.body)
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Erro na rota /api/chat:", err);
+    res.status(500).json({ error: "Erro ao comunicar com a OpenAI" });
+  }
+});
 
 async function startServer() {
   try {
@@ -65,4 +93,7 @@ async function startServer() {
   }
 }
 
+
+
 startServer();
+export default app;
