@@ -200,6 +200,7 @@ export const createGoal = async (userId, goalData) => {
 export const updateGoal = async (userId, recordId, goalData) => {
     const getCommand = new GetCommand({ TableName: tableName, Key: { user_uid: userId, record_id: recordId } });
     const { Item: existingItem } = await docClient.send(getCommand);
+
     if (!existingItem) {
         throw new Error("Meta não encontrada para atualizar.");
     }
@@ -207,7 +208,7 @@ export const updateGoal = async (userId, recordId, goalData) => {
     const command = new PutCommand({ TableName: tableName, Item: updatedItem });
     await docClient.send(command);
     return updatedItem;
-}
+};
 
 export const deleteGoal = async (userId, recordId) => {
   const command = new DeleteCommand({

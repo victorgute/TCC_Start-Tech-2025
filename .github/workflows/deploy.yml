@@ -1,29 +1,37 @@
-name: Deploy to EC2
+name: Deploy to EC2 on Push
 
 on:
   push:
-    branches: [ main ] # ou a sua branch principal
+    branches:
+      - main # Aciona sempre que houver um push na branch 'main'
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - name: SSH and Deploy
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          cd /home/ec2-user/TCC_Start-Tech-2025
-          git pull
-          echo "Instalando dependências do backend..."
-          cd backend
-          npm install
-          echo "Instalando e fazendo build do frontend..."
-          cd ../frontend
-          npm install
-          VITE_OPENAI_API_KEY=${{ secrets.VITE_OPENAI_API_KEY }} npm run build
-          echo
-          cd ../backend
-          pm2 restart ecosystem.config.cjs
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Navega para a pasta do projeto
+            cd /home/ec2-user/TCC_Start-Tech-2025
+            
+            # Puxa as últimas alterações do repositório
+            git pull
+            
+            # Instala dependências e faz o build do front-end
+            echo "Instalando e fazendo build do frontend..."
+            cd frontend
+            npm install
+            # AQUI ESTÁ A CORREÇÃO: Passa a chave da API para o processo de build
+            VITE_OPENAI_API_KEY=${{ secrets.VITE_OPENAI_API_KEY }} npm run build
+            
+            # Instala dependências e reinicia o back-end com PM2
+            echo "Reiniciando o servidor backend..."
+            cd ../backend
+            npm install
+            pm2 restart ecosystem.config.cjs

@@ -40,6 +40,45 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     let editingGoalId = null;
 
+    // --- LÓGICA DE DADOS E CÁLCULOS ---
+    function calculateMetrics(allData) {
+        if (!allData) return { totalEnergy: 0, totalWater: 0, totalReciclavel: 0, recyclingRate: 0, totalTIReused: 0 };
+        const totalEnergy = allData.filter(d => d.calculator_type === 'energia').reduce((sum, item) => sum + ((item.data.Potencia * item.data.Quantidade * item.data.HorasNoDia * item.data.DiaNoMes) / 1000), 0);
+        const totalWater = allData.filter(d => d.calculator_type === 'agua').reduce((sum, item) => sum + (item.data.ConsumoMensalM3 || 0), 0);
+        const wasteData = allData.filter(d => d.calculator_type === 'residuos');
+        const totalReciclavel = wasteData.reduce((sum, item) => sum + (item.data.ResiduoReciclavel || 0), 0);
+        const totalWaste = wasteData.reduce((sum, item) => sum + totalReciclavel + (item.data.ResiduoOrganico || 0) + (item.data.ResiduoRejeito || 0), 0);
+        const recyclingRate = totalWaste > 0 ? (totalReciclavel / totalWaste) * 100 : 0;
+        const totalTIReused = allData.filter(d => d.calculator_type === 'ti').reduce((sum, item) => sum + (item.data.EquipamentosReaproveitados || 0), 0);
+        return { totalEnergy, totalWater, totalReciclavel, recyclingRate, totalTIReused };
+    }
+
+    function updateIndicators(metrics) {
+        document.getElementById('indicator-energy').textContent = metrics.totalEnergy.toFixed(0);
+        document.getElementById('indicator-water').textContent = metrics.totalWater.toLocaleString('pt-BR');
+        document.getElementById('indicator-waste').textContent = metrics.totalReciclavel.toFixed(0);
+        document.getElementById('indicator-ti').textContent = metrics.totalTIReused;
+    }
+
+    function calculateAndUpdateGoals(currentGoals, metrics) {
+        currentGoals.forEach(goal => {
+            if (goal.metric === 'manual') return;
+            let progress = 0;
+            const currentValue = metrics[goal.metric];
+            const targetValue = goal.target;
+            if (goal.type === 'lessThan') {
+                progress = (currentValue <= targetValue) ? 100 : Math.max(0, ((targetValue * 2 - currentValue) / targetValue) * 100);
+            } else if (goal.type === 'greaterThan') {
+                progress = Math.min(100, (currentValue / targetValue) * 100);
+            }
+            goal.progress = Math.round(progress);
+        });
+        renderGoals(currentGoals);
+    }
+
+    // --- LÓGICA DE RENDERIZAÇÃO E MODAIS ---
+    function renderGoals(goalsToRender) {
+        if (!goalsContainer) return;
     const saveGoals = () => localStorage.setItem('esgGoals', JSON.stringify(goals));
     const saveTags = () => localStorage.setItem('esgTags', JSON.stringify(tags));
 
@@ -153,6 +192,44 @@ document.addEventListener('DOMContentLoaded', () => {
         saveGoals(); renderGoals(); closeModal(goalModal);
     });
 
+            const deleteBtn = e.target.closest('.delete-btn');
+            if(deleteBtn && confirm('Tem certeza que deseja excluir esta meta?')) {
+                const goalId = deleteBtn.closest('.goal-card').dataset.id;
+                try {
+                    console.log(`A tentar apagar a meta com ID: ${goalId}`);
+                    await deleteGoal(goalId);
+                    showNotification("Meta apagada com sucesso!", true);
+                    await loadPageData(); // Recarrega os dados da página
+                } catch (error) {
+                    console.error("Falha ao apagar a meta:", error);
+                    showNotification("Ocorreu um erro ao apagar a meta. Verifique o console.", false);
+                }
+            }
+        });
+    }
+
+    // --- LIGAÇÃO COM O CHATBOT ---
+    document.addEventListener('add-goal-from-chat', async (e) => {
+        const goalsToAdd = e.detail;
+        if (Array.isArray(goalsToAdd) && goalsToAdd.length > 0) {
+            try {
+                // Cria todas as metas recebidas do chatbot
+                await Promise.all(goalsToAdd.map(goal => createGoal(goal)));
+                
+                showNotification(`${goalsToAdd.length} meta(s) adicionada(s) pelo assistente!`, true);
+                
+                await loadPageData(); // Recarrega tudo para mostrar as novas metas
+            } catch (error) {
+                console.error("Erro ao adicionar meta a partir do chatbot:", error);
+                alert("Ocorreu um erro ao tentar salvar a meta sugerida pelo assistente.");
+            }
+        }
+    });
+    
+    if(addGoalBtn) addGoalBtn.addEventListener('click', () => openGoalModal());
+    if(manageTagsBtn) manageTagsBtn.addEventListener('click', () => openModal(tagsModal));
+    document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', (e) => closeModal(e.target.closest('.modal'))));
+=======
     /**
      * Manipula cliques nos botões de editar e excluir dentro dos cartões de meta.
      */
@@ -170,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
             saveGoals(); renderGoals();
         }
     });
+
     
     /**
      * Manipula o envio do formulário para adicionar uma nova categoria (tag).
