@@ -55,6 +55,7 @@ export const createGoal = (payload) => makeAuthenticatedRequest('/api/goals', 'P
 export const updateGoal = (recordId, payload) => makeAuthenticatedRequest(`/api/goals/${recordId}`, 'PUT', payload);
 export const deleteGoal = (recordId) => makeAuthenticatedRequest(`/api/goals/${recordId}`, 'DELETE');
 
+
 export const downloadDashboard = async () => {
     try {
         const response = await makeAuthenticatedRequest('/api/dashboard/download');
