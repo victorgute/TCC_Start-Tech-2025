@@ -383,7 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const apiUrl = "https://api.openai.com/v1/chat/completions";
         
         const systemPrompt = `Você é um Consultor especialista em ESG da empresa EcoManager. Sua função é analisar dados de dashboards de sustentabilidade (luz, água, resíduos, etc.) e ajudar os usuários a criar metas ESG.
-
 **Instruções Principais:**
 1. **Seja Proativo:** Se o usuário não fornecer informações suficientes (...).
 2. **Analise Dashboards:** ...
@@ -393,7 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
 6. **Tom Amigável:** ...
 7. **Pós-Confirmação:** ...
 `; 
-
 
 
         let messages = [{ role: "system", content: systemPrompt }, ...chatHistory];
