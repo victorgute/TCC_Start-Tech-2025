@@ -1,13 +1,7 @@
-/**
- * @file Gerencia a lógica da página ESG & Metas, incluindo a criação,
- * renderização, edição e exclusão de metas ESG, bem como o gerenciamento de categorias (tags).
- * Os dados são persistidos no localStorage.
- */
+import { fetchCalculatorData, fetchWorkspaces, fetchGoals, createGoal, updateGoal, deleteGoal } from './api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- LÓGICA DA PÁGINA DE METAS ---
-
-    // Seletores de elementos do DOM para a gestão de metas
+    // --- ELEMENTOS DO DOM ---
     const goalsContainer = document.getElementById('goals-container');
     const addGoalBtn = document.getElementById('add-goal-btn');
     const goalModal = document.getElementById('goal-modal');
@@ -19,25 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const addTagForm = document.getElementById('add-tag-form');
     const categorySelect = document.getElementById('goal-category-select');
 
-    /**
-     * Carrega as metas do localStorage ou inicializa com um conjunto de dados padrão.
-     * @type {Array<Object>}
-     */
-    let goals = JSON.parse(localStorage.getItem('esgGoals')) || [
-        { id: 1, title: 'Neutralidade de Carbono', description: 'Redução de 100% das emissões de GEE escopo 1 e 2.', progress: 78, deadline: 2030, category: 'Ambiental' },
-        { id: 2, title: 'Energia Renovável', description: '100% da energia consumida de fontes renováveis.', progress: 92, deadline: 2025, category: 'Ambiental' },
-        { id: 3, title: 'Diversidade de Gênero', description: '50% de mulheres em posições de liderança.', progress: 85, deadline: 2025, category: 'Social' },
-        { id: 4, title: 'Compliance 100%', description: 'Conformidade total com regulamentações.', progress: 100, deadline: 2024, category: 'Governança' }
-    ];
-    /**
-     * Carrega as categorias (tags) do localStorage ou inicializa com um conjunto padrão.
-     * @type {Array<string>}
-     */
+    // --- ESTADO DA APLICAÇÃO ---
+    let goals = []; // A lista de metas agora é preenchida pela API
     let tags = JSON.parse(localStorage.getItem('esgTags')) || ['Ambiental', 'Social', 'Governança'];
-    /**
-     * ID da meta que está sendo editada. Null se nenhuma estiver em edição.
-     * @type {number|null}
-     */
     let editingGoalId = null;
 
     // --- LÓGICA DE DADOS E CÁLCULOS ---
@@ -79,21 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- LÓGICA DE RENDERIZAÇÃO E MODAIS ---
     function renderGoals(goalsToRender) {
         if (!goalsContainer) return;
-    const saveGoals = () => localStorage.setItem('esgGoals', JSON.stringify(goals));
-    const saveTags = () => localStorage.setItem('esgTags', JSON.stringify(tags));
-
-    function renderGoals() {
         const existingHeader = goalsContainer.querySelector('.goals-header');
         goalsContainer.innerHTML = '';
         if(existingHeader) goalsContainer.appendChild(existingHeader);
 
-        // Agrupa as metas pela propriedade 'category'
-        const groupedGoals = goals.reduce((acc, goal) => {
+        const groupedGoals = goalsToRender.reduce((acc, goal) => {
             (acc[goal.category] = acc[goal.category] || []).push(goal);
             return acc;
         }, {});
 
-        // Itera sobre cada tag para criar uma seção de categoria
         tags.forEach(tag => {
             const categoryGroup = document.createElement('div');
             categoryGroup.className = 'goal-category-group';
@@ -101,11 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const grid = categoryGroup.querySelector('.goals-grid');
             const goalsForTag = groupedGoals[tag] || [];
             
-            // Se não houver metas para a categoria, exibe uma mensagem
             if (goalsForTag.length === 0) {
-                grid.innerHTML = '<p style="font-family: var(--font-secondary); color: var(--text-medium);">Nenhuma meta definida para esta categoria ainda.</p>';
+                grid.innerHTML = '<p class="no-goals-message">Nenhuma meta definida para esta categoria.</p>';
             } else {
-                // Cria e insere o cartão para cada meta na categoria
                 goalsForTag.forEach(goal => {
                     let statusClass, statusText;
                     if (goal.progress >= 100) { statusClass = 'status-completed'; statusText = 'Concluído'; }
@@ -114,95 +84,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const goalCard = document.createElement('div');
                     goalCard.className = 'goal-card';
-                    goalCard.dataset.id = goal.id;
+                    goalCard.dataset.id = goal.record_id;
                     goalCard.innerHTML = `
                         <div class="goal-card-header"><h3>${goal.title}</h3><div class="goal-card-actions"><button class="edit-btn"><i class="fas fa-pencil-alt"></i></button><button class="delete-btn"><i class="fas fa-trash-alt"></i></button></div></div>
                         <p class="goal-card-description">${goal.description}</p>
                         <div class="progress-bar-container"><div class="progress-bar" style="width: ${goal.progress}%;"></div></div>
-                        <div class="goal-card-footer"><span class="goal-status ${statusClass}">${statusText}</span><span>Meta: ${goal.progress}%</span><span><i class="fas fa-calendar-alt"></i> Meta: ${goal.deadline}</span></div>`;
+                        <div class="goal-card-footer"><span class="goal-status ${statusClass}">${statusText}</span><span>Progresso: ${goal.progress}%</span><span><i class="fas fa-calendar-alt"></i> Meta: ${goal.deadline}</span></div>`;
                     grid.appendChild(goalCard);
                 });
             }
             goalsContainer.appendChild(categoryGroup);
         });
     }
+    
+    const openModal = (modal) => modal.style.display = 'flex';
+    const closeModal = (modal) => modal.style.display = 'none';
 
-    /**
-     * Renderiza a lista de tags no modal de gerenciamento e preenche o select de categorias no formulário de metas.
-     */
+    function openGoalModal(goal = null) {
+        goalForm.reset();
+        editingGoalId = goal ? goal.record_id : null;
+        modalTitle.textContent = goal ? 'Editar Meta' : 'Adicionar Nova Meta';
+        if(goal) {
+            document.getElementById('goal-title').value = goal.title || '';
+            document.getElementById('goal-description').value = goal.description || '';
+            document.getElementById('goal-progress').value = goal.progress || 0;
+            document.getElementById('goal-deadline').value = goal.deadline || '';
+            categorySelect.value = goal.category || tags[0];
+        }
+        openModal(goalModal);
+    }
+    
     function renderTags() {
+        if(!tagsList || !categorySelect) return;
         tagsList.innerHTML = tags.map(tag => `<div class="tag-item"><span>${tag}</span><button class="delete-tag-btn" data-tag="${tag}">&times;</button></div>`).join('');
         categorySelect.innerHTML = tags.map(tag => `<option value="${tag}">${tag}</option>`).join('');
     }
 
-    /**
-     * Exibe um modal.
-     * @param {HTMLElement} modal - O elemento do modal a ser exibido.
-     */
-    const openModal = (modal) => modal.style.display = 'flex';
-    /**
-     * Fecha um modal.
-     * @param {HTMLElement} modal - O elemento do modal a ser fechado.
-     */
-    const closeModal = (modal) => modal.style.display = 'none';
-
-    /**
-     * Abre o modal de metas para adicionar uma nova meta ou editar uma existente.
-     * @param {Object|null} goal - O objeto da meta a ser editada. Se for null, abre para criar uma nova meta.
-     */
-    function openGoalModal(goal = null) {
-        goalForm.reset();
-        editingGoalId = goal ? goal.id : null;
-        modalTitle.textContent = goal ? 'Editar Meta' : 'Adicionar Nova Meta';
-        if(goal) {
-            // Preenche o formulário com os dados da meta existente
-            document.getElementById('goal-id').value = goal.id;
-            document.getElementById('goal-title').value = goal.title;
-            document.getElementById('goal-description').value = goal.description;
-            document.getElementById('goal-progress').value = goal.progress;
-            document.getElementById('goal-deadline').value = goal.deadline;
-            categorySelect.value = goal.category;
-        }
-        openModal(goalModal);
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        setTimeout(() => {
+            notification.remove();
+        }, 4000);
     }
 
     // --- EVENT LISTENERS ---
+    if(goalForm) {
+        goalForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const goalData = { 
+                title: document.getElementById('goal-title').value, 
+                description: document.getElementById('goal-description').value, 
+                progress: parseInt(document.getElementById('goal-progress').value),
+                deadline: parseInt(document.getElementById('goal-deadline').value), 
+                category: categorySelect.value,
+                metric: 'manual', target: 0, type: 'greaterThan'
+            };
+            try {
+                if (editingGoalId) {
+                    await updateGoal(editingGoalId, goalData);
+                } else { 
+                    await createGoal(goalData); 
+                }
+                closeModal(goalModal);
+                await loadPageData();
+            } catch (error) {
+                alert('Erro ao salvar a meta.');
+            }
+        });
+    }
 
-    /**
-     * Manipula o envio do formulário de metas (criação/edição).
-     */
-    goalForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const goalData = { 
-            id: editingGoalId || Date.now(), 
-            title: document.getElementById('goal-title').value, 
-            description: document.getElementById('goal-description').value, 
-            progress: parseInt(document.getElementById('goal-progress').value), 
-            deadline: parseInt(document.getElementById('goal-deadline').value), 
-            category: categorySelect.value 
-        };
-        if (editingGoalId) { 
-            // Atualiza a meta existente
-            goals = goals.map(g => g.id === editingGoalId ? goalData : g); 
-        }
-        else { 
-            // Adiciona a nova meta
-            goals.push(goalData); 
-        }
-        saveGoals(); renderGoals(); closeModal(goalModal);
-    });
+    if(goalsContainer) {
+        goalsContainer.addEventListener('click', async (e) => {
+            const editBtn = e.target.closest('.edit-btn');
+            if(editBtn) { 
+                const goalId = editBtn.closest('.goal-card').dataset.id;
+                const goalToEdit = goals.find(g => g.record_id === goalId);
+                openGoalModal(goalToEdit); 
+            }
 
             const deleteBtn = e.target.closest('.delete-btn');
             if(deleteBtn && confirm('Tem certeza que deseja excluir esta meta?')) {
                 const goalId = deleteBtn.closest('.goal-card').dataset.id;
                 try {
-                    console.log(`A tentar apagar a meta com ID: ${goalId}`);
                     await deleteGoal(goalId);
                     showNotification("Meta apagada com sucesso!", true);
-                    await loadPageData(); // Recarrega os dados da página
+                    await loadPageData();
                 } catch (error) {
                     console.error("Falha ao apagar a meta:", error);
-                    showNotification("Ocorreu um erro ao apagar a meta. Verifique o console.", false);
+                    showNotification("Ocorreu um erro ao apagar a meta.", false);
                 }
             }
         });
@@ -215,10 +187,8 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Cria todas as metas recebidas do chatbot
                 await Promise.all(goalsToAdd.map(goal => createGoal(goal)));
-                
                 showNotification(`${goalsToAdd.length} meta(s) adicionada(s) pelo assistente!`, true);
-                
-                await loadPageData(); // Recarrega tudo para mostrar as novas metas
+                await loadPageData();
             } catch (error) {
                 console.error("Erro ao adicionar meta a partir do chatbot:", error);
                 alert("Ocorreu um erro ao tentar salvar a meta sugerida pelo assistente.");
@@ -229,111 +199,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if(addGoalBtn) addGoalBtn.addEventListener('click', () => openGoalModal());
     if(manageTagsBtn) manageTagsBtn.addEventListener('click', () => openModal(tagsModal));
     document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', (e) => closeModal(e.target.closest('.modal'))));
-=======
-    /**
-     * Manipula cliques nos botões de editar e excluir dentro dos cartões de meta.
-     */
-    goalsContainer.addEventListener('click', (e) => {
-        const editBtn = e.target.closest('.edit-btn');
-        if(editBtn) { 
-            const goalId = parseInt(editBtn.closest('.goal-card').dataset.id);
-            const goalToEdit = goals.find(g => g.id === goalId);
-            openGoalModal(goalToEdit); 
-        }
-        const deleteBtn = e.target.closest('.delete-btn');
-        if(deleteBtn && confirm('Tem certeza que deseja excluir esta meta?')) {
-            const goalId = parseInt(deleteBtn.closest('.goal-card').dataset.id);
-            goals = goals.filter(g => g.id !== goalId);
-            saveGoals(); renderGoals();
-        }
-    });
-
     
-    /**
-     * Manipula o envio do formulário para adicionar uma nova categoria (tag).
-     */
-    addTagForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const newTagName = document.getElementById('new-tag-name').value.trim();
-        if (newTagName && !tags.includes(newTagName)) { tags.push(newTagName); saveTags(); renderTags(); }
-        addTagForm.reset();
-    });
-
-    /**
-     * Manipula cliques no botão de excluir uma categoria (tag).
-     */
-    tagsList.addEventListener('click', (e) => {
-        if (e.target.classList.contains('delete-tag-btn')) {
-            const tagToDelete = e.target.dataset.tag;
-            if (confirm(`Excluir a categoria "${tagToDelete}"? Todas as metas associadas a ela também serão removidas.`)) {
-                tags = tags.filter(t => t !== tagToDelete);
-                goals = goals.filter(g => g.category !== tagToDelete);
-                saveTags(); saveGoals(); renderTags(); renderGoals();
+    // --- FUNÇÃO PRINCIPAL DE INICIALIZAÇÃO ---
+    async function loadPageData() {
+        try {
+            const [workspaces, fetchedGoals] = await Promise.all([ fetchWorkspaces(), fetchGoals() ]);
+            goals = fetchedGoals;
+            if (workspaces && workspaces.length > 0) {
+                const firstWorkspaceId = workspaces[0].record_id.split('#')[1];
+                const allData = await fetchCalculatorData(firstWorkspaceId);
+                const metrics = calculateMetrics(allData);
+                updateIndicators(metrics);
+                calculateAndUpdateGoals(goals, metrics);
+            } else {
+                renderGoals(goals); // Mostra metas mesmo se não houver dados de calculadora
             }
+        } catch (error) {
+            console.error("Erro ao carregar dados para a página ESG:", error);
+            renderGoals(goals); // Em caso de erro, mostra as metas com progresso padrão
         }
-    });
-
-    // Botões para abrir os modais
-    addGoalBtn.addEventListener('click', () => openGoalModal());
-    manageTagsBtn.addEventListener('click', () => openModal(tagsModal));
-
-    // Botões para fechar qualquer modal
-    document.querySelectorAll('.close-btn').forEach(btn => btn.addEventListener('click', (e) => {
-        closeModal(e.target.closest('.modal'));
-    }));
-
-    /**
-     * Sincroniza as metas entre abas/janelas do navegador.
-     */
-    window.addEventListener('storage', (e) => { 
-        if (e.key === 'esgGoals') { 
-            goals = JSON.parse(e.newValue); 
-            renderGoals(); 
-        } 
-    });
-
-    // --- INTEGRAÇÃO COM CHATBOT ---
-    /**
-     * Ouve o evento personalizado disparado pelo chatbot para adicionar uma ou mais metas.
-     */
-    document.addEventListener('add-goal-from-chat', (e) => {
-        const goalsToAdd = e.detail; // Pode ser um array de metas
-
-        if (Array.isArray(goalsToAdd) && goalsToAdd.length > 0) {
-            goalsToAdd.forEach(newGoal => {
-                if (newGoal && newGoal.title && newGoal.category) {
-                    // Garante que a nova categoria seja adicionada se não existir
-                    if (!tags.includes(newGoal.category)) {
-                        tags.push(newGoal.category);
-                        saveTags();
-                        renderTags();
-                    }
-
-                    // Adiciona a nova meta ao array de metas
-                    goals.push({
-                        id: Date.now() + Math.random(), // Adiciona random para evitar colisões
-                        title: newGoal.title,
-                        description: newGoal.description || 'Descrição não fornecida.',
-                        progress: newGoal.progress || 0,
-                        deadline: newGoal.deadline || new Date().getFullYear() + 1,
-                        category: newGoal.category
-                    });
-                } else {
-                     console.error('Dados da meta recebidos do chatbot são inválidos:', newGoal);
-                }
-            });
-
-            saveGoals();
-            renderGoals();
-            console.log('Metas adicionadas via chatbot:', goalsToAdd);
-
-        } else {
-            console.error('Nenhuma meta válida recebida do chatbot:', goalsToAdd);
-        }
-    });
-
-
-    // --- INICIALIZAÇÃO ---
-    renderTags();
-    renderGoals();
+    }
+    
+    // --- PONTO DE ENTRADA DO SCRIPT ---
+    loadPageData();
+    renderTags(); // A gestão de tags continua a ser local por simplicidade.
 });
